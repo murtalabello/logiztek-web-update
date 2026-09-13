@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logiztek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0D1B2A;
+    --panel:#132538;
+    --panel-2:#0F2032;
+    --text:#E7E9ED;
+    --muted:#8FA0B3;
+    --line:rgba(231,233,237,0.12);
+    --signal:#E8A33D;
+    --ledger:#4FA98C;
+    --accent:var(--signal);
+    --accent-soft:rgba(232,163,61,0.14);
+  }
+  [data-view="bookkeeping"]{
+    --accent:var(--ledger);
+    --accent-soft:rgba(79,169,140,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink);
+    color:var(--text);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.wordmark{font-family:'Space Grotesk',system-ui,sans-serif;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+
+  /* Topbar */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:22px 6vw;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:rgba(13,27,42,0.92);
+    backdrop-filter:blur(8px);
+    z-index:10;
+  }
+  .wordmark{
+    font-size:19px;
+    font-weight:600;
+    letter-spacing:0.01em;
+  }
+  .wordmark span{color:var(--accent);transition:color .25s ease;}
+  .tabs{
+    display:flex;
+    gap:4px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:3px;
+  }
+  .tab{
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    font-family:'Inter',sans-serif;
+    font-size:14px;
+    font-weight:500;
+    padding:8px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    transition:background .2s ease,color .2s ease;
+  }
+  .tab[aria-selected="true"]{
+    background:var(--accent-soft);
+    color:var(--text);
+  }
+
+  /* Layout */
+  main{max-width:980px;margin:0 auto;padding:0 6vw;}
+  .view{display:none;}
+  .view.active{display:block;animation:rise .5s ease both;}
+  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  @media (prefers-reduced-motion:reduce){.view.active{animation:none;}}
+
+  .hero{
+    padding:72px 0 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero h1{
+    font-size:clamp(30px,5vw,46px);
+    font-weight:600;
+    line-height:1.12;
+    max-width:14ch;
+    margin:0 0 20px;
+  }
+  .lede{
+    color:var(--muted);
+    font-size:17px;
+    max-width:52ch;
+    margin:0 0 26px;
+  }
+  .stack-line{
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:0.02em;
+  }
+
+  .capabilities{padding:44px 0;border-bottom:1px solid var(--line);}
+  .cap-row{
+    display:grid;
+    grid-template-columns:1fr 2.2fr;
+    gap:24px;
+    padding:22px 0;
+    border-top:1px solid var(--line);
+  }
+  .cap-row:first-child{border-top:none;}
+  .cap-row h3{font-size:17px;font-weight:600;margin:0;}
+  .cap-row p{color:var(--muted);font-size:15px;margin:0;max-width:48ch;}
+  @media (max-width:640px){
+    .cap-row{grid-template-columns:1fr;gap:8px;}
+  }
+
+  .strip{
+    padding:52px 0 80px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+  }
+  .strip h2{font-size:22px;font-weight:600;margin:0;}
+  .strip a.cta{
+    color:var(--accent);
+    font-weight:600;
+    font-size:15px;
+    text-decoration:none;
+    border-bottom:1px solid currentColor;
+    padding-bottom:2px;
+  }
+  .strip .fine{color:var(--muted);font-size:14px;margin-top:6px;}
+
+  footer{
+    border-top:1px solid var(--line);
+    padding:24px 6vw 40px;
+    color:var(--muted);
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+</style>
+</head>
+<body data-view="logiztek">
+
+<header class="topbar">
+  <div class="wordmark">Logi<span>z</span>tek</div>
+  <div class="tabs" role="tablist" aria-label="Site sections">
+    <button class="tab" id="tab-logiztek" role="tab" aria-selected="true" aria-controls="logiztek">Cloud &amp; DevSecOps</button>
+    <button class="tab" id="tab-bookkeeping" role="tab" aria-selected="false" aria-controls="bookkeeping">Bookkeeping</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- LOGIZTEK VIEW -->
+  <section class="view active" id="logiztek" role="tabpanel" aria-labelledby="tab-logiztek">
+    <div class="hero">
+      <h1>Cloud infrastructure that runs itself.</h1>
+      <p class="lede">Logiztek designs, secures, and operates cloud platforms for teams who'd rather ship than manage servers — architecture, migrations, CI/CD, and the security work that goes with it.</p>
+      <div class="stack-line mono">AWS · Azure · GCP · Alibaba Cloud · Oracle Cloud · Kubernetes · Terraform · AI/ML</div>
+    </div>
+
+    <div class="capabilities">
+      <div class="cap-row">
+        <h3>AI &amp; intelligent automation</h3>
+        <p>Applied AI on the cloud stack you already run — SageMaker and Azure OpenAI for model workloads, Comprehend and Lex for language and conversational interfaces, Rekognition for vision, wired into real pipelines instead of a demo.</p>
+      </div>
+      <div class="cap-row">
+        <h3>Cloud architecture &amp; migration</h3>
+        <p>Landing zones, multi-account setups, and lift-and-shift or re-platform migrations across AWS, Azure, GCP, and other major providers, built for the compliance and scale your industry actually needs.</p>
+      </div>
+      <div class="cap-row">
+        <h3>DevSecOps &amp; delivery pipelines</h3>
+        <p>CI/CD built on GitHub Actions, with security scanning, policy checks, and rollback baked into the pipeline instead of bolted on after.</p>
+      </div>
+      <div class="cap-row">
+        <h3>Platform engineering</h3>
+        <p>Kubernetes (EKS, AKS, OpenShift) and infrastructure as code with Terraform, so environments are reproducible and nobody's afraid to touch prod.</p>
+      </div>
+      <div class="cap-row">
+        <h3>Security &amp; compliance</h3>
+        <p>Vulnerability management, secrets and identity hygiene, and audit-ready controls for regulated environments.</p>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div>
+        <h2>Have an environment that needs steadying?</h2>
+        <div class="fine">Replace with your preferred contact — email, Calendly, or a short form.</div>
+      </div>
+      <a class="cta" href="mailto:hello@logiztek.com">Get in touch →</a>
+    </div>
+  </section>
+
+  <!-- BOOKKEEPING VIEW -->
+  <section class="view" id="bookkeeping" role="tabpanel" aria-labelledby="tab-bookkeeping">
+    <div class="hero">
+      <h1>Bookkeeping that stays out of your way.</h1>
+      <p class="lede">A second line of business under Logiztek: straightforward monthly bookkeeping for small businesses — clean books, clear numbers, no jargon.</p>
+      <div class="stack-line mono">Reconciliation · Reporting · Payroll support · Medicaid cost reports</div>
+    </div>
+
+    <div class="capabilities">
+      <div class="cap-row">
+        <h3>Monthly bookkeeping &amp; reconciliation</h3>
+        <p>Transactions categorized and accounts reconciled every month, so your books are never a quarter behind.</p>
+      </div>
+      <div class="cap-row">
+        <h3>Financial statements &amp; reporting</h3>
+        <p>Profit &amp; loss, balance sheet, and cash flow reports you can actually read before a lender or investor asks for them.</p>
+      </div>
+      <div class="cap-row">
+        <h3>Payroll support</h3>
+        <p>Payroll processing and filings handled on schedule, with records that match the books.</p>
+      </div>
+      <div class="cap-row">
+        <h3>Tax-ready records</h3>
+        <p>Books kept in a state your accountant can hand straight to the IRS without a cleanup project first.</p>
+      </div>
+      <div class="cap-row">
+        <h3>Medicaid &amp; cost reporting</h3>
+        <p>Medicaid cost report preparation and filing for healthcare providers, built on books that reconcile cleanly to the report — no scrambling to reconstruct records at filing time.</p>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div>
+        <h2>Want your books off your plate?</h2>
+        <div class="fine">Replace with your preferred contact — email, Calendly, or a short form.</div>
+      </div>
+      <a class="cta" href="mailto:books@logiztek.com">Get in touch →</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div>© <span id="year"></span> Logiztek</div>
+  <div>Dallas, TX</div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const tabs = {
+    logiztek: document.getElementById('tab-logiztek'),
+    bookkeeping: document.getElementById('tab-bookkeeping')
+  };
+  const views = {
+    logiztek: document.getElementById('logiztek'),
+    bookkeeping: document.getElementById('bookkeeping')
+  };
+
+  function setView(name){
+    Object.keys(views).forEach(key => {
+      const active = key === name;
+      views[key].classList.toggle('active', active);
+      tabs[key].setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    document.body.setAttribute('data-view', name);
+    history.replaceState(null, '', '#' + name);
+  }
+
+  tabs.logiztek.addEventListener('click', () => setView('logiztek'));
+  tabs.bookkeeping.addEventListener('click', () => setView('bookkeeping'));
+
+  if (location.hash === '#bookkeeping') setView('bookkeeping');
+</script>
+
+</body>
+</html>
