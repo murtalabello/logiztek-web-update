@@ -7,174 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/shared.css">
 <style>
-  :root{
-    --ink:#0D1B2A;
-    --panel:#132538;
-    --panel-2:#0F2032;
-    --text:#E7E9ED;
-    --muted:#8FA0B3;
-    --line:rgba(231,233,237,0.12);
-    --signal:#E8A33D;
-    --ledger:#4FA98C;
-    --accent:var(--signal);
-    --accent-soft:rgba(232,163,61,0.14);
-  }
-  [data-view="bookkeeping"]{
-    --accent:var(--ledger);
-    --accent-soft:rgba(79,169,140,0.14);
-  }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;height:100%;}
-  body{
-    background:var(--ink);
-    color:var(--text);
-    font-family:'Inter',system-ui,sans-serif;
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-    display:flex;
-    flex-direction:column;
-    min-height:100vh;
-    min-height:100dvh;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-  h1,h2,h3,.wordmark{font-family:'Space Grotesk',system-ui,sans-serif;}
-  .mono{font-family:'IBM Plex Mono',monospace;}
-  a{color:inherit;}
-
-  .topbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:clamp(12px,2vh,20px) 6vw;
-    border-bottom:1px solid var(--line);
-    flex-shrink:0;
-  }
-  .wordmark{
-    font-size:18px;
-    font-weight:600;
-    letter-spacing:0.01em;
-  }
-  .wordmark span{color:var(--accent);transition:color .25s ease;}
-  .tabs{
-    display:flex;
-    gap:4px;
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:3px;
-  }
-  .tab{
-    border:none;
-    background:transparent;
-    color:var(--muted);
-    font-family:'Inter',sans-serif;
-    font-size:13px;
-    font-weight:500;
-    padding:7px 14px;
-    border-radius:6px;
-    cursor:pointer;
-    transition:background .2s ease,color .2s ease;
-  }
-  .tab[aria-selected="true"]{
-    background:var(--accent-soft);
-    color:var(--text);
-  }
-
-  main{
-    max-width:1040px;
-    width:100%;
-    margin:0 auto;
-    padding:0 6vw;
-    flex:1;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    min-height:0;
-    overflow:auto;
-  }
-  .view{display:none;}
-  .view.active{
-    display:flex;
-    flex-direction:column;
-    gap:clamp(14px,2.2vh,22px);
-    animation:rise .4s ease both;
-    padding:clamp(12px,2vh,22px) 0;
-  }
-  @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-  @media (prefers-reduced-motion:reduce){.view.active{animation:none;}}
-
-  .hero h1{
-    font-size:clamp(24px,3.4vw,36px);
-    font-weight:600;
-    line-height:1.14;
-    max-width:16ch;
-    margin:0 0 10px;
-  }
-  .lede{
-    color:var(--muted);
-    font-size:clamp(13.5px,1.35vw,16px);
-    max-width:58ch;
-    margin:0 0 12px;
-  }
-  .stack-line{
-    font-size:12.5px;
-    color:var(--accent);
-    letter-spacing:0.02em;
-  }
-
-  .cap-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:13px;
-  }
-  .cap-card{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:17px;
-  }
-  .cap-card h3{font-size:14.5px;font-weight:600;margin:0 0 6px;}
-  .cap-card p{color:var(--muted);font-size:12.5px;margin:0;line-height:1.44;}
-  @media (max-width:720px){
-    .cap-grid{grid-template-columns:repeat(2,1fr);}
-  }
-  @media (max-width:480px){
-    .cap-grid{grid-template-columns:1fr;}
-  }
-
-  .strip{
-    display:flex;
-    flex-wrap:wrap;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:12px;
-  }
-  .strip h2{font-size:19px;font-weight:600;margin:0;}
-  .strip a.cta{
-    color:var(--accent);
-    font-weight:600;
-    font-size:14px;
-    text-decoration:none;
-    border-bottom:1px solid currentColor;
-    padding-bottom:2px;
-    white-space:nowrap;
-  }
-  .strip .cta-group{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;}
-  .strip .fine{color:var(--muted);font-size:13.5px;margin-top:4px;}
-
-  footer{
-    border-top:1px solid var(--line);
-    padding:12px 6vw;
-    color:var(--muted);
-    font-size:12px;
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:8px;
-    flex-shrink:0;
-  }
+  body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;}
 </style>
 </head>
 <body data-view="logiztek">
@@ -187,7 +22,7 @@
   </div>
 </header>
 
-<main>
+<main class="site-main">
 
   <!-- LOGIZTEK VIEW -->
   <section class="view active" id="logiztek" role="tabpanel" aria-labelledby="tab-logiztek">
@@ -230,7 +65,7 @@
         <div class="fine">info@logiztek.com · (469) 726-9610</div>
       </div>
       <div class="cta-group">
-        <a class="cta" href="https://claude.ai/artifact/MyYcDuHvM9K7JCx4ptyu4X" target="_blank" rel="noopener">Start a project →</a>
+        <a class="cta" href="project.html">Start a project →</a>
         <a class="cta" href="mailto:info@logiztek.com">Get in touch →</a>
       </div>
     </div>
@@ -277,7 +112,7 @@
         <div class="fine">info@logiztek.com · (469) 726-9610</div>
       </div>
       <div class="cta-group">
-        <a class="cta" href="https://claude.ai/artifact/CzYwSaUJeD3FK46RB3rwaM" target="_blank" rel="noopener">Start onboarding →</a>
+        <a class="cta" href="start.html">Start onboarding →</a>
         <a class="cta" href="mailto:info@logiztek.com">Get in touch →</a>
       </div>
     </div>
@@ -285,7 +120,7 @@
 
 </main>
 
-<footer>
+<footer class="site-footer">
   <div>© <span id="year"></span> Logiztek</div>
 </footer>
 
