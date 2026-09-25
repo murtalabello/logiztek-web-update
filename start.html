@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logiztek Bookkeeping — Start Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/shared.css">
+</head>
+<body data-accent="ledger">
+
+<header class="topbar">
+  <div class="wordmark">Logi<span>z</span>tek <span class="subtitle">Bookkeeping</span></div>
+</header>
+
+<main class="form-main">
+
+  <!-- STEP 1: INTAKE -->
+  <section class="form-view active" id="step1">
+    <h1 class="page-title">Let's set up your books.</h1>
+    <p class="page-lede">A few quick picks — mostly yes/no and pick-a-button, so this takes two minutes, not twenty.</p>
+
+    <div class="field">
+      <label class="q req">Legal business name</label>
+      <input type="text" id="bizName" placeholder="e.g. ABC Company LLC" required>
+    </div>
+
+    <div class="field">
+      <label class="q req">Your name</label>
+      <input type="text" id="contactName" placeholder="Full name" required>
+    </div>
+
+    <div style="display:flex; gap:16px; flex-wrap:wrap;">
+      <div class="field" style="flex:1; min-width:220px;">
+        <label class="q req">Email</label>
+        <input type="email" id="contactEmail" placeholder="you@business.com" required>
+      </div>
+      <div class="field" style="flex:1; min-width:220px;">
+        <label class="q req">Phone</label>
+        <input type="tel" id="contactPhone" placeholder="(___) ___-____" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Entity type</label>
+      <div class="pills" data-group="entityType">
+        <button type="button" class="pill">LLC</button>
+        <button type="button" class="pill">Corporation</button>
+        <button type="button" class="pill">Sole Proprietorship</button>
+        <button type="button" class="pill">Nonprofit</button>
+        <button type="button" class="pill">Other</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Industry</label>
+      <div class="pills" data-group="industry">
+        <button type="button" class="pill">Home Care / Medicaid</button>
+        <button type="button" class="pill">Other Healthcare</button>
+        <button type="button" class="pill">Professional Services</button>
+        <button type="button" class="pill">Retail / E-commerce</button>
+        <button type="button" class="pill">Construction / Trades</button>
+        <button type="button" class="pill">Other</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Do you already use bookkeeping/accounting software?</label>
+      <div class="pills" data-group="hasSoftware">
+        <button type="button" class="pill">Yes</button>
+        <button type="button" class="pill">No</button>
+      </div>
+      <div class="hint" id="softwareFollowup" style="display:none;">
+        <input type="text" id="softwareName" placeholder="Which one? (e.g. QuickBooks, Wave, spreadsheets)" style="margin-top:10px;">
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Do you run payroll?</label>
+      <div class="pills" data-group="payroll">
+        <button type="button" class="pill">Yes</button>
+        <button type="button" class="pill">No</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">How many employees or contractors?</label>
+      <div class="pills" data-group="headcount">
+        <button type="button" class="pill">Just me</button>
+        <button type="button" class="pill">1–5</button>
+        <button type="button" class="pill">6–15</button>
+        <button type="button" class="pill">16+</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">How many bank / credit card accounts need reconciling?</label>
+      <div class="pills" data-group="accounts">
+        <button type="button" class="pill">1</button>
+        <button type="button" class="pill">2–3</button>
+        <button type="button" class="pill">4+</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Do you bill Medicaid, Medicare, or another government payer?</label>
+      <div class="pills" data-group="govPayer">
+        <button type="button" class="pill">Yes</button>
+        <button type="button" class="pill">No</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Do your existing books need cleanup?</label>
+      <div class="pills" data-group="cleanup">
+        <button type="button" class="pill">We're brand new — nothing to clean up</button>
+        <button type="button" class="pill">Less than 3 months behind</button>
+        <button type="button" class="pill">3–6 months behind</button>
+        <button type="button" class="pill">6+ months behind</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Preferred billing cadence</label>
+      <div class="pills" data-group="cadence">
+        <button type="button" class="pill" data-price="325" data-unit="month">Monthly — $325/mo</button>
+        <button type="button" class="pill" data-price="925" data-unit="quarter">Quarterly — $925/qtr</button>
+        <button type="button" class="pill" data-price="1755" data-unit="6 months">Semi-Annual — $1,755/6mo</button>
+        <button type="button" class="pill" data-price="3315" data-unit="year">Annual — $3,315/yr</button>
+      </div>
+      <p class="hint">Quarterly, semi-annual, and annual plans lock in a discount off the monthly rate.</p>
+    </div>
+
+    <div class="field">
+      <label class="q">Anything else we should know? <span style="color:var(--muted); font-weight:400;">(optional)</span></label>
+      <textarea id="notes" placeholder="Anything specific about your business we should factor in..."></textarea>
+    </div>
+
+    <p class="error-msg" id="step1Error">Please fill in the required fields and make a selection for every question above.</p>
+
+    <div class="actions">
+      <span></span>
+      <button type="button" class="btn btn-primary" id="toStep2">Continue to agreement →</button>
+    </div>
+  </section>
+
+  <!-- STEP 2: SOW + SIGNATURE -->
+  <section class="form-view" id="step2">
+    <h1 class="page-title">Statement of Work</h1>
+    <p class="page-lede">Review the scope below, then sign to get started. Nothing to print, scan, or mail back.</p>
+
+    <div style="background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:32px; margin-bottom:32px;">
+      <h3 style="font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin:0 0 4px;">Engagement for</h3>
+      <div id="sowBizName" style="font-size:22px; font-weight:600; font-family:'Space Grotesk',sans-serif;">—</div>
+
+      <h3 style="font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin:20px 0 4px;">Billing</h3>
+      <div style="font-family:'Space Grotesk',sans-serif; font-size:32px; font-weight:600;"><span id="sowPrice">$325</span> <span id="sowUnit" style="font-size:15px; color:var(--muted); font-weight:400;">/ month</span></div>
+
+      <h3 style="font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em; margin:20px 0 8px;">Scope included</h3>
+      <ul style="margin:0; padding-left:20px; font-size:15px; line-height:1.7;">
+        <li>Monthly bank &amp; credit card reconciliation</li>
+        <li>Transaction categorization &amp; clean general ledger</li>
+        <li>Monthly Profit &amp; Loss and Balance Sheet</li>
+        <li id="sowMedicaidLine" style="display:none;">Records formatted for Medicaid / government cost reporting</li>
+        <li id="sowPayrollLine" style="display:none;">Payroll &amp; contractor (1099/W-2) record tracking</li>
+        <li>Direct line to your bookkeeper</li>
+        <li>QuickBooks Online setup included (one-time, first engagement)</li>
+      </ul>
+
+      <div style="margin-top:24px; padding-top:24px; border-top:1px solid var(--line);">
+        <p style="font-size:14px; color:var(--muted); margin:0 0 10px;"><b>Term:</b> Billed at the start of each period selected above. A one-time $250 setup fee applies for chart-of-accounts and software configuration on new engagements (waived if already quoted separately).</p>
+        <p style="font-size:14px; color:var(--muted); margin:0 0 10px;"><b>Cancellation:</b> Either party may end the engagement with 30 days' written notice (email is fine).</p>
+        <p style="font-size:14px; color:var(--muted); margin:0 0 10px;"><b>Cleanup:</b> If your books need catch-up work beyond the current period, that's scoped and quoted separately before we start.</p>
+        <p style="font-size:14px; color:var(--muted); margin:0;"><b>Scope:</b> This covers bookkeeping and financial record-keeping. Tax filing and CPA-level attestation are handled by your CPA of record; we're glad to coordinate.</p>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; align-items:flex-start; margin:28px 0;">
+      <input type="checkbox" id="agreeCheck" style="width:20px; height:20px; margin-top:2px; accent-color:var(--accent); flex-shrink:0;">
+      <label for="agreeCheck" style="font-size:14px;">I've reviewed the scope, pricing, and terms above and agree to move forward on this basis.</label>
+    </div>
+
+    <div style="background:var(--panel-2); border:1px dashed var(--line); border-radius:12px; padding:22px;">
+      <label for="sigName" style="display:block; font-size:13px; color:var(--muted); margin-bottom:10px;">Type your full legal name to sign</label>
+      <input type="text" id="sigName" placeholder="Your name" style="width:100%; background:transparent; border:none; border-bottom:2px solid var(--accent); border-radius:0; padding:6px 2px 10px; font-family:'Space Grotesk',cursive; font-style:italic; font-size:26px;">
+      <div class="mono" id="sigDate" style="font-size:13px; color:var(--muted); margin-top:10px;"></div>
+    </div>
+
+    <p class="error-msg" id="step2Error">Please check the agreement box and type your name to sign.</p>
+
+    <div class="actions spread">
+      <button type="button" class="btn btn-ghost" id="backToStep1">← Back</button>
+      <button type="button" class="btn btn-primary" id="toStep3">Sign &amp; send agreement →</button>
+    </div>
+  </section>
+
+  <!-- STEP 3: CONFIRMATION -->
+  <section class="form-view" id="step3">
+    <div class="confirm-icon">✓</div>
+    <h1 class="page-title">One click away.</h1>
+    <p class="page-lede">Your onboarding details and signed agreement are ready. Click below to open your email with everything pre-filled — just hit send from your inbox and you're officially on the books.</p>
+
+    <div class="actions" style="justify-content:flex-start; gap:14px; margin-top:8px;">
+      <a class="btn btn-primary" id="mailtoBtn" href="#" style="text-decoration:none; display:inline-block;">Open email to send →</a>
+      <button type="button" class="btn btn-ghost" id="copyBtn">Copy summary instead</button>
+    </div>
+    <p class="hint" id="copyConfirm" style="display:none; color:var(--accent); margin-top:14px;">Copied — paste it into an email to info@logiztek.com.</p>
+
+    <div class="summary-box" id="summaryBox"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">Logiztek Bookkeeping · info@logiztek.com · (469) 726-9610</footer>
+
+<script>
+(function(){
+  const state = {};
+  const groups = ['entityType','industry','hasSoftware','payroll','headcount','accounts','govPayer','cleanup','cadence'];
+
+  groups.forEach(g => {
+    const wrap = document.querySelector('[data-group="'+g+'"]');
+    if(!wrap) return;
+    wrap.querySelectorAll('.pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        wrap.querySelectorAll('.pill').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state[g] = btn.textContent.trim();
+        if(g === 'cadence'){
+          state.cadencePrice = btn.getAttribute('data-price');
+          state.cadenceUnit = btn.getAttribute('data-unit');
+        }
+        if(g === 'hasSoftware'){
+          document.getElementById('softwareFollowup').style.display = btn.textContent.trim() === 'Yes' ? 'block' : 'none';
+        }
+      });
+    });
+  });
+
+  function showView(id){
+    document.querySelectorAll('.form-view').forEach(v => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  document.getElementById('toStep2').addEventListener('click', () => {
+    const required = ['bizName','contactName','contactEmail','contactPhone'];
+    const missingField = required.some(id => !document.getElementById(id).value.trim());
+    const missingPick = groups.some(g => !state[g]);
+    const err = document.getElementById('step1Error');
+    if(missingField || missingPick){
+      err.classList.add('show');
+      return;
+    }
+    err.classList.remove('show');
+    state.bizName = document.getElementById('bizName').value.trim();
+    state.contactName = document.getElementById('contactName').value.trim();
+    state.contactEmail = document.getElementById('contactEmail').value.trim();
+    state.contactPhone = document.getElementById('contactPhone').value.trim();
+    state.softwareName = document.getElementById('softwareName').value.trim();
+    state.notes = document.getElementById('notes').value.trim();
+
+    document.getElementById('sowBizName').textContent = state.bizName;
+    document.getElementById('sowPrice').textContent = '$' + Number(state.cadencePrice).toLocaleString();
+    document.getElementById('sowUnit').textContent = '/ ' + state.cadenceUnit;
+    document.getElementById('sowMedicaidLine').style.display = state.govPayer === 'Yes' ? 'list-item' : 'none';
+    document.getElementById('sowPayrollLine').style.display = state.payroll === 'Yes' ? 'list-item' : 'none';
+
+    showView('step2');
+  });
+
+  document.getElementById('backToStep1').addEventListener('click', () => showView('step1'));
+
+  document.getElementById('sigDate').textContent = 'Date: ' + new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
+
+  document.getElementById('toStep3').addEventListener('click', () => {
+    const agreed = document.getElementById('agreeCheck').checked;
+    const sig = document.getElementById('sigName').value.trim();
+    const err = document.getElementById('step2Error');
+    if(!agreed || !sig){
+      err.classList.add('show');
+      return;
+    }
+    err.classList.remove('show');
+    state.signature = sig;
+    state.signDate = document.getElementById('sigDate').textContent.replace('Date: ','');
+
+    const lines = [
+      'NEW CLIENT ONBOARDING — ' + state.bizName,
+      '',
+      'CONTACT',
+      'Name: ' + state.contactName,
+      'Email: ' + state.contactEmail,
+      'Phone: ' + state.contactPhone,
+      '',
+      'BUSINESS',
+      'Entity type: ' + state.entityType,
+      'Industry: ' + state.industry,
+      'Existing software: ' + state.hasSoftware + (state.softwareName ? ' (' + state.softwareName + ')' : ''),
+      'Runs payroll: ' + state.payroll,
+      'Headcount: ' + state.headcount,
+      'Accounts to reconcile: ' + state.accounts,
+      'Bills Medicaid/govt payer: ' + state.govPayer,
+      'Books cleanup needed: ' + state.cleanup,
+      'Notes: ' + (state.notes || '—'),
+      '',
+      'PLAN',
+      'Cadence: ' + state.cadence,
+      'Rate: $' + Number(state.cadencePrice).toLocaleString() + ' / ' + state.cadenceUnit,
+      '',
+      'AGREEMENT',
+      'Signed by: ' + state.signature,
+      'Date: ' + state.signDate,
+      'Confirmed: reviewed scope, pricing and terms; agreed to proceed.'
+    ];
+    const summary = lines.join('\n');
+    document.getElementById('summaryBox').textContent = summary;
+
+    const subject = encodeURIComponent('New Client Onboarding — ' + state.bizName);
+    const body = encodeURIComponent(summary);
+    document.getElementById('mailtoBtn').href = 'mailto:info@logiztek.com?subject=' + subject + '&body=' + body;
+
+    document.getElementById('copyBtn').onclick = () => {
+      navigator.clipboard.writeText(summary).then(() => {
+        document.getElementById('copyConfirm').style.display = 'block';
+      });
+    };
+
+    showView('step3');
+  });
+})();
+</script>
+
+</body>
+</html>
