@@ -1,0 +1,199 @@
+/* ==========================================================
+   Logiztek — shared.css
+   Used by every page. Page-specific overrides stay inline
+   in that page's own <style> block, not here.
+   ========================================================== */
+
+:root{
+  --ink:#0D1B2A;
+  --panel:#132538;
+  --panel-2:#0F2032;
+  --text:#E7E9ED;
+  --muted:#8FA0B3;
+  --line:rgba(231,233,237,0.12);
+  --signal:#E8A33D;   /* cloud / devsecops accent */
+  --ledger:#4FA98C;   /* bookkeeping accent */
+  --accent:var(--signal);
+  --accent-soft:rgba(232,163,61,0.14);
+  --bad:#E8735D;
+}
+[data-accent="ledger"]{
+  --accent:var(--ledger);
+  --accent-soft:rgba(79,169,140,0.16);
+}
+[data-view="bookkeeping"]{
+  --accent:var(--ledger);
+  --accent-soft:rgba(79,169,140,0.14);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;height:100%;}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+h1,h2,h3,.wordmark{font-family:'Space Grotesk',system-ui,sans-serif;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+a{color:inherit;}
+button{font-family:inherit;}
+
+/* ---------- Topbar ---------- */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:clamp(12px,2vh,20px) 6vw;
+  border-bottom:1px solid var(--line);
+  flex-shrink:0;
+  position:sticky;
+  top:env(safe-area-inset-top,0px);
+  background:rgba(13,27,42,0.92);
+  backdrop-filter:blur(8px);
+  z-index:10;
+}
+.wordmark{font-size:19px;font-weight:600;letter-spacing:0.01em;}
+.wordmark span{color:var(--accent);transition:color .25s ease;}
+.wordmark .subtitle{color:var(--muted);font-weight:400;font-size:14px;}
+.tabs{
+  display:flex;
+  gap:4px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:3px;
+}
+.tab{
+  border:none;
+  background:transparent;
+  color:var(--muted);
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  padding:7px 14px;
+  border-radius:6px;
+  cursor:pointer;
+  transition:background .2s ease,color .2s ease;
+}
+.tab[aria-selected="true"]{background:var(--accent-soft);color:var(--text);}
+
+/* ---------- Home-page tab layout ---------- */
+main.site-main{
+  max-width:1040px;
+  width:100%;
+  margin:0 auto;
+  padding:0 6vw;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  min-height:0;
+  overflow:auto;
+}
+.view{display:none;}
+.view.active{
+  display:flex;
+  flex-direction:column;
+  gap:clamp(16px,2.5vh,26px);
+  animation:rise .4s ease both;
+  padding:clamp(14px,2.2vh,26px) 0;
+}
+@keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+@media (prefers-reduced-motion:reduce){.view.active{animation:none;}}
+
+.hero h1{
+  font-size:clamp(27px,3.7vw,42px);
+  font-weight:600;
+  line-height:1.15;
+  max-width:16ch;
+  margin:0 0 12px;
+}
+.lede{
+  color:var(--muted);
+  font-size:clamp(14.5px,1.45vw,17.5px);
+  max-width:58ch;
+  margin:0 0 13px;
+}
+.stack-line{font-size:13px;color:var(--accent);letter-spacing:0.02em;}
+
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.cap-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:19px;}
+.cap-card h3{font-size:15.5px;font-weight:600;margin:0 0 7px;}
+.cap-card p{color:var(--muted);font-size:13.5px;margin:0;line-height:1.46;}
+@media (max-width:720px){.cap-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:480px){.cap-grid{grid-template-columns:1fr;}}
+
+.strip{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px;}
+.strip h2{font-size:20px;font-weight:600;margin:0;}
+.strip a.cta{
+  color:var(--accent);
+  font-weight:600;
+  font-size:14.5px;
+  text-decoration:none;
+  border-bottom:1px solid currentColor;
+  padding-bottom:2px;
+  white-space:nowrap;
+}
+.strip .cta-group{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;}
+.strip .fine{color:var(--muted);font-size:14px;margin-top:4px;}
+
+footer.site-footer{
+  border-top:1px solid var(--line);
+  padding:12px 6vw;
+  color:var(--muted);
+  font-size:12.5px;
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px;
+  flex-shrink:0;
+  text-align:center;
+}
+
+/* ---------- Form pages (start.html, project.html, future forms) ---------- */
+main.form-main{max-width:700px;margin:0 auto;padding:56px 6vw 100px;}
+main.form-main.wide{max-width:760px;}
+
+.form-view{display:none;}
+.form-view.active{display:block;animation:rise .4s ease both;}
+
+h1.page-title{font-size:clamp(26px,4.5vw,34px);font-weight:600;margin:0 0 10px;line-height:1.18;}
+p.page-lede{color:var(--muted);font-size:16px;margin:0 0 40px;max-width:56ch;}
+
+.field{margin-bottom:28px;}
+.field label.q{display:block;font-size:15px;font-weight:600;margin-bottom:12px;}
+.req::after{content:" *";color:var(--accent);}
+
+input[type="text"], input[type="email"], input[type="tel"], textarea{
+  width:100%;
+  background:var(--panel);
+  border:1px solid var(--line);
+  color:var(--text);
+  border-radius:10px;
+  padding:13px 14px;
+  font-size:15px;
+  font-family:inherit;
+  outline:none;
+  transition:border-color .15s ease;
+}
+input:focus, textarea:focus{border-color:var(--accent);}
+textarea{resize:vertical;min-height:80px;}
+
+.pills{display:flex;flex-wrap:wrap;gap:10px;}
+.pill{
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--text);
+  padding:11px 18px;
+  border-radius:999px;
+  font-size:14px;
+  cursor:pointer;
+  user-select:none;
+  transition:background .15s ease, border-color .15s ease, color .15s ease;
+}
+.pill:hover{border-color:var(--accent);}
+.pill.selected{ba
