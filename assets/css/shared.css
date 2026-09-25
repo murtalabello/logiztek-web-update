@@ -176,12 +176,11 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 /* Marquee — slow-scrolling stack strip for a 'live' feel */
 .marquee{
   position:relative;
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-  padding:16px 0;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px 24px;
   overflow:hidden;
-  mask-image:linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
-  -webkit-mask-image:linear-gradient(90deg, transparent, #000 2%, #000 98%, transparent);
 }
 .marquee-track{
   display:flex;
