@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logiztek — Tell us about your project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/shared.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wordmark">Logi<span>z</span>tek <span class="subtitle">Cloud &amp; DevSecOps</span></div>
+</header>
+
+<main class="form-main">
+
+  <!-- FORM -->
+  <section class="form-view active" id="form">
+    <h1 class="page-title">Tell us what you're working on.</h1>
+    <p class="page-lede">A few quick questions so we understand your setup before we talk — not a sales form, just context. Takes about a minute.</p>
+
+    <div class="field">
+      <label class="q req">Company / organization</label>
+      <input type="text" id="orgName" placeholder="e.g. ABC Company" required>
+    </div>
+
+    <div style="display:flex; gap:16px; flex-wrap:wrap;">
+      <div class="field" style="flex:1; min-width:220px;">
+        <label class="q req">Your name</label>
+        <input type="text" id="contactName" placeholder="Full name" required>
+      </div>
+      <div class="field" style="flex:1; min-width:220px;">
+        <label class="q req">Email</label>
+        <input type="email" id="contactEmail" placeholder="you@company.com" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Phone <span style="color:var(--muted); font-weight:400;">(optional)</span></label>
+      <input type="tel" id="contactPhone" placeholder="(___) ___-____">
+    </div>
+
+    <div class="field">
+      <label class="q req">What do you need help with? <span style="color:var(--muted); font-weight:400;">(pick all that fit)</span></label>
+      <div class="pills" data-group="needs" data-multi="true">
+        <button type="button" class="pill">Cloud migration</button>
+        <button type="button" class="pill">CI/CD &amp; DevSecOps</button>
+        <button type="button" class="pill">Kubernetes / platform engineering</button>
+        <button type="button" class="pill">Security &amp; compliance</button>
+        <button type="button" class="pill">AI / automation project</button>
+        <button type="button" class="pill">IT helpdesk / support</button>
+        <button type="button" class="pill">Not sure yet — help me figure it out</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Current cloud setup</label>
+      <div class="pills" data-group="cloudProvider">
+        <button type="button" class="pill">AWS</button>
+        <button type="button" class="pill">Azure</button>
+        <button type="button" class="pill">GCP</button>
+        <button type="button" class="pill">Multi-cloud</button>
+        <button type="button" class="pill">Nothing yet</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Team size</label>
+      <div class="pills" data-group="teamSize">
+        <button type="button" class="pill">Just me</button>
+        <button type="button" class="pill">Small team (2–10)</button>
+        <button type="button" class="pill">Larger org (10+)</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q req">Timeline</label>
+      <div class="pills" data-group="timeline">
+        <button type="button" class="pill">ASAP</button>
+        <button type="button" class="pill">Within a quarter</button>
+        <button type="button" class="pill">Just exploring options</button>
+      </div>
+    </div>
+
+    <div class="field">
+      <label class="q">Anything else worth knowing? <span style="color:var(--muted); font-weight:400;">(optional)</span></label>
+      <textarea id="notes" placeholder="Whatever's useful — current pain points, a system we should know about, a deadline..."></textarea>
+    </div>
+
+    <p class="error-msg" id="formError">Just need the required fields filled in and at least one pick per question above.</p>
+
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="toConfirm">Send this over →</button>
+    </div>
+  </section>
+
+  <!-- CONFIRMATION -->
+  <section class="form-view" id="confirm">
+    <div class="confirm-icon">✓</div>
+    <h1 class="page-title">Almost there.</h1>
+    <p class="page-lede">Click below to open an email with your answers already filled in — hit send and we'll read it and get back to you. No obligation, no pitch, just a real conversation about whether we're a fit.</p>
+
+    <div class="actions" style="justify-content:flex-start; gap:14px; margin-top:8px;">
+      <a class="btn btn-primary" id="mailtoBtn" href="#" style="text-decoration:none; display:inline-block;">Open email to send →</a>
+      <button type="button" class="btn btn-ghost" id="copyBtn">Copy summary instead</button>
+    </div>
+    <p class="hint" id="copyConfirm" style="display:none; color:var(--accent); margin-top:14px;">Copied — paste it into an email to info@logiztek.com.</p>
+
+    <div class="summary-box" id="summaryBox"></div>
+  </section>
+
+</main>
+
+<footer class="site-footer">Logiztek · info@logiztek.com · (469) 726-9610</footer>
+
+<script>
+(function(){
+  const state = {needs: []};
+  const singleGroups = ['cloudProvider','teamSize','timeline'];
+
+  document.querySelectorAll('[data-group="needs"] .pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.classList.toggle('selected');
+      const label = btn.textContent.trim();
+      if(btn.classList.contains('selected')){
+        state.needs.push(label);
+      } else {
+        state.needs = state.needs.filter(n => n !== label);
+      }
+    });
+  });
+
+  singleGroups.forEach(g => {
+    const wrap = document.querySelector('[data-group="'+g+'"]');
+    if(!wrap) return;
+    wrap.querySelectorAll('.pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        wrap.querySelectorAll('.pill').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        state[g] = btn.textContent.trim();
+      });
+    });
+  });
+
+  function showView(id){
+    document.querySelectorAll('.form-view').forEach(v => v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  document.getElementById('toConfirm').addEventListener('click', () => {
+    const required = ['orgName','contactName','contactEmail'];
+    const missingField = required.some(id => !document.getElementById(id).value.trim());
+    const missingPick = state.needs.length === 0 || singleGroups.some(g => !state[g]);
+    const err = document.getElementById('formError');
+    if(missingField || missingPick){
+      err.classList.add('show');
+      return;
+    }
+    err.classList.remove('show');
+
+    state.orgName = document.getElementById('orgName').value.trim();
+    state.contactName = document.getElementById('contactName').value.trim();
+    state.contactEmail = document.getElementById('contactEmail').value.trim();
+    state.contactPhone = document.getElementById('contactPhone').value.trim();
+    state.notes = document.getElementById('notes').value.trim();
+
+    const lines = [
+      'PROJECT INQUIRY — ' + state.orgName,
+      '',
+      'CONTACT',
+      'Name: ' + state.contactName,
+      'Email: ' + state.contactEmail,
+      'Phone: ' + (state.contactPhone || '—'),
+      '',
+      'WHAT THEY NEED',
+      state.needs.join(', '),
+      '',
+      'DETAILS',
+      'Current cloud setup: ' + state.cloudProvider,
+      'Team size: ' + state.teamSize,
+      'Timeline: ' + state.timeline,
+      'Notes: ' + (state.notes || '—')
+    ];
+    const summary = lines.join('\n');
+    document.getElementById('summaryBox').textContent = summary;
+
+    const subject = encodeURIComponent('Project inquiry — ' + state.orgName);
+    const body = encodeURIComponent(summary);
+    document.getElementById('mailtoBtn').href = 'mailto:info@logiztek.com?subject=' + subject + '&body=' + body;
+
+    document.getElementById('copyBtn').onclick = () => {
+      navigator.clipboard.writeText(summary).then(() => {
+        document.getElementById('copyConfirm').style.display = 'block';
+      });
+    };
+
+    showView('confirm');
+  });
+})();
+</script>
+
+</body>
+</html>
