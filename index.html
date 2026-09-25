@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Logiztek</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,33 +25,34 @@
     --accent-soft:rgba(79,169,140,0.14);
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
+  html,body{margin:0;padding:0;height:100%;}
   body{
     background:var(--ink);
     color:var(--text);
     font-family:'Inter',system-ui,sans-serif;
-    line-height:1.55;
+    line-height:1.5;
     -webkit-font-smoothing:antialiased;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+    min-height:100dvh;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
   }
   h1,h2,h3,.wordmark{font-family:'Space Grotesk',system-ui,sans-serif;}
   .mono{font-family:'IBM Plex Mono',monospace;}
   a{color:inherit;}
 
-  /* Topbar */
   .topbar{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:22px 6vw;
+    padding:clamp(12px,2vh,20px) 6vw;
     border-bottom:1px solid var(--line);
-    position:sticky;
-    top:0;
-    background:rgba(13,27,42,0.92);
-    backdrop-filter:blur(8px);
-    z-index:10;
+    flex-shrink:0;
   }
   .wordmark{
-    font-size:19px;
+    font-size:18px;
     font-weight:600;
     letter-spacing:0.01em;
   }
@@ -69,9 +70,9 @@
     background:transparent;
     color:var(--muted);
     font-family:'Inter',sans-serif;
-    font-size:14px;
+    font-size:13px;
     font-weight:500;
-    padding:8px 16px;
+    padding:7px 14px;
     border-radius:6px;
     cursor:pointer;
     transition:background .2s ease,color .2s ease;
@@ -81,79 +82,98 @@
     color:var(--text);
   }
 
-  /* Layout */
-  main{max-width:980px;margin:0 auto;padding:0 6vw;}
+  main{
+    max-width:1040px;
+    width:100%;
+    margin:0 auto;
+    padding:0 6vw;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    min-height:0;
+    overflow:auto;
+  }
   .view{display:none;}
-  .view.active{display:block;animation:rise .5s ease both;}
+  .view.active{
+    display:flex;
+    flex-direction:column;
+    gap:clamp(14px,2.2vh,22px);
+    animation:rise .4s ease both;
+    padding:clamp(12px,2vh,22px) 0;
+  }
   @keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
   @media (prefers-reduced-motion:reduce){.view.active{animation:none;}}
 
-  .hero{
-    padding:72px 0 40px;
-    border-bottom:1px solid var(--line);
-  }
   .hero h1{
-    font-size:clamp(30px,5vw,46px);
+    font-size:clamp(24px,3.4vw,36px);
     font-weight:600;
-    line-height:1.12;
-    max-width:14ch;
-    margin:0 0 20px;
+    line-height:1.14;
+    max-width:16ch;
+    margin:0 0 10px;
   }
   .lede{
     color:var(--muted);
-    font-size:17px;
-    max-width:52ch;
-    margin:0 0 26px;
+    font-size:clamp(13.5px,1.35vw,16px);
+    max-width:58ch;
+    margin:0 0 12px;
   }
   .stack-line{
-    font-size:13px;
+    font-size:12.5px;
     color:var(--accent);
     letter-spacing:0.02em;
   }
 
-  .capabilities{padding:44px 0;border-bottom:1px solid var(--line);}
-  .cap-row{
+  .cap-grid{
     display:grid;
-    grid-template-columns:1fr 2.2fr;
-    gap:24px;
-    padding:22px 0;
-    border-top:1px solid var(--line);
+    grid-template-columns:repeat(3,1fr);
+    gap:13px;
   }
-  .cap-row:first-child{border-top:none;}
-  .cap-row h3{font-size:17px;font-weight:600;margin:0;}
-  .cap-row p{color:var(--muted);font-size:15px;margin:0;max-width:48ch;}
-  @media (max-width:640px){
-    .cap-row{grid-template-columns:1fr;gap:8px;}
+  .cap-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:17px;
+  }
+  .cap-card h3{font-size:14.5px;font-weight:600;margin:0 0 6px;}
+  .cap-card p{color:var(--muted);font-size:12.5px;margin:0;line-height:1.44;}
+  @media (max-width:720px){
+    .cap-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:480px){
+    .cap-grid{grid-template-columns:1fr;}
   }
 
   .strip{
-    padding:52px 0 80px;
     display:flex;
     flex-wrap:wrap;
     align-items:baseline;
     justify-content:space-between;
-    gap:16px;
+    gap:12px;
   }
-  .strip h2{font-size:22px;font-weight:600;margin:0;}
+  .strip h2{font-size:19px;font-weight:600;margin:0;}
   .strip a.cta{
     color:var(--accent);
     font-weight:600;
-    font-size:15px;
+    font-size:14px;
     text-decoration:none;
     border-bottom:1px solid currentColor;
     padding-bottom:2px;
+    white-space:nowrap;
   }
-  .strip .fine{color:var(--muted);font-size:14px;margin-top:6px;}
+  .strip .cta-group{display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;}
+  .strip .fine{color:var(--muted);font-size:13.5px;margin-top:4px;}
 
   footer{
     border-top:1px solid var(--line);
-    padding:24px 6vw 40px;
+    padding:12px 6vw;
     color:var(--muted);
-    font-size:13px;
+    font-size:12px;
     display:flex;
     justify-content:space-between;
     flex-wrap:wrap;
     gap:8px;
+    flex-shrink:0;
   }
 </style>
 </head>
@@ -177,26 +197,30 @@
       <div class="stack-line mono">AWS · Azure · GCP · Alibaba Cloud · Oracle Cloud · Kubernetes · Terraform · AI/ML</div>
     </div>
 
-    <div class="capabilities">
-      <div class="cap-row">
-        <h3>AI &amp; intelligent automation</h3>
-        <p>Applied AI on the cloud stack you already run — SageMaker and Azure OpenAI for model workloads, Comprehend and Lex for language and conversational interfaces, Rekognition for vision, wired into real pipelines instead of a demo.</p>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <h3>AI &amp; automation</h3>
+        <p>SageMaker, Azure OpenAI, Comprehend, Rekognition — wired into real pipelines, not a demo.</p>
       </div>
-      <div class="cap-row">
+      <div class="cap-card">
         <h3>Cloud architecture &amp; migration</h3>
-        <p>Landing zones, multi-account setups, and lift-and-shift or re-platform migrations across AWS, Azure, GCP, and other major providers, built for the compliance and scale your industry actually needs.</p>
+        <p>Landing zones and migrations across AWS, Azure, and GCP, built for real compliance and scale.</p>
       </div>
-      <div class="cap-row">
-        <h3>DevSecOps &amp; delivery pipelines</h3>
-        <p>CI/CD built on GitHub Actions, with security scanning, policy checks, and rollback baked into the pipeline instead of bolted on after.</p>
+      <div class="cap-card">
+        <h3>DevSecOps &amp; pipelines</h3>
+        <p>CI/CD on GitHub Actions with security scanning and rollback built in from the start.</p>
       </div>
-      <div class="cap-row">
+      <div class="cap-card">
         <h3>Platform engineering</h3>
-        <p>Kubernetes (EKS, AKS, OpenShift) and infrastructure as code with Terraform, so environments are reproducible and nobody's afraid to touch prod.</p>
+        <p>Kubernetes (EKS, AKS, OpenShift) and Terraform, so environments stay reproducible.</p>
       </div>
-      <div class="cap-row">
+      <div class="cap-card">
         <h3>Security &amp; compliance</h3>
-        <p>Vulnerability management, secrets and identity hygiene, and audit-ready controls for regulated environments.</p>
+        <p>Vulnerability management, secrets hygiene, and audit-ready controls for regulated teams.</p>
+      </div>
+      <div class="cap-card">
+        <h3>Enterprise platforms &amp; IT support</h3>
+        <p>SAP, Salesforce, and ServiceNow work, plus Microsoft 365 and Google Workspace admin and helpdesk support — scaled to your team, small or large.</p>
       </div>
     </div>
 
@@ -205,7 +229,10 @@
         <h2>Have an environment that needs steadying?</h2>
         <div class="fine">info@logiztek.com · (469) 726-9610</div>
       </div>
-      <a class="cta" href="mailto:info@logiztek.com">Get in touch →</a>
+      <div class="cta-group">
+        <a class="cta" href="https://claude.ai/artifact/MyYcDuHvM9K7JCx4ptyu4X" target="_blank" rel="noopener">Start a project →</a>
+        <a class="cta" href="mailto:info@logiztek.com">Get in touch →</a>
+      </div>
     </div>
   </section>
 
@@ -217,26 +244,30 @@
       <div class="stack-line mono">Reconciliation · Reporting · Payroll support · Medicaid cost reports</div>
     </div>
 
-    <div class="capabilities">
-      <div class="cap-row">
-        <h3>Monthly bookkeeping &amp; reconciliation</h3>
-        <p>Transactions categorized and accounts reconciled every month, so your books are never a quarter behind.</p>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <h3>Monthly bookkeeping</h3>
+        <p>Transactions categorized, accounts reconciled — every month, on time.</p>
       </div>
-      <div class="cap-row">
-        <h3>Financial statements &amp; reporting</h3>
-        <p>Profit &amp; loss, balance sheet, and cash flow reports you can actually read before a lender or investor asks for them.</p>
+      <div class="cap-card">
+        <h3>Financial statements</h3>
+        <p>P&amp;L, balance sheet, and cash flow reports you can actually read.</p>
       </div>
-      <div class="cap-row">
+      <div class="cap-card">
         <h3>Payroll support</h3>
-        <p>Payroll processing and filings handled on schedule, with records that match the books.</p>
+        <p>Payroll processed and filed on schedule, matching the books.</p>
       </div>
-      <div class="cap-row">
+      <div class="cap-card">
         <h3>Tax-ready records</h3>
-        <p>Books kept in a state your accountant can hand straight to the IRS without a cleanup project first.</p>
+        <p>Books your accountant can hand to the IRS without a cleanup project first.</p>
       </div>
-      <div class="cap-row">
+      <div class="cap-card">
         <h3>Medicaid &amp; cost reporting</h3>
-        <p>Medicaid cost report preparation and filing for healthcare providers, built on books that reconcile cleanly to the report — no scrambling to reconstruct records at filing time.</p>
+        <p>Cost reports built on books that already reconcile — no scrambling at filing time.</p>
+      </div>
+      <div class="cap-card">
+        <h3>QuickBooks / Xero setup</h3>
+        <p>Chart of accounts built around your income streams, ready from day one.</p>
       </div>
     </div>
 
@@ -245,7 +276,10 @@
         <h2>Want your books off your plate?</h2>
         <div class="fine">info@logiztek.com · (469) 726-9610</div>
       </div>
-      <a class="cta" href="mailto:info@logiztek.com">Get in touch →</a>
+      <div class="cta-group">
+        <a class="cta" href="https://claude.ai/artifact/CzYwSaUJeD3FK46RB3rwaM" target="_blank" rel="noopener">Start onboarding →</a>
+        <a class="cta" href="mailto:info@logiztek.com">Get in touch →</a>
+      </div>
     </div>
   </section>
 
@@ -274,7 +308,11 @@
       tabs[key].setAttribute('aria-selected', active ? 'true' : 'false');
     });
     document.body.setAttribute('data-view', name);
-    history.replaceState(null, '', '#' + name);
+    try {
+      history.replaceState(null, '', '#' + name);
+    } catch (e) {
+      // Some embedded/sandboxed contexts block history writes — safe to ignore.
+    }
   }
 
   tabs.logiztek.addEventListener('click', () => setView('logiztek'));
