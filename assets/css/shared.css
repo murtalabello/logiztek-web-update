@@ -37,14 +37,15 @@
 }
 
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-html,body{margin:0;padding:0;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+html,body{margin:0;padding:0;max-width:100%;}
 body{
   background:var(--ink);
   color:var(--text);
   font-family:'Inter',system-ui,sans-serif;
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
 }
 h1,h2,h3,.wordmark{font-family:'Space Grotesk',system-ui,sans-serif;}
 .mono{font-family:'IBM Plex Mono',monospace;}
