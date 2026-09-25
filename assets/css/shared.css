@@ -174,27 +174,19 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 }
 .proof-badge svg{width:16px;height:16px;color:var(--accent);flex-shrink:0;}
 
-/* Marquee — slow-scrolling stack strip for a 'live' feel */
+/* Stack strip — static wrapped tag list, boxed, never clipped */
 .marquee{
   position:relative;
   background:var(--panel);
   border:1px solid var(--line);
   border-radius:14px;
-  padding:16px 24px;
-  overflow:hidden;
+  padding:16px 20px;
 }
 .marquee-track{
   display:flex;
-  gap:40px;
-  width:max-content;
-  animation:marquee 34s linear infinite;
+  flex-wrap:wrap;
+  gap:12px 28px;
 }
-.marquee:hover .marquee-track{animation-play-state:paused;}
-@keyframes marquee{
-  from{transform:translateX(0);}
-  to{transform:translateX(-50%);}
-}
-@media (prefers-reduced-motion:reduce){.marquee-track{animation:none;}}
 .marquee-item{
   font-family:'IBM Plex Mono',monospace;
   font-size:13px;
