@@ -190,6 +190,8 @@
 
     <p class="error-msg" id="step2Error">Please check the agreement box and type your name to sign.</p>
 
+    <p class="error-msg" id="sendError">Something didn't go through. Try again, or use the backup option below.</p>
+
     <div class="actions spread">
       <button type="button" class="btn btn-ghost" id="backToStep1">← Back</button>
       <button type="button" class="btn btn-primary" id="toStep3">Sign &amp; send agreement →</button>
@@ -199,18 +201,19 @@
   <!-- STEP 3: CONFIRMATION -->
   <section class="form-view" id="step3">
     <div class="confirm-icon">✓</div>
-    <h1 class="page-title">One click away.</h1>
-    <p class="page-lede">Your onboarding details and signed agreement are ready. Click below to open your email with everything pre-filled — just hit send from your inbox and you're officially on the books.</p>
+    <h1 class="page-title">You're on the books.</h1>
+    <p class="page-lede">We've received your details and signed agreement — a copy's been sent to your email too. We'll be in touch shortly.</p>
 
-    <p class="hint" style="margin-bottom:30px;">One more thing: once we've got your details, we'll follow up with a private link where you can drop off invoices and receipts anytime — no login needed, no waiting for month-end.</p>
-
-    <div class="actions" style="justify-content:flex-start; gap:14px; margin-top:8px;">
-      <a class="btn btn-primary" id="mailtoBtn" href="#" style="text-decoration:none; display:inline-block;">Open email to send →</a>
-      <button type="button" class="btn btn-ghost" id="copyBtn">Copy summary instead</button>
-    </div>
-    <p class="hint" id="copyConfirm" style="display:none; color:var(--accent); margin-top:14px;">Copied — paste it into an email to info@logiztek.com.</p>
+    <p class="hint" style="margin-bottom:30px;">One more thing: we'll follow up with a private link where you can drop off invoices and receipts anytime — no login needed, no waiting for month-end.</p>
 
     <div class="summary-box" id="summaryBox"></div>
+
+    <p class="hint" style="margin-top:20px;">Didn't get a confirmation, or want a backup copy?</p>
+    <div class="actions" style="justify-content:flex-start; gap:14px; margin-top:8px;">
+      <a class="btn btn-ghost" id="mailtoBtn" href="#" style="text-decoration:none; display:inline-block;">Open email instead</a>
+      <button type="button" class="btn btn-ghost" id="copyBtn">Copy summary</button>
+    </div>
+    <p class="hint" id="copyConfirm" style="display:none; color:var(--accent); margin-top:14px;">Copied — paste it into an email to info@logiztek.com.</p>
   </section>
 
 </main>
@@ -277,15 +280,17 @@
 
   document.getElementById('sigDate').textContent = 'Date: ' + new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
 
-  document.getElementById('toStep3').addEventListener('click', () => {
+  document.getElementById('toStep3').addEventListener('click', async () => {
     const agreed = document.getElementById('agreeCheck').checked;
     const sig = document.getElementById('sigName').value.trim();
     const err = document.getElementById('step2Error');
+    const sendErr = document.getElementById('sendError');
     if(!agreed || !sig){
       err.classList.add('show');
       return;
     }
     err.classList.remove('show');
+    sendErr.classList.remove('show');
     state.signature = sig;
     state.signDate = document.getElementById('sigDate').textContent.replace('Date: ','');
 
@@ -318,19 +323,36 @@
       'Confirmed: reviewed scope, pricing and terms; agreed to proceed.'
     ];
     const summary = lines.join('\n');
+    const subject = 'New Client Onboarding — ' + state.bizName;
+
     document.getElementById('summaryBox').textContent = summary;
-
-    const subject = encodeURIComponent('New Client Onboarding — ' + state.bizName);
-    const body = encodeURIComponent(summary);
-    document.getElementById('mailtoBtn').href = 'mailto:info@logiztek.com?subject=' + subject + '&body=' + body;
-
+    const mailtoSubject = encodeURIComponent(subject);
+    const mailtoBody = encodeURIComponent(summary);
+    document.getElementById('mailtoBtn').href = 'mailto:info@logiztek.com?subject=' + mailtoSubject + '&body=' + mailtoBody;
     document.getElementById('copyBtn').onclick = () => {
       navigator.clipboard.writeText(summary).then(() => {
         document.getElementById('copyConfirm').style.display = 'block';
       });
     };
 
-    showView('step3');
+    const btn = document.getElementById('toStep3');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subject, contactEmail: state.contactEmail, text: summary })
+      });
+      if(!res.ok){ throw new Error('send failed'); }
+      showView('step3');
+    } catch (e) {
+      sendErr.classList.add('show');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Sign & send agreement →';
+    }
   });
 })();
 </script>
