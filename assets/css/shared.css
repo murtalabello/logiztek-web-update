@@ -6,35 +6,34 @@
    ========================================================== */
 
 :root{
-  --ink:#F4F6F8;       /* page background — soft off-white, not stark white */
-  --ink-2:#EEF1F3;
-  --panel:#FFFFFF;     /* cards float above the page in true white — this is what creates depth */
-  --panel-2:#ECEFF2;   /* recessed/secondary surfaces — a touch darker than the page */
-  --text:#1B2126;
-  --muted:#5B6670;
-  --line:rgba(27,33,38,0.10);
-  --signal:#C97A17;   /* cloud / devsecops accent — deepened for text contrast */
-  --ledger:#1F8562;   /* bookkeeping accent — deepened for text contrast */
+  --ink:#1A1A1C;        /* page background — warm neutral charcoal, not navy, not white */
+  --ink-2:#202022;
+  --panel:#252527;      /* cards sit slightly lighter than the page — dark-mode elevation */
+  --panel-2:#18181A;    /* recessed/secondary surfaces — a touch darker than the page */
+  --text:#F2F2F0;
+  --muted:#9C9C9E;
+  --line:rgba(242,242,240,0.12);
+  --signal:#E8A33D;    /* cloud / devsecops accent — bright, reads well on dark */
+  --ledger:#4FA98C;    /* bookkeeping accent — bright, reads well on dark */
   --accent:var(--signal);
-  --accent-soft:rgba(201,122,23,0.10);
-  --bad:#C0392B;
-  --on-accent:#1B2126; /* dark text/icons placed on top of bright accent-colored shapes */
+  --accent-soft:rgba(232,163,61,0.14);
+  --bad:#E8735D;
+  --on-accent:#14181A; /* dark text/icons placed on top of bright accent-colored shapes */
 
-  /* icon palette — vivid, used for icon fills sitting on a tinted circle (more contrast leeway than plain text) */
-  --c1:#3B82F6; /* blue */
-  --c2:#10B981; /* green */
-  --c3:#F59E0B; /* amber */
-  --c4:#EC4899; /* pink */
-  --c5:#8B5CF6; /* purple */
-  --c6:#0EA5E9; /* sky */
+  /* icon palette — kept for any future multi-color use; current design uses a single accent per tab */
+  --c1:#3B82F6;
+  --c2:#10B981;
+  --c3:#F59E0B;
+  --c4:#EC4899;
+  --c5:#8B5CF6;
+  --c6:#0EA5E9;
 
-  /* text-safe palette — deepened versions of the above, used wherever the color IS the text (labels, badges) */
-  --t1:#1D4ED8;
-  --t2:#047857;
-  --t3:#B45309;
-  --t4:#BE185D;
-  --t5:#6D28D9;
-  --t6:#0369A1;
+  --t1:#60A5FA;
+  --t2:#34D399;
+  --t3:#FBBF24;
+  --t4:#F472B6;
+  --t5:#A78BFA;
+  --t6:#38BDF8;
 }
 [data-accent="ledger"]{
   --accent:var(--ledger);
@@ -78,7 +77,7 @@ button{font-family:inherit;}
   border-bottom:1px solid var(--line);
   position:sticky;
   top:0;
-  background:rgba(255,255,255,0.9);
+  background:rgba(26,26,28,0.85);
   backdrop-filter:blur(10px);
   z-index:10;
 }
@@ -201,7 +200,6 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
   border:1px solid var(--line);
   border-radius:14px;
   padding:16px 20px;
-  box-shadow:0 1px 2px rgba(27,33,38,0.05);
 }
 .marquee-track{
   display:flex;
@@ -263,7 +261,6 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
   position:relative;
   overflow:hidden;
   cursor:default;
-  box-shadow:0 1px 3px rgba(27,33,38,0.06), 0 1px 2px rgba(27,33,38,0.04);
   transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   opacity:0;
   transform:translateY(14px);
@@ -273,7 +270,7 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
   content:"";
   position:absolute;
   inset:0;
-  background:radial-gradient(circle at 85% -10%, color-mix(in srgb, var(--card-color, var(--accent)) 14%, transparent), transparent 60%);
+  background:radial-gradient(circle at 85% -10%, color-mix(in srgb, var(--card-color, var(--accent)) 20%, transparent), transparent 60%);
   opacity:0;
   transition:opacity .25s ease;
   pointer-events:none;
@@ -281,7 +278,7 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 .cap-card:hover{
   transform:translateY(-5px);
   border-color:var(--card-color, var(--accent));
-  box-shadow:0 14px 34px -12px rgba(20,24,26,0.18);
+  box-shadow:0 18px 40px -16px color-mix(in srgb, var(--card-color, var(--accent)) 45%, transparent);
 }
 .cap-card:hover::after{opacity:1;}
 .cap-card .cap-icon{
