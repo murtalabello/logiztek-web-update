@@ -25,21 +25,25 @@
     <div class="field">
       <label class="q req">Legal business name</label>
       <input type="text" id="bizName" placeholder="e.g. ABC Company LLC" required>
+      <p class="field-error" id="bizNameError">Enter your actual registered business name.</p>
     </div>
 
     <div class="field">
       <label class="q req">Your name</label>
       <input type="text" id="contactName" placeholder="Full name" required>
+      <p class="field-error" id="contactNameError">Enter your real first and last name.</p>
     </div>
 
     <div style="display:flex; gap:16px; flex-wrap:wrap;">
       <div class="field" style="flex:1; min-width:220px;">
         <label class="q req">Email</label>
         <input type="email" id="contactEmail" placeholder="you@business.com" required>
+        <p class="field-error" id="contactEmailError">Enter a valid email address — this is where we'll reply.</p>
       </div>
       <div class="field" style="flex:1; min-width:220px;">
         <label class="q req">Phone</label>
         <input type="tel" id="contactPhone" placeholder="(___) ___-____" required>
+        <p class="field-error" id="contactPhoneError">Enter a valid phone number (at least 10 digits).</p>
       </div>
     </div>
 
@@ -185,6 +189,7 @@
     <div style="background:var(--panel-2); border:1px dashed var(--line); border-radius:12px; padding:22px;">
       <label for="sigName" style="display:block; font-size:13px; color:var(--muted); margin-bottom:10px;">Type your full legal name to sign</label>
       <input type="text" id="sigName" placeholder="Your name" style="width:100%; background:transparent; border:none; border-bottom:2px solid var(--accent); border-radius:0; padding:6px 2px 10px; font-family:'Space Grotesk',cursive; font-style:italic; font-size:26px;">
+      <p class="field-error" id="sigNameError" style="margin-top:10px;">Please type your real full name to sign.</p>
       <div class="mono" id="sigDate" style="font-size:13px; color:var(--muted); margin-top:10px;"></div>
     </div>
 
@@ -250,12 +255,39 @@
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
+  // Real field validation — not just "is it empty," but "does it look real"
+  const validators = {
+    bizName: v => v.trim().length >= 2 && /[A-Za-z]/.test(v),
+    contactName: v => {
+      const t = v.trim();
+      return t.length >= 2 && /[A-Za-z]/.test(t) && t.includes(' ') && !/^(.)\1+$/.test(t.replace(/\s/g,''));
+    },
+    contactEmail: v => /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(v.trim()),
+    contactPhone: v => v.replace(/\D/g,'').length >= 10
+  };
+
+  function validateField(id){
+    const input = document.getElementById(id);
+    const errEl = document.getElementById(id + 'Error');
+    const valid = validators[id](input.value);
+    input.classList.toggle('invalid', !valid);
+    if(errEl) errEl.classList.toggle('show', !valid);
+    return valid;
+  }
+
+  Object.keys(validators).forEach(id => {
+    const input = document.getElementById(id);
+    input.addEventListener('blur', () => validateField(id));
+    input.addEventListener('input', () => {
+      if(input.classList.contains('invalid')) validateField(id);
+    });
+  });
+
   document.getElementById('toStep2').addEventListener('click', () => {
-    const required = ['bizName','contactName','contactEmail','contactPhone'];
-    const missingField = required.some(id => !document.getElementById(id).value.trim());
+    const fieldsValid = Object.keys(validators).map(validateField).every(Boolean);
     const missingPick = groups.some(g => !state[g]);
     const err = document.getElementById('step1Error');
-    if(missingField || missingPick){
+    if(!fieldsValid || missingPick){
       err.classList.add('show');
       return;
     }
@@ -280,12 +312,25 @@
 
   document.getElementById('sigDate').textContent = 'Date: ' + new Date().toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
 
+  const sigValid = v => v.trim().length >= 2 && /[A-Za-z]/.test(v) && v.trim().includes(' ') && !/^(.)\1+$/.test(v.trim().replace(/\s/g,''));
+  const sigInput = document.getElementById('sigName');
+  const sigErrEl = document.getElementById('sigNameError');
+  function checkSig(){
+    const valid = sigValid(sigInput.value);
+    sigInput.classList.toggle('invalid', !valid);
+    sigErrEl.classList.toggle('show', !valid);
+    return valid;
+  }
+  sigInput.addEventListener('blur', checkSig);
+  sigInput.addEventListener('input', () => { if(sigInput.classList.contains('invalid')) checkSig(); });
+
   document.getElementById('toStep3').addEventListener('click', async () => {
     const agreed = document.getElementById('agreeCheck').checked;
     const sig = document.getElementById('sigName').value.trim();
+    const sigOk = checkSig();
     const err = document.getElementById('step2Error');
     const sendErr = document.getElementById('sendError');
-    if(!agreed || !sig){
+    if(!agreed || !sigOk){
       err.classList.add('show');
       return;
     }
