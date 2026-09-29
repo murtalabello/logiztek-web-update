@@ -114,24 +114,7 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 @media (prefers-reduced-motion:reduce){.view.active{animation:none;}}
 
 /* Hero */
-.hero{position:relative;padding:76px 6vw 60px;overflow:hidden;margin:0 -6vw;}
-/* Hero photo — sits behind the hero content on the right, faded into the page from the left */
-.hero-photo{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  background-size:cover;
-  background-position:center right;
-  pointer-events:none;
-}
-.hero-photo::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  /* left-to-right fade so text stays readable on the left, photo shows on the right */
-  background:linear-gradient(90deg, var(--ink) 0%, var(--ink) 30%, rgba(26,26,28,0.72) 55%, rgba(26,26,28,0.45) 100%),
-             linear-gradient(0deg, var(--ink) 0%, transparent 30%, transparent 70%, rgba(26,26,28,0.6) 100%);
-}
+.hero{position:relative;padding:76px 0 0;overflow:hidden;}
 .hero::before{
   content:"";
   position:absolute;
@@ -140,10 +123,9 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
   width:640px;height:640px;
   background:radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
   pointer-events:none;
-  z-index:1;
+  z-index:0;
 }
-.hero > *{position:relative;z-index:2;}
-.hero .lede, .hero .proof-strip{max-width:640px;}
+.hero > *{position:relative;z-index:1;}
 
 .hero h1{
   font-size:clamp(34px,5.4vw,64px);
@@ -252,10 +234,7 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
   overflow:hidden;
   cursor:default;
   transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-  opacity:0;
-  transform:translateY(14px);
 }
-.cap-card.in-view{opacity:1;transform:translateY(0);}
 .cap-card::after{
   content:"";
   position:absolute;
