@@ -6,13 +6,13 @@
    ========================================================== */
 
 :root{
-  --ink:#132A40;
-  --ink-2:#16304A;
-  --panel:#1E3B58;
-  --panel-2:#1A3450;
-  --text:#F3F5F7;
-  --muted:#A3B4C4;
-  --line:rgba(237,239,242,0.14);
+  --ink:#1A3552;
+  --ink-2:#1D3B5C;
+  --panel:#274768;
+  --panel-2:#22405F;
+  --text:#FAFBFC;
+  --muted:#B9C7D5;
+  --line:rgba(250,251,252,0.18);
   --signal:#E8A33D;   /* cloud / devsecops accent */
   --ledger:#4FA98C;   /* bookkeeping accent */
   --accent:var(--signal);
@@ -69,7 +69,7 @@ button{font-family:inherit;}
   border-bottom:1px solid var(--line);
   position:sticky;
   top:0;
-  background:rgba(15,31,48,0.85);
+  background:rgba(26,53,82,0.85);
   backdrop-filter:blur(10px);
   z-index:10;
 }
@@ -400,6 +400,10 @@ input[type="text"], input[type="email"], input[type="tel"], textarea{
 }
 input:focus, textarea:focus{border-color:var(--accent);}
 textarea{resize:vertical;min-height:80px;}
+input.invalid, textarea.invalid{border-color:var(--bad);}
+input.invalid:focus, textarea.invalid:focus{border-color:var(--bad);}
+.field-error{color:var(--bad);font-size:12.5px;margin-top:6px;display:none;}
+.field-error.show{display:block;}
 
 .pills{display:flex;flex-wrap:wrap;gap:10px;}
 .pill{
