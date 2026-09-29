@@ -6,12 +6,12 @@
    ========================================================== */
 
 :root{
-  --ink:#0F1F30;
-  --ink-2:#122438;
-  --panel:#1A3049;
-  --panel-2:#152A40;
-  --text:#EDEFF2;
-  --muted:#96A7B8;
+  --ink:#132A40;
+  --ink-2:#16304A;
+  --panel:#1E3B58;
+  --panel-2:#1A3450;
+  --text:#F3F5F7;
+  --muted:#A3B4C4;
   --line:rgba(237,239,242,0.14);
   --signal:#E8A33D;   /* cloud / devsecops accent */
   --ledger:#4FA98C;   /* bookkeeping accent */
@@ -154,6 +154,16 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 }
 .stack-line{font-size:13px;color:var(--accent);letter-spacing:0.03em;}
 
+/* Hero illustration — original flat-design SVG, not a photo, sits in the empty right side of the hero */
+.hero-illustration{
+  position:absolute;
+  top:20px; right:-10px;
+  width:320px;
+  z-index:1;
+  pointer-events:none;
+}
+@media (max-width:980px){.hero-illustration{display:none;}}
+
 /* Proof strip — real, factual badges, not invented client metrics */
 .proof-strip{
   display:flex;
@@ -172,7 +182,8 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
   font-size:13.5px;
   color:var(--text);
 }
-.proof-badge svg{width:16px;height:16px;color:var(--accent);flex-shrink:0;}
+.proof-badge{border-color:color-mix(in srgb, var(--badge-color, var(--accent)) 45%, var(--line));}
+.proof-badge svg{width:16px;height:16px;color:var(--badge-color, var(--accent));flex-shrink:0;}
 
 /* Stack strip — static wrapped tag list, boxed, never clipped */
 .marquee{
@@ -209,7 +220,7 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 .approach-item .approach-num{
   font-family:'IBM Plex Mono',monospace;
   font-size:13px;
-  color:var(--accent);
+  color:var(--item-color, var(--accent));
   margin-bottom:12px;
   display:block;
 }
