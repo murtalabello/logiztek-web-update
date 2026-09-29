@@ -24,7 +24,6 @@
   <!-- LOGIZTEK VIEW -->
   <section class="view active" id="logiztek" role="tabpanel" aria-labelledby="tab-logiztek">
     <div class="hero">
-      <div class="hero-photo" style="background-image:url('https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?fm=jpg&amp;q=80&amp;w=2000&amp;auto=format&amp;fit=crop')" aria-hidden="true"></div>
       <h1>Cloud infrastructure that runs itself.</h1>
       <p class="lede">We spend time understanding how your team actually works before we touch a single system — then build the architecture, pipelines, and security so your team can focus on the product, not the infrastructure underneath it.</p>
 
@@ -126,7 +125,6 @@
   <!-- BOOKKEEPING VIEW -->
   <section class="view" id="bookkeeping" role="tabpanel" aria-labelledby="tab-bookkeeping">
     <div class="hero">
-      <div class="hero-photo" style="background-image:url('https://images.unsplash.com/photo-1772588627527-db42040f3a8b?fm=jpg&amp;q=80&amp;w=2000&amp;auto=format&amp;fit=crop')" aria-hidden="true"></div>
       <h1>Bookkeeping that stays out of your way.</h1>
       <p class="lede">We start by understanding your business, not by pushing a plan. A second line of business under Logiztek: straightforward monthly bookkeeping — clean books, clear numbers, explained in plain language.</p>
 
@@ -246,28 +244,12 @@
     } catch (e) {
       // Some embedded/sandboxed contexts block history writes — safe to ignore.
     }
-    revealCards();
   }
 
   tabs.logiztek.addEventListener('click', () => setView('logiztek'));
   tabs.bookkeeping.addEventListener('click', () => setView('bookkeeping'));
 
   if (location.hash === '#bookkeeping') setView('bookkeeping');
-
-  // Scroll-reveal for capability cards
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-
-  function revealCards(){
-    document.querySelectorAll('.view.active .cap-card').forEach(card => observer.observe(card));
-  }
-  revealCards();
 </script>
 
 </body>
