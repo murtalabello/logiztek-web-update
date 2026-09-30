@@ -270,8 +270,6 @@
         <label>Leave this field empty <input type="text" id="cHp" name="website" tabindex="-1" autocomplete="off"></label>
       </div>
 
-      <div id="cfTurnstile" class="ts-slot"></div>
-
       <p class="error-msg" id="cSendError">Something didn't go through. Please try again, or email info@logiztek.com.</p>
 
       <div class="dialog-actions">
@@ -325,11 +323,8 @@
   tabs.bookkeeping.addEventListener('click', () => setView('bookkeeping'));
 
   if (location.hash === '#bookkeeping') setView('bookkeeping');
-  /* ---------- Contact dialog ---------- */
-  // Optional bot check. Create a free Cloudflare Turnstile widget and paste its SITE key here.
-  // Leave it empty and the form still works, protected by the other checks.
-  const TURNSTILE_SITE_KEY = '';
 
+  /* ---------- Contact dialog ---------- */
   const dlg = document.getElementById('contactDialog');
   const cForm = document.getElementById('contactForm');
   const cFormWrap = document.getElementById('contactFormWrap');
@@ -337,8 +332,6 @@
   const cSendBtn = document.getElementById('cSend');
   const cSendError = document.getElementById('cSendError');
   let openedAt = 0;
-  let tsWidget = null;
-  let tsLoading = false;
 
   const rules = {
     cName: v => { const t = v.trim(); return t.length >= 2 && /[A-Za-z]/.test(t) && !/^(.)\1+$/.test(t.replace(/\s/g,'')); },
@@ -365,23 +358,12 @@
     cSendError.classList.add('show');
   }
 
-  function loadTurnstile(){
-    if (!TURNSTILE_SITE_KEY || tsLoading) return;
-    tsLoading = true;
-    const s = document.createElement('script');
-    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    s.async = true;
-    s.onload = () => { tsWidget = window.turnstile.render('#cfTurnstile', { sitekey: TURNSTILE_SITE_KEY, theme: 'dark' }); };
-    document.head.appendChild(s);
-  }
-
   function openContact(){
     cFormWrap.hidden = false;
     cDone.hidden = true;
     cSendError.classList.remove('show');
     openedAt = Date.now();
     if (!dlg.open) dlg.showModal();
-    loadTurnstile();
   }
 
   document.querySelectorAll('[data-open-contact]').forEach(b => b.addEventListener('click', openContact));
@@ -400,12 +382,6 @@
     cSendError.classList.remove('show');
     if (!Object.keys(rules).map(check).every(Boolean)) return;
 
-    let token = '';
-    if (TURNSTILE_SITE_KEY) {
-      token = (window.turnstile && tsWidget !== null) ? window.turnstile.getResponse(tsWidget) : '';
-      if (!token) { showSendError('Please complete the quick check above.'); return; }
-    }
-
     const email = document.getElementById('cEmail').value.trim();
     cSendBtn.disabled = true;
     cSendBtn.textContent = 'Sending…';
@@ -420,8 +396,7 @@
           phone: document.getElementById('cPhone').value.trim(),
           message: document.getElementById('cMessage').value.trim(),
           website: document.getElementById('cHp').value,
-          elapsedMs: Date.now() - openedAt,
-          turnstileToken: token
+          elapsedMs: Date.now() - openedAt
         })
       });
       if (res.ok) {
@@ -439,7 +414,6 @@
     } finally {
       cSendBtn.disabled = false;
       cSendBtn.textContent = 'Send message';
-      if (window.turnstile && tsWidget !== null) window.turnstile.reset(tsWidget);
     }
   });
 </script>
