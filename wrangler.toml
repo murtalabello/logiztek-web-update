@@ -5,3 +5,7 @@ compatibility_date = "2024-09-23"
 [assets]
 directory = "."
 binding = "ASSETS"
+
+# Weekly client reminders: every Monday at 14:00 UTC (9:00 AM Central in summer, 8:00 AM in winter)
+[triggers]
+crons = ["0 14 * * 1"]
