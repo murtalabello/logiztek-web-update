@@ -159,26 +159,33 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 }
 .hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0 0;}
 
-/* Buttons used on the home page */
-a.cta{
+/* Buttons used on the home page (work as links or buttons) */
+.cta{
+  display:inline-block;
   color:var(--on-cta);
   background:var(--cta);
+  font-family:inherit;
   font-weight:600;
   font-size:14.5px;
+  line-height:inherit;
   text-decoration:none;
   padding:13px 22px;
+  border:1px solid transparent;
   border-radius:10px;
   white-space:nowrap;
+  cursor:pointer;
+  -webkit-appearance:none;
+  appearance:none;
   transition:opacity .15s ease, transform .1s ease;
 }
-a.cta:hover{opacity:0.88;}
-a.cta:active{transform:scale(0.98);}
-a.cta.ghost{
+.cta:hover{opacity:0.88;}
+.cta:active{transform:scale(0.98);}
+.cta.ghost{
   background:rgba(255,255,255,0.04);
   color:var(--text);
   border:1px solid rgba(255,255,255,0.22);
 }
-a.cta.ghost:hover{border-color:rgba(255,255,255,0.4);opacity:1;}
+.cta.ghost:hover{border-color:rgba(255,255,255,0.4);opacity:1;}
 
 /* Proof strip — factual badges only */
 .proof-strip{
@@ -357,6 +364,41 @@ footer.site-footer{
   flex-wrap:wrap;
   gap:8px;
 }
+
+/* ---------- Contact dialog ---------- */
+.contact-dialog{
+  width:min(480px,calc(100vw - 32px));
+  max-height:calc(100vh - 32px);
+  overflow:auto;
+  padding:28px;
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:16px;
+  background:rgba(30,34,43,0.94);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  color:var(--text);
+  box-shadow:0 30px 80px -20px rgba(0,0,0,0.7);
+}
+.contact-dialog::backdrop{
+  background:rgba(10,12,16,0.6);
+  -webkit-backdrop-filter:blur(3px);
+  backdrop-filter:blur(3px);
+}
+.dialog-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:6px;}
+.dialog-head h2{font-size:22px;margin:0;}
+.dialog-close{background:transparent;border:none;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;padding:0 4px;}
+.dialog-close:hover{color:var(--text);}
+.dialog-sub{color:var(--muted);font-size:14px;margin:0 0 22px;}
+.contact-dialog .field{margin-bottom:18px;}
+.contact-dialog .field label.q{font-size:14px;margin-bottom:8px;}
+.contact-dialog textarea{min-height:110px;}
+.dialog-actions{display:flex;align-items:center;gap:14px;margin-top:22px;}
+.dialog-actions .btn{padding:12px 24px;}
+.dialog-note{color:var(--muted);font-size:12.5px;margin:14px 0 0;}
+.dialog-note a{color:var(--text);}
+.ts-slot{margin-top:6px;}
+/* Hidden trap field: people never see it, simple bots fill it in */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;}
 
 /* ---------- Form pages (start.html, project.html) ---------- */
 main.form-main{max-width:700px;margin:0 auto;padding:56px 6vw 100px;}
