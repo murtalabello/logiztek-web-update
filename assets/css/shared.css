@@ -1,28 +1,30 @@
 /* ==========================================================
    Logiztek — shared.css
-   One neutral dark theme, one restrained accent for the whole
-   brand. To change the accent, edit --accent below (one line).
+   Lighter slate base, glass cards, and a slow-moving light
+   background behind every page. Tune the look here:
+     --ink     page base color
+     --accent  labels and icons
    ========================================================== */
 
 :root{
-  --ink:#131315;          /* page background */
-  --panel:#1B1B1E;        /* cards and inputs, slightly lighter than the page */
-  --panel-2:#0F0F11;      /* recessed surfaces */
-  --text:#F5F5F4;
-  --muted:#A0A0A6;
-  --line:rgba(255,255,255,0.09);
-  --accent:#A3B8D1;       /* soft steel — labels, icons, small details */
-  --accent-soft:rgba(163,184,209,0.12);
-  --cta:#F5F5F4;          /* primary buttons: near-white */
-  --on-cta:#111113;
-  --bad:#E8735D;
+  --ink:#1B1F27;                     /* page base — dark slate, not black */
+  --panel:rgba(255,255,255,0.06);    /* glass cards and inputs */
+  --panel-2:rgba(0,0,0,0.22);        /* recessed surfaces */
+  --text:#F7F8FA;
+  --muted:#B3BAC6;
+  --line:rgba(255,255,255,0.12);
+  --accent:#B4C6DC;                  /* soft steel */
+  --accent-soft:rgba(180,198,220,0.14);
+  --cta:#F7F8FA;                     /* primary buttons */
+  --on-cta:#12151B;
+  --bad:#FF8A73;
 }
 
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;overflow-x:hidden;}
+html{scroll-behavior:smooth;overflow-x:hidden;background:var(--ink);}
 html,body{margin:0;padding:0;max-width:100%;}
 body{
-  background:var(--ink);
+  background:transparent;
   color:var(--text);
   font-family:'Inter',system-ui,sans-serif;
   line-height:1.55;
@@ -36,9 +38,55 @@ button{font-family:inherit;}
 
 ::-webkit-scrollbar{width:10px;height:10px;}
 ::-webkit-scrollbar-track{background:var(--ink);}
-::-webkit-scrollbar-thumb{background:var(--panel);border-radius:6px;border:2px solid var(--ink);}
-::-webkit-scrollbar-thumb:hover{background:var(--line);}
-*{scrollbar-width:thin;scrollbar-color:var(--panel) var(--ink);}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.18);border-radius:6px;border:2px solid var(--ink);}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,0.3);}
+*{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.2) var(--ink);}
+
+/* ---------- Moving background ----------
+   Two slowly drifting sets of soft light sit behind the page.
+   Pure CSS: no images, no video, nothing to load.
+   Cloud pages show the blue set; bookkeeping pages show the teal set. */
+body::before,
+body::after{
+  content:"";
+  position:fixed;
+  inset:-25%;
+  z-index:-1;
+  pointer-events:none;
+  will-change:transform;
+  transition:opacity 1s ease;
+}
+body::before{
+  background:
+    radial-gradient(40% 40% at 20% 25%, rgba(70,120,255,0.50), transparent 70%),
+    radial-gradient(36% 36% at 80% 20%, rgba(40,190,230,0.36), transparent 70%),
+    radial-gradient(42% 42% at 65% 85%, rgba(110,100,230,0.34), transparent 70%);
+  animation:drift-a 34s ease-in-out infinite alternate;
+}
+body::after{
+  background:
+    radial-gradient(40% 40% at 25% 30%, rgba(30,190,175,0.42), transparent 70%),
+    radial-gradient(36% 36% at 78% 25%, rgba(70,140,230,0.34), transparent 70%),
+    radial-gradient(42% 42% at 60% 85%, rgba(60,170,200,0.30), transparent 70%);
+  animation:drift-b 40s ease-in-out infinite alternate;
+  opacity:0;
+}
+body[data-view="bookkeeping"]::before,
+body[data-accent="ledger"]::before{opacity:0;}
+body[data-view="bookkeeping"]::after,
+body[data-accent="ledger"]::after{opacity:1;}
+
+@keyframes drift-a{
+  from{transform:translate3d(-4%,-3%,0) scale(1) rotate(0deg);}
+  to{transform:translate3d(5%,4%,0) scale(1.12) rotate(5deg);}
+}
+@keyframes drift-b{
+  from{transform:translate3d(4%,-2%,0) scale(1.08) rotate(0deg);}
+  to{transform:translate3d(-5%,4%,0) scale(1) rotate(-5deg);}
+}
+@media (prefers-reduced-motion:reduce){
+  body::before,body::after{animation:none;}
+}
 
 /* ---------- Topbar ---------- */
 .topbar{
@@ -49,8 +97,9 @@ button{font-family:inherit;}
   border-bottom:1px solid var(--line);
   position:sticky;
   top:0;
-  background:rgba(19,19,21,0.85);
-  backdrop-filter:blur(10px);
+  background:rgba(27,31,39,0.55);
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
   z-index:10;
 }
 .wordmark{font-size:20px;font-weight:600;letter-spacing:0.01em;}
@@ -76,7 +125,7 @@ button{font-family:inherit;}
   cursor:pointer;
   transition:background .2s ease,color .2s ease;
 }
-.tab[aria-selected="true"]{background:rgba(255,255,255,0.08);color:var(--text);}
+.tab[aria-selected="true"]{background:rgba(255,255,255,0.14);color:var(--text);}
 
 /* ---------- Home-page layout ---------- */
 main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
@@ -84,17 +133,15 @@ main.site-main{max-width:1120px;width:100%;margin:0 auto;padding:0 6vw;}
 .view.active{display:block;}
 
 /* Hero */
-.hero{position:relative;padding:88px 0 0;overflow:hidden;}
-.hero::before{
-  content:"";
-  position:absolute;
-  top:-200px; right:-140px;
-  width:640px;height:640px;
-  background:radial-gradient(circle, var(--accent-soft) 0%, transparent 68%);
-  pointer-events:none;
-  z-index:0;
+.hero{padding:96px 0 0;}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:12.5px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin:0 0 20px;
 }
-.hero > *{position:relative;z-index:1;}
 .hero h1{
   font-size:clamp(40px,6.4vw,76px);
   font-weight:700;
@@ -127,11 +174,11 @@ a.cta{
 a.cta:hover{opacity:0.88;}
 a.cta:active{transform:scale(0.98);}
 a.cta.ghost{
-  background:transparent;
+  background:rgba(255,255,255,0.04);
   color:var(--text);
-  border:1px solid var(--line);
+  border:1px solid rgba(255,255,255,0.22);
 }
-a.cta.ghost:hover{border-color:rgba(255,255,255,0.28);opacity:1;}
+a.cta.ghost:hover{border-color:rgba(255,255,255,0.4);opacity:1;}
 
 /* Proof strip — factual badges only */
 .proof-strip{
@@ -145,6 +192,8 @@ a.cta.ghost:hover{border-color:rgba(255,255,255,0.28);opacity:1;}
   align-items:center;
   gap:9px;
   background:var(--panel);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
   border:1px solid var(--line);
   border-radius:999px;
   padding:10px 18px;
@@ -156,6 +205,8 @@ a.cta.ghost:hover{border-color:rgba(255,255,255,0.28);opacity:1;}
 /* Tech / topic strip */
 .marquee{
   background:var(--panel);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
   border:1px solid var(--line);
   border-radius:14px;
   padding:16px 20px;
@@ -210,29 +261,22 @@ a.cta.ghost:hover{border-color:rgba(255,255,255,0.28);opacity:1;}
 }
 .cap-card{
   background:var(--panel);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
   border:1px solid var(--line);
   border-radius:14px;
   padding:26px;
   position:relative;
   overflow:hidden;
   cursor:default;
-  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-}
-.cap-card::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at 85% -10%, rgba(163,184,209,0.14), transparent 60%);
-  opacity:0;
-  transition:opacity .25s ease;
-  pointer-events:none;
+  transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
 }
 .cap-card:hover{
   transform:translateY(-4px);
-  border-color:rgba(163,184,209,0.45);
-  box-shadow:0 18px 40px -18px rgba(163,184,209,0.35);
+  background:rgba(255,255,255,0.09);
+  border-color:rgba(180,198,220,0.5);
+  box-shadow:0 18px 40px -18px rgba(0,0,0,0.5);
 }
-.cap-card:hover::after{opacity:1;}
 .cap-card .cap-icon{
   width:42px;height:42px;
   border-radius:10px;
@@ -242,8 +286,8 @@ a.cta.ghost:hover{border-color:rgba(255,255,255,0.28);opacity:1;}
   margin-bottom:16px;
 }
 .cap-card .cap-icon svg{width:22px;height:22px;}
-.cap-card h3{font-size:16.5px;font-weight:600;margin:0 0 8px;position:relative;z-index:1;}
-.cap-card p{color:var(--muted);font-size:14px;margin:0;line-height:1.55;position:relative;z-index:1;}
+.cap-card h3{font-size:16.5px;font-weight:600;margin:0 0 8px;}
+.cap-card p{color:var(--muted);font-size:14px;margin:0;line-height:1.55;}
 .cap-card .cap-arrow{
   position:absolute;
   top:24px; right:22px;
@@ -267,7 +311,9 @@ a.cta.ghost:hover{border-color:rgba(255,255,255,0.28);opacity:1;}
   gap:20px;
   align-items:flex-start;
   background:var(--panel-2);
-  border:1px solid rgba(163,184,209,0.35);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(180,198,220,0.35);
   border-radius:14px;
   padding:28px;
   margin-top:28px;
@@ -328,7 +374,7 @@ p.page-lede{color:var(--muted);font-size:16px;margin:0 0 40px;max-width:56ch;}
 
 input[type="text"], input[type="email"], input[type="tel"], textarea{
   width:100%;
-  background:var(--panel);
+  background:rgba(255,255,255,0.07);
   border:1px solid var(--line);
   color:var(--text);
   border-radius:10px;
