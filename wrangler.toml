@@ -6,10 +6,6 @@ compatibility_date = "2024-09-23"
 directory = "."
 binding = "ASSETS"
 
-# Weekly client reminders: every Monday at 14:00 UTC (9:00 AM Central in summer, 8:00 AM in winter)
-[triggers]
-crons = ["0 14 * * 1"]
-
 # Slows down anyone hammering the forms: 3 sends per minute per visitor.
 # If a deploy ever complains about this block, delete these 6 lines. The site still works without it.
 [[ratelimits]]
