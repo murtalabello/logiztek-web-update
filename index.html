@@ -33,7 +33,7 @@
 
       <div class="hero-cta">
         <a class="cta" href="project.html">Start a project →</a>
-        <a class="cta ghost" href="mailto:info@logiztek.com">Get in touch</a>
+        <button type="button" class="cta ghost" data-open-contact aria-haspopup="dialog">Get in touch</button>
       </div>
 
       <div class="proof-strip">
@@ -126,7 +126,7 @@
       </div>
       <div class="cta-group">
         <a class="cta" href="project.html">Start a project →</a>
-        <a class="cta ghost" href="mailto:info@logiztek.com">Get in touch</a>
+        <button type="button" class="cta ghost" data-open-contact aria-haspopup="dialog">Get in touch</button>
       </div>
     </div>
   </section>
@@ -140,7 +140,7 @@
 
       <div class="hero-cta">
         <a class="cta" href="start.html">Start onboarding →</a>
-        <a class="cta ghost" href="mailto:info@logiztek.com">Get in touch</a>
+        <button type="button" class="cta ghost" data-open-contact aria-haspopup="dialog">Get in touch</button>
       </div>
 
       <div class="proof-strip">
@@ -223,7 +223,7 @@
       </div>
       <div class="cta-group">
         <a class="cta" href="start.html">Start onboarding →</a>
-        <a class="cta ghost" href="mailto:info@logiztek.com">Get in touch</a>
+        <button type="button" class="cta ghost" data-open-contact aria-haspopup="dialog">Get in touch</button>
       </div>
     </div>
   </section>
@@ -234,6 +234,65 @@
   <div>© <span id="year"></span> Logiztek · Dallas, Texas</div>
   <div>info@logiztek.com · (469) 726-9610</div>
 </footer>
+
+<!-- Contact dialog -->
+<dialog id="contactDialog" class="contact-dialog" aria-labelledby="contactTitle">
+  <div id="contactFormWrap">
+    <div class="dialog-head">
+      <h2 id="contactTitle">Get in touch</h2>
+      <button type="button" class="dialog-close" id="contactClose" aria-label="Close">&times;</button>
+    </div>
+    <p class="dialog-sub">Tell us a little about what you need. We'll reply to the email you enter.</p>
+
+    <form id="contactForm" novalidate>
+      <div class="field">
+        <label class="q req" for="cName">Name</label>
+        <input type="text" id="cName" name="name" autocomplete="name" placeholder="Full name">
+        <p class="field-error" id="cNameError">Please enter your name.</p>
+      </div>
+      <div class="field">
+        <label class="q req" for="cEmail">Email</label>
+        <input type="email" id="cEmail" name="email" autocomplete="email" placeholder="you@company.com">
+        <p class="field-error" id="cEmailError">Enter a valid email address so we can reply.</p>
+      </div>
+      <div class="field">
+        <label class="q" for="cPhone">Phone <span style="color:var(--muted); font-weight:400;">(optional)</span></label>
+        <input type="tel" id="cPhone" name="phone" autocomplete="tel" placeholder="(___) ___-____">
+        <p class="field-error" id="cPhoneError">Enter a phone number with at least 10 digits, or leave it blank.</p>
+      </div>
+      <div class="field">
+        <label class="q req" for="cMessage">Message</label>
+        <textarea id="cMessage" name="message" placeholder="What can we help with?"></textarea>
+        <p class="field-error" id="cMessageError">Please write at least a short sentence (10 characters or more).</p>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label>Leave this field empty <input type="text" id="cHp" name="website" tabindex="-1" autocomplete="off"></label>
+      </div>
+
+      <div id="cfTurnstile" class="ts-slot"></div>
+
+      <p class="error-msg" id="cSendError">Something didn't go through. Please try again, or email info@logiztek.com.</p>
+
+      <div class="dialog-actions">
+        <button type="submit" class="btn btn-primary" id="cSend">Send message</button>
+        <button type="button" class="btn btn-ghost" id="cCancel">Cancel</button>
+      </div>
+      <p class="dialog-note">Prefer email? <a href="mailto:info@logiztek.com">info@logiztek.com</a> &middot; (469) 726-9610</p>
+    </form>
+  </div>
+
+  <div id="contactDone" hidden>
+    <div class="dialog-head">
+      <h2>Message sent</h2>
+      <button type="button" class="dialog-close" id="contactClose2" aria-label="Close">&times;</button>
+    </div>
+    <p class="dialog-sub">Thanks. We'll reply to <strong id="cDoneEmail"></strong>.</p>
+    <div class="dialog-actions">
+      <button type="button" class="btn btn-primary" id="cDoneBtn">Close</button>
+    </div>
+  </div>
+</dialog>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -266,6 +325,123 @@
   tabs.bookkeeping.addEventListener('click', () => setView('bookkeeping'));
 
   if (location.hash === '#bookkeeping') setView('bookkeeping');
+  /* ---------- Contact dialog ---------- */
+  // Optional bot check. Create a free Cloudflare Turnstile widget and paste its SITE key here.
+  // Leave it empty and the form still works, protected by the other checks.
+  const TURNSTILE_SITE_KEY = '';
+
+  const dlg = document.getElementById('contactDialog');
+  const cForm = document.getElementById('contactForm');
+  const cFormWrap = document.getElementById('contactFormWrap');
+  const cDone = document.getElementById('contactDone');
+  const cSendBtn = document.getElementById('cSend');
+  const cSendError = document.getElementById('cSendError');
+  let openedAt = 0;
+  let tsWidget = null;
+  let tsLoading = false;
+
+  const rules = {
+    cName: v => { const t = v.trim(); return t.length >= 2 && /[A-Za-z]/.test(t) && !/^(.)\1+$/.test(t.replace(/\s/g,'')); },
+    cEmail: v => /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(v.trim()),
+    cPhone: v => !v.trim() || v.replace(/\D/g,'').length >= 10,
+    cMessage: v => v.trim().length >= 10 && v.trim().length <= 2000
+  };
+
+  function check(id){
+    const el = document.getElementById(id);
+    const ok = rules[id](el.value);
+    el.classList.toggle('invalid', !ok);
+    document.getElementById(id + 'Error').classList.toggle('show', !ok);
+    return ok;
+  }
+  Object.keys(rules).forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('blur', () => check(id));
+    el.addEventListener('input', () => { if (el.classList.contains('invalid')) check(id); });
+  });
+
+  function showSendError(msg){
+    cSendError.textContent = msg;
+    cSendError.classList.add('show');
+  }
+
+  function loadTurnstile(){
+    if (!TURNSTILE_SITE_KEY || tsLoading) return;
+    tsLoading = true;
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    s.async = true;
+    s.onload = () => { tsWidget = window.turnstile.render('#cfTurnstile', { sitekey: TURNSTILE_SITE_KEY, theme: 'dark' }); };
+    document.head.appendChild(s);
+  }
+
+  function openContact(){
+    cFormWrap.hidden = false;
+    cDone.hidden = true;
+    cSendError.classList.remove('show');
+    openedAt = Date.now();
+    if (!dlg.open) dlg.showModal();
+    loadTurnstile();
+  }
+
+  document.querySelectorAll('[data-open-contact]').forEach(b => b.addEventListener('click', openContact));
+  ['contactClose','contactClose2','cCancel','cDoneBtn'].forEach(id => {
+    document.getElementById(id).addEventListener('click', () => dlg.close());
+  });
+  // Click outside the box closes it (clicks inside never do)
+  dlg.addEventListener('click', e => {
+    if (e.target !== dlg) return;
+    const r = dlg.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dlg.close();
+  });
+
+  cForm.addEventListener('submit', async e => {
+    e.preventDefault();
+    cSendError.classList.remove('show');
+    if (!Object.keys(rules).map(check).every(Boolean)) return;
+
+    let token = '';
+    if (TURNSTILE_SITE_KEY) {
+      token = (window.turnstile && tsWidget !== null) ? window.turnstile.getResponse(tsWidget) : '';
+      if (!token) { showSendError('Please complete the quick check above.'); return; }
+    }
+
+    const email = document.getElementById('cEmail').value.trim();
+    cSendBtn.disabled = true;
+    cSendBtn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: document.getElementById('cName').value.trim(),
+          email: email,
+          phone: document.getElementById('cPhone').value.trim(),
+          message: document.getElementById('cMessage').value.trim(),
+          website: document.getElementById('cHp').value,
+          elapsedMs: Date.now() - openedAt,
+          turnstileToken: token
+        })
+      });
+      if (res.ok) {
+        document.getElementById('cDoneEmail').textContent = email;
+        cForm.reset();
+        cFormWrap.hidden = true;
+        cDone.hidden = false;
+      } else if (res.status === 429) {
+        showSendError('Too many attempts. Please wait a minute and try again.');
+      } else {
+        showSendError("That didn't go through. Please try again, or email info@logiztek.com.");
+      }
+    } catch (err) {
+      showSendError("That didn't go through. Please try again, or email info@logiztek.com.");
+    } finally {
+      cSendBtn.disabled = false;
+      cSendBtn.textContent = 'Send message';
+      if (window.turnstile && tsWidget !== null) window.turnstile.reset(tsWidget);
+    }
+  });
 </script>
 
 </body>
