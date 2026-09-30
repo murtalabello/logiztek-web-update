@@ -12,7 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/shared.css">
 </head>
-<body>
+<body data-view="logiztek">
 
 <header class="topbar">
   <div class="wordmark">Logi<span>z</span>tek</div>
@@ -27,6 +27,7 @@
   <!-- CLOUD & DEVSECOPS -->
   <section class="view active" id="logiztek" role="tabpanel" aria-labelledby="tab-logiztek">
     <div class="hero">
+      <p class="eyebrow">Cloud · DevSecOps · IT engineering</p>
       <h1>Cloud infrastructure that runs itself.</h1>
       <p class="lede">We spend time understanding how your team actually works before we touch a single system — then build the architecture, pipelines, and security so your team can focus on the product, not the infrastructure underneath it.</p>
 
@@ -133,6 +134,7 @@
   <!-- BOOKKEEPING -->
   <section class="view" id="bookkeeping" role="tabpanel" aria-labelledby="tab-bookkeeping">
     <div class="hero">
+      <p class="eyebrow">Bookkeeping · Payroll · Medicaid cost reporting</p>
       <h1>Bookkeeping that stays out of your way.</h1>
       <p class="lede">Straightforward monthly bookkeeping for small businesses and Medicaid providers — clean books, clear numbers, explained in plain language.</p>
 
@@ -251,6 +253,7 @@
       views[key].classList.toggle('active', active);
       tabs[key].setAttribute('aria-selected', active ? 'true' : 'false');
     });
+    document.body.setAttribute('data-view', name);
     window.scrollTo({top:0, behavior:'auto'});
     try {
       history.replaceState(null, '', '#' + name);
