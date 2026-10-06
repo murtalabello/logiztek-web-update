@@ -252,6 +252,8 @@
     .form-field textarea { min-height: 120px; resize: vertical; }
     .form-field input:focus, .form-field textarea:focus { border-color: var(--forest-2); box-shadow: 0 0 0 2px color-mix(in srgb, var(--forest-2) 24%, transparent); }
     .book-path .form-field input:focus, .book-path .form-field textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 2px color-mix(in srgb, var(--orange) 24%, transparent); }
+    .form-field input.is-invalid, .form-field textarea.is-invalid { border-color: #a23b22; }
+    .field-error { min-height: 17px; margin: 0; color: #a23b22; font-size: 12px; line-height: 1.35; }
     .honeypot { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; }
     .form-submit { border: 0; cursor: pointer; }
     .form-submit:disabled { opacity: .6; cursor: wait; }
@@ -447,14 +449,14 @@
           <p>Tell us what you are building, migrating, securing or trying to steady. We’ll respond by email or phone.</p>
           <form class="contact-form" data-contact-form data-service="Cloud &amp; IT" novalidate>
             <div class="form-row">
-              <div class="form-field"><label for="cloud-name">Name</label><input id="cloud-name" name="name" type="text" autocomplete="name" required /></div>
-              <div class="form-field"><label for="cloud-phone">Phone</label><input id="cloud-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required /></div>
+              <div class="form-field"><label for="cloud-name">Name</label><input id="cloud-name" name="name" type="text" autocomplete="name" minlength="2" required aria-describedby="cloud-name-error" /><p class="field-error" id="cloud-name-error" data-field-error="name" aria-live="polite"></p></div>
+              <div class="form-field"><label for="cloud-phone">Phone <span aria-hidden="true">(optional)</span></label><input id="cloud-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="cloud-phone-error" /><p class="field-error" id="cloud-phone-error" data-field-error="phone" aria-live="polite"></p></div>
             </div>
-            <div class="form-field"><label for="cloud-email">Email</label><input id="cloud-email" name="email" type="email" autocomplete="email" required /></div>
-            <div class="form-field"><label for="cloud-message">Message / description</label><textarea id="cloud-message" name="message" required placeholder="What can we help you with?"></textarea></div>
+            <div class="form-field"><label for="cloud-email">Email</label><input id="cloud-email" name="email" type="email" autocomplete="email" required aria-describedby="cloud-email-error" /><p class="field-error" id="cloud-email-error" data-field-error="email" aria-live="polite"></p></div>
+            <div class="form-field"><label for="cloud-message">Message / description</label><textarea id="cloud-message" name="message" minlength="10" maxlength="2000" required aria-describedby="cloud-message-error" placeholder="What can we help you with?"></textarea><p class="field-error" id="cloud-message-error" data-field-error="message" aria-live="polite"></p></div>
             <div class="honeypot" aria-hidden="true"><label for="cloud-website">Website</label><input id="cloud-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
             <button class="button primary form-submit" type="submit">Send inquiry <span aria-hidden="true">→</span></button>
-            <p class="form-note" data-form-note aria-live="polite">Prefer email? <a href="mailto:info@logiztek.com?subject=Cloud%20and%20IT%20inquiry">Write to info@logiztek.com</a>.</p>
+            <p class="form-note" data-form-note aria-live="polite"></p>
           </form>
           <div class="contact-success" role="status"><h3>Message sent.</h3><p>Thank you — Logiztek will get back to you soon.</p></div>
         </div>
@@ -549,14 +551,14 @@
           <p>Tell us where your books stand and what you need help with. We’ll respond by email or phone.</p>
           <form class="contact-form" data-contact-form data-service="Bookkeeping" novalidate>
             <div class="form-row">
-              <div class="form-field"><label for="book-name">Name</label><input id="book-name" name="name" type="text" autocomplete="name" required /></div>
-              <div class="form-field"><label for="book-phone">Phone</label><input id="book-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required /></div>
+              <div class="form-field"><label for="book-name">Name</label><input id="book-name" name="name" type="text" autocomplete="name" minlength="2" required aria-describedby="book-name-error" /><p class="field-error" id="book-name-error" data-field-error="name" aria-live="polite"></p></div>
+              <div class="form-field"><label for="book-phone">Phone <span aria-hidden="true">(optional)</span></label><input id="book-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="book-phone-error" /><p class="field-error" id="book-phone-error" data-field-error="phone" aria-live="polite"></p></div>
             </div>
-            <div class="form-field"><label for="book-email">Email</label><input id="book-email" name="email" type="email" autocomplete="email" required /></div>
-            <div class="form-field"><label for="book-message">Message / description</label><textarea id="book-message" name="message" required placeholder="What can we help you with?"></textarea></div>
+            <div class="form-field"><label for="book-email">Email</label><input id="book-email" name="email" type="email" autocomplete="email" required aria-describedby="book-email-error" /><p class="field-error" id="book-email-error" data-field-error="email" aria-live="polite"></p></div>
+            <div class="form-field"><label for="book-message">Message / description</label><textarea id="book-message" name="message" minlength="10" maxlength="2000" required aria-describedby="book-message-error" placeholder="What can we help you with?"></textarea><p class="field-error" id="book-message-error" data-field-error="message" aria-live="polite"></p></div>
             <div class="honeypot" aria-hidden="true"><label for="book-website">Website</label><input id="book-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
             <button class="button bookkeeping form-submit" type="submit">Send inquiry <span aria-hidden="true">→</span></button>
-            <p class="form-note" data-form-note aria-live="polite">Prefer email? <a href="mailto:info@logiztek.com?subject=Bookkeeping%20inquiry">Write to info@logiztek.com</a>.</p>
+            <p class="form-note" data-form-note aria-live="polite"></p>
           </form>
           <div class="contact-success" role="status"><h3>Message sent.</h3><p>Thank you — Logiztek will get back to you soon.</p></div>
         </div>
@@ -577,7 +579,8 @@
 
   <script>
     (function () {
-      var minimumFillTime = 2500;
+      var minimumFillTime = 3000;
+      var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       var forms = document.querySelectorAll('[data-contact-form]');
 
       function activeDialog() {
@@ -591,74 +594,128 @@
         document.body.style.overflow = dialog ? 'hidden' : '';
         if (!dialog) return;
         var form = dialog.querySelector('[data-contact-form]');
-        if (form && !form.dataset.openedAt) form.dataset.openedAt = String(Date.now());
+        if (form) form.dataset.openedAt = String(Date.now());
         window.setTimeout(function () {
           var field = dialog.querySelector('input[name="name"]');
           if (field) field.focus();
         }, 50);
       }
 
+      function validationMessage(field) {
+        var value = field.value.trim();
+        if (field.name === 'name') {
+          if (!value) return 'Enter your name.';
+          if (value.length < 2 || !/[A-Za-z]/.test(value) || /^(.)\1+$/.test(value.replace(/\s/g, ''))) return 'Enter a valid name with at least 2 characters and a letter.';
+        }
+        if (field.name === 'email') {
+          if (!value) return 'Enter your email address.';
+          if (!emailPattern.test(value)) return 'Enter a valid email address.';
+        }
+        if (field.name === 'phone' && value && value.replace(/\D/g, '').length < 10) {
+          return 'Enter a phone number with at least 10 digits, or leave it blank.';
+        }
+        if (field.name === 'message') {
+          if (value.length < 10) return 'Enter at least 10 characters.';
+          if (value.length > 2000) return 'Keep your message to 2000 characters or fewer.';
+        }
+        return '';
+      }
+
+      function validateField(field) {
+        var message = validationMessage(field);
+        var error = field.closest('.form-field').querySelector('[data-field-error]');
+        field.setCustomValidity(message);
+        field.classList.toggle('is-invalid', Boolean(message));
+        if (error) error.textContent = message;
+        return !message;
+      }
+
+      function validateForm(form) {
+        var valid = true;
+        ['name', 'email', 'phone', 'message'].forEach(function (name) {
+          var field = form.elements[name];
+          if (field && !validateField(field)) valid = false;
+        });
+        return valid;
+      }
+
+      function clearValidation(form) {
+        form.querySelectorAll('.is-invalid').forEach(function (field) { field.classList.remove('is-invalid'); });
+        form.querySelectorAll('[data-field-error]').forEach(function (error) { error.textContent = ''; });
+      }
+
       forms.forEach(function (form) {
+        ['name', 'email', 'phone', 'message'].forEach(function (name) {
+          var field = form.elements[name];
+          if (!field) return;
+          field.addEventListener('input', function () { validateField(field); });
+          field.addEventListener('blur', function () { validateField(field); });
+        });
+
         form.addEventListener('submit', function (event) {
           event.preventDefault();
           var note = form.querySelector('[data-form-note]');
           var submit = form.querySelector('.form-submit');
-          var honeypot = form.querySelector('input[name="website"]');
           var openedAt = Number(form.dataset.openedAt || Date.now());
-          var elapsed = Date.now() - openedAt;
 
           note.className = 'form-note';
-          if (!form.checkValidity()) {
+          if (!validateForm(form)) {
             form.reportValidity();
-            note.textContent = 'Please complete every field before sending.';
+            note.textContent = 'Please review the fields marked above.';
             note.classList.add('is-error');
-            return;
-          }
-
-          if (elapsed < minimumFillTime) {
-            note.textContent = 'Please take a moment to review your message, then send it again.';
-            note.classList.add('is-error');
-            return;
-          }
-
-          if (honeypot && honeypot.value.trim()) {
-            form.classList.add('is-complete');
             return;
           }
 
           var data = new FormData(form);
           var payload = {
             name: String(data.get('name') || '').trim(),
-            phone: String(data.get('phone') || '').trim(),
             email: String(data.get('email') || '').trim(),
+            phone: String(data.get('phone') || '').trim(),
             message: String(data.get('message') || '').trim(),
-            description: String(data.get('message') || '').trim(),
-            service: form.dataset.service || 'General inquiry',
-            website: '',
-            formDuration: elapsed
+            website: String(data.get('website') || '').trim(),
+            elapsedMs: 0
           };
+          var delay = Math.max(0, minimumFillTime - (Date.now() - openedAt));
 
           submit.disabled = true;
-          submit.textContent = 'Sending…';
-          note.textContent = 'Sending your message securely…';
+          submit.textContent = delay ? 'Preparing…' : 'Sending…';
+          note.textContent = delay ? 'Preparing your message…' : 'Sending your message securely…';
 
-          fetch('/api/contact', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify(payload)
-          }).then(function (response) {
-            if (!response.ok) throw new Error('Contact request failed');
-            form.classList.add('is-complete');
-            form.reset();
-          }).catch(function () {
-            var subject = encodeURIComponent((form.dataset.service || 'General') + ' inquiry');
-            var body = encodeURIComponent('Name: ' + payload.name + '\nPhone: ' + payload.phone + '\n\n' + payload.message);
-            note.innerHTML = 'We could not send that message right now. <a href="mailto:info@logiztek.com?subject=' + subject + '&amp;body=' + body + '">Email info@logiztek.com instead</a>.';
-            note.classList.add('is-error');
-          }).finally(function () {
-            submit.disabled = false;
-            submit.innerHTML = 'Send inquiry <span aria-hidden="true">→</span>';
-          });
+          window.setTimeout(function () {
+            payload.elapsedMs = Math.max(minimumFillTime, Date.now() - openedAt);
+            submit.textContent = 'Sending…';
+            note.textContent = 'Sending your message securely…';
+
+            fetch('/api/contact', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(payload)
+            }).then(function (response) {
+              if (response.ok) {
+                form.classList.add('is-complete');
+                form.reset();
+                clearValidation(form);
+                return null;
+              }
+              return response.json().catch(function () { return {}; }).then(function (details) {
+                var error = new Error(details.error || 'The message could not be sent. Please try again.');
+                error.isHttpError = true;
+                throw error;
+              });
+            }).catch(function (error) {
+              note.className = 'form-note is-error';
+              if (error.isHttpError) {
+                note.textContent = error.message;
+                return;
+              }
+              var subject = encodeURIComponent((form.dataset.service || 'General') + ' inquiry');
+              var body = encodeURIComponent('Name: ' + payload.name + '\nEmail: ' + payload.email + '\nPhone: ' + (payload.phone || 'Not provided') + '\n\n' + payload.message);
+              note.innerHTML = 'The network connection failed. <a href="mailto:info@logiztek.com?subject=' + subject + '&amp;body=' + body + '">Email info@logiztek.com instead</a>.';
+            }).finally(function () {
+              submit.disabled = false;
+              submit.innerHTML = 'Send inquiry <span aria-hidden="true">→</span>';
+            });
+          }, delay);
         });
       });
 
