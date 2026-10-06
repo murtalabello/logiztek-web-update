@@ -213,6 +213,31 @@
     .contact-line a { text-decoration: none; }
     .contact-line a:hover { color: #fff; text-decoration: underline; }
     .cta-strip .actions { position: relative; z-index: 1; }
+    .contact-dialog {
+      position: fixed; inset: 0; z-index: 100; display: none; place-items: center; padding: 24px;
+      background: rgba(2, 12, 9, .78); backdrop-filter: blur(8px);
+    }
+    .contact-dialog:target { display: grid; }
+    .contact-card {
+      width: min(620px, 100%); max-height: calc(100dvh - 48px); overflow-y: auto; padding: clamp(30px, 5vw, 52px);
+      background: var(--surface); color: var(--ink); border-top: 4px solid var(--forest-2); box-shadow: var(--shadow);
+    }
+    .book-path .contact-card { border-color: var(--orange); }
+    .contact-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; }
+    .contact-card .section-label { margin-bottom: 16px; }
+    .contact-card h2 { margin: 0; font-size: clamp(34px, 6vw, 54px); line-height: 1; letter-spacing: -.045em; }
+    .contact-close {
+      flex: 0 0 42px; width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line-strong);
+      color: var(--muted); text-decoration: none; font-size: 24px; line-height: 1;
+    }
+    .contact-close:hover { border-color: var(--ink); color: var(--ink); }
+    .contact-card > p { margin: 24px 0 0; color: var(--muted); font-size: 16px; }
+    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; }
+    .contact-option { padding: 20px; border: 1px solid var(--line); text-decoration: none; }
+    .contact-option:hover { border-color: var(--forest-2); background: var(--mint); }
+    .book-path .contact-option:hover { border-color: var(--orange); background: var(--orange-soft); }
+    .contact-option small { display: block; margin-bottom: 7px; color: var(--muted); font: 500 10px/1.2 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
+    .contact-option strong { display: block; font-size: 17px; overflow-wrap: anywhere; }
     footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; color: var(--muted); font: 400 11px/1.4 "IBM Plex Mono", monospace; }
     .footer-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 18px; }
     footer a { text-decoration: none; }
@@ -249,6 +274,9 @@
       .badge { padding: 24px 20px; }
       .service { grid-template-columns: 34px 1fr; gap: 14px; }
       .cta-strip { padding: 46px 24px; }
+      .contact-dialog { padding: 14px; }
+      .contact-card { max-height: calc(100dvh - 28px); padding: 28px 22px; }
+      .contact-options { grid-template-columns: 1fr; }
       footer { align-items: flex-start; flex-direction: column; }
       .footer-nav { justify-content: flex-start; }
     }
@@ -358,16 +386,35 @@
         </div>
       </div>
 
-      <div class="shell cta-wrap" id="contact-cloud">
+      <div class="shell cta-wrap" id="cloud-cta">
         <div class="cta-strip">
           <h2>Have an environment that needs steadying?</h2>
-          <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> · <a href="tel:+14697269610">(469) 726-9610</a></p>
+          <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> · <a href="tel:+14697269610">(469) 726-9610</a> · <a href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer">WhatsApp channel</a> · <a href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer">Facebook</a></p>
           <div class="actions">
             <a class="button primary" href="https://logiztek.com/project">Start a project <span aria-hidden="true">→</span></a>
-            <a class="button secondary" href="mailto:info@logiztek.com?subject=Cloud%20and%20IT%20inquiry">Get in touch</a>
+            <a class="button secondary" href="#contact-cloud">Get in touch</a>
           </div>
         </div>
       </div>
+
+      <section class="contact-dialog" id="contact-cloud" role="dialog" aria-modal="true" aria-labelledby="contact-cloud-title">
+        <div class="contact-card">
+          <div class="contact-card-head">
+            <div>
+              <div class="section-label">Cloud &amp; IT inquiry</div>
+              <h2 id="contact-cloud-title">Let’s talk about your systems.</h2>
+            </div>
+            <a class="contact-close" href="#cloud" aria-label="Close contact options">×</a>
+          </div>
+          <p>Tell us what you are building, migrating, securing or trying to steady. Choose the contact method that works best for you.</p>
+          <div class="contact-options">
+            <a class="contact-option" href="mailto:info@logiztek.com?subject=Cloud%20and%20IT%20inquiry"><small>Email</small><strong>info@logiztek.com</strong></a>
+            <a class="contact-option" href="tel:+14697269610"><small>Call</small><strong>(469) 726-9610</strong></a>
+            <a class="contact-option" href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>WhatsApp channel</strong></a>
+            <a class="contact-option" href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>Facebook page</strong></a>
+          </div>
+        </div>
+      </section>
     </section>
 
     <section class="practice book-path" id="bookkeeping" aria-labelledby="bookkeeping-title">
@@ -435,16 +482,35 @@
         </div>
       </div>
 
-      <div class="shell cta-wrap" id="contact-bookkeeping">
+      <div class="shell cta-wrap" id="bookkeeping-cta">
         <div class="cta-strip">
           <h2>Want your books off your plate?</h2>
-          <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> · <a href="tel:+14697269610">(469) 726-9610</a></p>
+          <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> · <a href="tel:+14697269610">(469) 726-9610</a> · <a href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer">WhatsApp channel</a> · <a href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer">Facebook</a></p>
           <div class="actions">
             <a class="button bookkeeping" href="https://logiztek.com/start">Start onboarding <span aria-hidden="true">→</span></a>
-            <a class="button secondary" href="mailto:info@logiztek.com?subject=Bookkeeping%20inquiry">Get in touch</a>
+            <a class="button secondary" href="#contact-bookkeeping">Get in touch</a>
           </div>
         </div>
       </div>
+
+      <section class="contact-dialog" id="contact-bookkeeping" role="dialog" aria-modal="true" aria-labelledby="contact-bookkeeping-title">
+        <div class="contact-card">
+          <div class="contact-card-head">
+            <div>
+              <div class="section-label">Bookkeeping inquiry</div>
+              <h2 id="contact-bookkeeping-title">Let’s get your books in order.</h2>
+            </div>
+            <a class="contact-close" href="#bookkeeping" aria-label="Close contact options">×</a>
+          </div>
+          <p>Tell us where your books stand and what you need help with. Choose the contact method that works best for you.</p>
+          <div class="contact-options">
+            <a class="contact-option" href="mailto:info@logiztek.com?subject=Bookkeeping%20inquiry"><small>Email</small><strong>info@logiztek.com</strong></a>
+            <a class="contact-option" href="tel:+14697269610"><small>Call</small><strong>(469) 726-9610</strong></a>
+            <a class="contact-option" href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>WhatsApp channel</strong></a>
+            <a class="contact-option" href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>Facebook page</strong></a>
+          </div>
+        </div>
+      </section>
     </section>
   </main>
 
@@ -453,6 +519,8 @@
     <nav class="footer-nav" aria-label="Footer navigation">
       <a href="#cloud">Cloud &amp; DevSecOps</a>
       <a href="#bookkeeping">Bookkeeping</a>
+      <a href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer">Facebook</a>
       <a href="#top">Back to top ↑</a>
     </nav>
   </footer>
