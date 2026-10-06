@@ -79,10 +79,19 @@
     }
     .tagline { font: 500 11px/1.2 "IBM Plex Mono", monospace; letter-spacing: .05em; color: var(--muted); text-decoration: none; }
     .tagline:hover { color: var(--orange); }
-    nav { display: flex; align-items: center; gap: 30px; }
+    nav { display: flex; align-items: center; gap: 26px; }
     nav a { text-decoration: none; font-size: 13px; font-weight: 600; }
-    nav a:first-child:hover { color: var(--forest-2); }
-    nav a:nth-child(2):hover { color: var(--orange); }
+    nav > a:first-child:hover { color: var(--forest-2); }
+    nav > a:nth-child(2):hover { color: var(--orange); }
+    .header-socials { display: flex; align-items: center; gap: 8px; padding-left: 18px; border-left: 1px solid var(--line); }
+    .social-link {
+      width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line-strong);
+      color: var(--muted); background: var(--surface); text-decoration: none;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+    .social-link svg { width: 18px; height: 18px; fill: currentColor; }
+    .social-link.whatsapp:hover { color: #087d55; border-color: #087d55; background: var(--mint); }
+    .social-link.facebook:hover { color: #1877f2; border-color: #1877f2; background: var(--surface); }
     .hero {
       position: relative;
       min-height: 640px;
@@ -231,13 +240,32 @@
       color: var(--muted); text-decoration: none; font-size: 24px; line-height: 1;
     }
     .contact-close:hover { border-color: var(--ink); color: var(--ink); }
-    .contact-card > p { margin: 24px 0 0; color: var(--muted); font-size: 16px; }
-    .contact-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px; }
-    .contact-option { padding: 20px; border: 1px solid var(--line); text-decoration: none; }
-    .contact-option:hover { border-color: var(--forest-2); background: var(--mint); }
-    .book-path .contact-option:hover { border-color: var(--orange); background: var(--orange-soft); }
-    .contact-option small { display: block; margin-bottom: 7px; color: var(--muted); font: 500 10px/1.2 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: .08em; }
-    .contact-option strong { display: block; font-size: 17px; overflow-wrap: anywhere; }
+    .contact-card > p { margin: 20px 0 0; color: var(--muted); font-size: 15px; }
+    .contact-form { display: grid; gap: 17px; margin-top: 28px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-field { display: grid; gap: 7px; }
+    .form-field label { font: 500 10px/1.2 "IBM Plex Mono", monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+    .form-field input, .form-field textarea {
+      width: 100%; min-height: 50px; padding: 13px 14px; border: 1px solid var(--line-strong); border-radius: 0;
+      background: var(--paper); color: var(--ink); font: inherit; outline: none;
+    }
+    .form-field textarea { min-height: 120px; resize: vertical; }
+    .form-field input:focus, .form-field textarea:focus { border-color: var(--forest-2); box-shadow: 0 0 0 2px color-mix(in srgb, var(--forest-2) 24%, transparent); }
+    .book-path .form-field input:focus, .book-path .form-field textarea:focus { border-color: var(--orange); box-shadow: 0 0 0 2px color-mix(in srgb, var(--orange) 24%, transparent); }
+    .honeypot { position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important; clip: rect(0 0 0 0) !important; clip-path: inset(50%) !important; white-space: nowrap !important; }
+    .form-submit { border: 0; cursor: pointer; }
+    .form-submit:disabled { opacity: .6; cursor: wait; }
+    .form-note { min-height: 22px; margin: 0; color: var(--muted); font-size: 13px; }
+    .form-note.is-error { color: #a23b22; }
+    .form-note.is-success { color: var(--forest-2); font-weight: 700; }
+    .book-path .form-note.is-success { color: var(--orange-dark); }
+    .form-note a { font-weight: 700; }
+    .contact-success { display: none; margin-top: 30px; padding: 28px; background: var(--mint); color: var(--mint-ink); border-top: 3px solid var(--forest-2); }
+    .book-path .contact-success { background: var(--orange-soft); color: var(--ink); border-color: var(--orange); }
+    .contact-success h3 { margin: 0 0 8px; font-size: 24px; }
+    .contact-success p { margin: 0; }
+    .contact-form.is-complete { display: none; }
+    .contact-form.is-complete + .contact-success { display: block; }
     footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 22px 0; color: var(--muted); font: 400 11px/1.4 "IBM Plex Mono", monospace; }
     .footer-nav { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 18px; }
     footer a { text-decoration: none; }
@@ -245,8 +273,9 @@
     @media (max-width: 820px) {
       .shell { width: min(100% - 34px, 680px); }
       .topbar { min-height: 92px; align-items: flex-start; padding: 18px 0; flex-direction: column; gap: 13px; }
-      nav { width: 100%; justify-content: space-between; gap: 14px; }
+      nav { width: 100%; justify-content: flex-start; flex-wrap: wrap; gap: 12px 18px; }
       nav a { font-size: 12px; }
+      .header-socials { margin-left: auto; padding-left: 14px; }
       .hero { min-height: auto; padding: 62px 28px; grid-template-columns: 1fr; gap: 48px; }
       .hero h1 { font-size: clamp(54px, 16vw, 84px); }
       .intro-grid { grid-template-columns: 1fr; gap: 46px; }
@@ -265,8 +294,9 @@
       .build-panel { grid-template-columns: 1fr; gap: 24px; }
     }
     @media (max-width: 520px) {
-      nav a { font-size: 10px; }
-      .topbar nav a:last-child { display: none; }
+      nav > a { font-size: 10px; }
+      nav > a:nth-child(3) { display: none; }
+      .social-link { width: 36px; height: 36px; }
       .hero { padding: 50px 22px; }
       .path-choice { min-height: 96px; padding: 20px; }
       .practice-intro h2 { font-size: clamp(46px, 14vw, 68px); }
@@ -276,7 +306,7 @@
       .cta-strip { padding: 46px 24px; }
       .contact-dialog { padding: 14px; }
       .contact-card { max-height: calc(100dvh - 28px); padding: 28px 22px; }
-      .contact-options { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
       footer { align-items: flex-start; flex-direction: column; }
       .footer-nav { justify-content: flex-start; }
     }
@@ -299,6 +329,14 @@
       <a href="#cloud">Cloud &amp; DevSecOps</a>
       <a href="#bookkeeping">Bookkeeping</a>
       <a href="#contact-cloud">Contact</a>
+      <span class="header-socials" aria-label="Follow Logiztek">
+        <a class="social-link whatsapp" href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer" aria-label="Follow Logiztek on WhatsApp" title="WhatsApp channel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2a9.84 9.84 0 0 0-8.46 14.86L2.05 22l5.28-1.49A9.98 9.98 0 0 0 12.04 22 9.96 9.96 0 0 0 22 12.04 10 10 0 0 0 12.04 2Zm0 18.3a8.26 8.26 0 0 1-4.21-1.15l-.3-.18-3.13.88.89-3.05-.2-.32A8.18 8.18 0 0 1 3.78 12a8.27 8.27 0 1 1 8.26 8.3Zm4.53-6.19c-.25-.12-1.47-.72-1.7-.8-.23-.09-.4-.13-.57.12-.16.25-.64.8-.78.97-.14.16-.29.18-.54.06-1.47-.73-2.43-1.3-3.4-2.96-.26-.44.26-.41.73-1.36.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.57-.43h-.48c-.16 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.24 3.75 1.58.68 2.2.74 2.99.62.48-.07 1.47-.6 1.68-1.18.2-.58.2-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
+        </a>
+        <a class="social-link facebook" href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer" aria-label="Follow Logiztek on Facebook" title="Facebook page">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.72 22v-9.12h3.06l.46-3.56h-3.52V7.05c0-1.03.29-1.73 1.76-1.73h1.88V2.14A25.1 25.1 0 0 0 14.62 2c-2.71 0-4.57 1.66-4.57 4.7v2.62H7v3.56h3.05V22h3.67Z"/></svg>
+        </a>
+      </span>
     </nav>
   </header>
 
@@ -406,13 +444,19 @@
             </div>
             <a class="contact-close" href="#cloud" aria-label="Close contact options">×</a>
           </div>
-          <p>Tell us what you are building, migrating, securing or trying to steady. Choose the contact method that works best for you.</p>
-          <div class="contact-options">
-            <a class="contact-option" href="mailto:info@logiztek.com?subject=Cloud%20and%20IT%20inquiry"><small>Email</small><strong>info@logiztek.com</strong></a>
-            <a class="contact-option" href="tel:+14697269610"><small>Call</small><strong>(469) 726-9610</strong></a>
-            <a class="contact-option" href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>WhatsApp channel</strong></a>
-            <a class="contact-option" href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>Facebook page</strong></a>
-          </div>
+          <p>Tell us what you are building, migrating, securing or trying to steady. We’ll respond by email or phone.</p>
+          <form class="contact-form" data-contact-form data-service="Cloud &amp; IT" novalidate>
+            <div class="form-row">
+              <div class="form-field"><label for="cloud-name">Name</label><input id="cloud-name" name="name" type="text" autocomplete="name" required /></div>
+              <div class="form-field"><label for="cloud-phone">Phone</label><input id="cloud-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required /></div>
+            </div>
+            <div class="form-field"><label for="cloud-email">Email</label><input id="cloud-email" name="email" type="email" autocomplete="email" required /></div>
+            <div class="form-field"><label for="cloud-message">Message / description</label><textarea id="cloud-message" name="message" required placeholder="What can we help you with?"></textarea></div>
+            <div class="honeypot" aria-hidden="true"><label for="cloud-website">Website</label><input id="cloud-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+            <button class="button primary form-submit" type="submit">Send inquiry <span aria-hidden="true">→</span></button>
+            <p class="form-note" data-form-note aria-live="polite">Prefer email? <a href="mailto:info@logiztek.com?subject=Cloud%20and%20IT%20inquiry">Write to info@logiztek.com</a>.</p>
+          </form>
+          <div class="contact-success" role="status"><h3>Message sent.</h3><p>Thank you — Logiztek will get back to you soon.</p></div>
         </div>
       </section>
     </section>
@@ -502,13 +546,19 @@
             </div>
             <a class="contact-close" href="#bookkeeping" aria-label="Close contact options">×</a>
           </div>
-          <p>Tell us where your books stand and what you need help with. Choose the contact method that works best for you.</p>
-          <div class="contact-options">
-            <a class="contact-option" href="mailto:info@logiztek.com?subject=Bookkeeping%20inquiry"><small>Email</small><strong>info@logiztek.com</strong></a>
-            <a class="contact-option" href="tel:+14697269610"><small>Call</small><strong>(469) 726-9610</strong></a>
-            <a class="contact-option" href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>WhatsApp channel</strong></a>
-            <a class="contact-option" href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer"><small>Follow</small><strong>Facebook page</strong></a>
-          </div>
+          <p>Tell us where your books stand and what you need help with. We’ll respond by email or phone.</p>
+          <form class="contact-form" data-contact-form data-service="Bookkeeping" novalidate>
+            <div class="form-row">
+              <div class="form-field"><label for="book-name">Name</label><input id="book-name" name="name" type="text" autocomplete="name" required /></div>
+              <div class="form-field"><label for="book-phone">Phone</label><input id="book-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required /></div>
+            </div>
+            <div class="form-field"><label for="book-email">Email</label><input id="book-email" name="email" type="email" autocomplete="email" required /></div>
+            <div class="form-field"><label for="book-message">Message / description</label><textarea id="book-message" name="message" required placeholder="What can we help you with?"></textarea></div>
+            <div class="honeypot" aria-hidden="true"><label for="book-website">Website</label><input id="book-website" name="website" type="text" tabindex="-1" autocomplete="off" /></div>
+            <button class="button bookkeeping form-submit" type="submit">Send inquiry <span aria-hidden="true">→</span></button>
+            <p class="form-note" data-form-note aria-live="polite">Prefer email? <a href="mailto:info@logiztek.com?subject=Bookkeeping%20inquiry">Write to info@logiztek.com</a>.</p>
+          </form>
+          <div class="contact-success" role="status"><h3>Message sent.</h3><p>Thank you — Logiztek will get back to you soon.</p></div>
         </div>
       </section>
     </section>
@@ -524,5 +574,104 @@
       <a href="#top">Back to top ↑</a>
     </nav>
   </footer>
+
+  <script>
+    (function () {
+      var minimumFillTime = 2500;
+      var forms = document.querySelectorAll('[data-contact-form]');
+
+      function activeDialog() {
+        var hash = window.location.hash;
+        if (hash !== '#contact-cloud' && hash !== '#contact-bookkeeping') return null;
+        return document.querySelector(hash);
+      }
+
+      function prepareDialog() {
+        var dialog = activeDialog();
+        document.body.style.overflow = dialog ? 'hidden' : '';
+        if (!dialog) return;
+        var form = dialog.querySelector('[data-contact-form]');
+        if (form && !form.dataset.openedAt) form.dataset.openedAt = String(Date.now());
+        window.setTimeout(function () {
+          var field = dialog.querySelector('input[name="name"]');
+          if (field) field.focus();
+        }, 50);
+      }
+
+      forms.forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          var note = form.querySelector('[data-form-note]');
+          var submit = form.querySelector('.form-submit');
+          var honeypot = form.querySelector('input[name="website"]');
+          var openedAt = Number(form.dataset.openedAt || Date.now());
+          var elapsed = Date.now() - openedAt;
+
+          note.className = 'form-note';
+          if (!form.checkValidity()) {
+            form.reportValidity();
+            note.textContent = 'Please complete every field before sending.';
+            note.classList.add('is-error');
+            return;
+          }
+
+          if (elapsed < minimumFillTime) {
+            note.textContent = 'Please take a moment to review your message, then send it again.';
+            note.classList.add('is-error');
+            return;
+          }
+
+          if (honeypot && honeypot.value.trim()) {
+            form.classList.add('is-complete');
+            return;
+          }
+
+          var data = new FormData(form);
+          var payload = {
+            name: String(data.get('name') || '').trim(),
+            phone: String(data.get('phone') || '').trim(),
+            email: String(data.get('email') || '').trim(),
+            message: String(data.get('message') || '').trim(),
+            description: String(data.get('message') || '').trim(),
+            service: form.dataset.service || 'General inquiry',
+            website: '',
+            formDuration: elapsed
+          };
+
+          submit.disabled = true;
+          submit.textContent = 'Sending…';
+          note.textContent = 'Sending your message securely…';
+
+          fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify(payload)
+          }).then(function (response) {
+            if (!response.ok) throw new Error('Contact request failed');
+            form.classList.add('is-complete');
+            form.reset();
+          }).catch(function () {
+            var subject = encodeURIComponent((form.dataset.service || 'General') + ' inquiry');
+            var body = encodeURIComponent('Name: ' + payload.name + '\nPhone: ' + payload.phone + '\n\n' + payload.message);
+            note.innerHTML = 'We could not send that message right now. <a href="mailto:info@logiztek.com?subject=' + subject + '&amp;body=' + body + '">Email info@logiztek.com instead</a>.';
+            note.classList.add('is-error');
+          }).finally(function () {
+            submit.disabled = false;
+            submit.innerHTML = 'Send inquiry <span aria-hidden="true">→</span>';
+          });
+        });
+      });
+
+      window.addEventListener('hashchange', prepareDialog);
+      document.addEventListener('keydown', function (event) {
+        var dialog = activeDialog();
+        if (event.key === 'Escape' && dialog) {
+          var closeLink = dialog.querySelector('.contact-close');
+          if (closeLink) window.location.hash = closeLink.getAttribute('href');
+        }
+      });
+      prepareDialog();
+    }());
+  </script>
 </body>
 </html>
