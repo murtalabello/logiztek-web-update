@@ -467,7 +467,9 @@ input.invalid:focus, textarea.invalid:focus{border-color:var(--bad);}
   transition:background .15s ease, border-color .15s ease;
 }
 .pill:hover{border-color:var(--accent);}
-.pill.selected{background:var(--accent-soft);border-color:var(--accent);color:var(--text);font-weight:600;}
+.pill.selected{background:var(--accent);border-color:var(--accent);color:var(--on-cta);font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.35);}
+.pill.selected::before{content:"✓  ";font-weight:700;}
+
 .hint{font-size:13px;color:var(--muted);margin-top:10px;}
 
 .actions{display:flex;justify-content:flex-end;align-items:center;margin-top:44px;gap:16px;}
