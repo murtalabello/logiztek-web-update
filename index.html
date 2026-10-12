@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="light dark" />
-  <meta name="description" content="Logiztek provides cloud engineering, DevSecOps, IT landscape support, monthly bookkeeping, payroll support and Medicaid cost reporting." />
+  <meta name="description" content="Logiztek provides cloud engineering, DevSecOps, IT infrastructure support, monthly bookkeeping, payroll support and Medicaid cost reporting." />
   <link rel="icon" href="data:," />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -255,34 +255,37 @@
       padding: clamp(80px, 10vw, 140px) 0; 
       overflow: hidden; 
     }
+    .track.cloud-track { background: var(--surface); }
+    .track.books-track { background: var(--cream); }
+    
     .track > .shell { position: relative; z-index: 2; }
     
+    /* Foolproof video background implementation */
     .video-bg {
-      position: absolute; inset: 0; z-index: 0;
-      overflow: hidden; pointer-events: none;
+      position: absolute; 
+      inset: 0; 
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
     }
     .video-bg video {
-      width: 100%; height: 100%; object-fit: cover;
-      animation: floatSlowly 25s ease-in-out infinite alternate;
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover;
+      opacity: 0.22; /* Controls video visibility directly */
+      animation: floatSlowly 30s ease-in-out infinite alternate;
       transform: scale(1.1);
     }
-    @keyframes floatSlowly {
-      0% { transform: scale(1.1) translate(0, 0); }
-      100% { transform: scale(1.15) translate(-2%, 2%); }
-    }
-    .video-overlay {
-      position: absolute; inset: 0;
-      backdrop-filter: blur(4px);
+    
+    @media (prefers-color-scheme: dark) {
+      .video-bg video { 
+        opacity: 0.15; /* Dimmer for dark mode readability */
+      }
     }
     
-    /* Track specific overlay colors */
-    .cloud-track .video-overlay {
-      background: var(--surface);
-      opacity: 0.88;
-    }
-    .books-track .video-overlay {
-      background: var(--cream);
-      opacity: 0.88;
+    @keyframes floatSlowly {
+      0% { transform: scale(1.1) translate(0, 0); }
+      100% { transform: scale(1.15) translate(-1.5%, 1.5%); }
     }
 
     .track-heading {
@@ -491,7 +494,7 @@
   <header class="shell topbar">
     <a class="tagline" href="#top">Logiztek. Two disciplines.</a>
     <nav aria-label="Primary navigation">
-      <a href="#cloud">Cloud &amp; IT Landscape</a>
+      <a href="#cloud">Cloud &amp; IT Infrastructure</a>
       <a href="#bookkeeping">Bookkeeping</a>
       <a href="#contact-cloud">Contact</a>
       <span class="header-socials" aria-label="Follow Logiztek">
@@ -510,9 +513,9 @@
     <section class="shell hero" aria-labelledby="hero-title">
       <div class="hero-content">
         <h1 id="hero-title">Two disciplines. <span class="steady">One steady business.</span></h1>
-        <p>IT landscapes that run reliably. Books that stay clean. Each service has its own dedicated focus, specialist team, and clear next step.</p>
+        <p>IT infrastructure that runs reliably. Books that stay clean. Each service has its own dedicated focus, specialist team, and clear next step.</p>
         <div class="actions">
-          <a class="button cloud-btn" href="#cloud">Cloud &amp; IT Landscape <span aria-hidden="true">↓</span></a>
+          <a class="button cloud-btn" href="#cloud">Cloud &amp; IT Infrastructure <span aria-hidden="true">↓</span></a>
           <a class="button books-btn" href="#bookkeeping">Bookkeeping <span aria-hidden="true">↓</span></a>
         </div>
       </div>
@@ -546,22 +549,21 @@
 
     <!-- Cloud Track -->
     <section class="track cloud-track" id="cloud">
-      <!-- Floating Background Video -->
+      <!-- Foolproof Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
         <video autoplay loop muted playsinline>
           <source src="https://assets.mixkit.co/videos/preview/mixkit-server-rack-with-flashing-lights-in-a-data-center-43849-large.mp4" type="video/mp4">
         </video>
-        <div class="video-overlay"></div>
       </div>
 
       <div class="shell">
         <div class="track-heading">
           <div>
-            <div class="eyebrow">For Your IT Landscape</div>
+            <div class="eyebrow">For Your IT Infrastructure</div>
             <h2>Infrastructure, delivery &amp; support.</h2>
           </div>
           <div>
-            <p>From first architecture decisions to the platform your team depends on every day, this side of Logiztek is built around securing and managing your entire IT landscape. We build pipelines and security so your team can focus on the product, not the infrastructure underneath it.</p>
+            <p>From first architecture decisions to the platform your team depends on every day, this side of Logiztek is built around securing and managing your entire IT infrastructure. We build pipelines and security so your team can focus on the product, not the systems underneath it.</p>
           </div>
         </div>
 
@@ -580,7 +582,7 @@
           <article class="service-card">
             <span class="num">01</span>
             <h3>Cloud Architecture</h3>
-            <p>Landing zones and migrations across AWS, Azure, and GCP, built for real compliance and scale across your entire IT landscape.</p>
+            <p>Landing zones and migrations across AWS, Azure, and GCP, built for real compliance and scale across your entire IT infrastructure.</p>
           </article>
           <article class="service-card">
             <span class="num">02</span>
@@ -625,7 +627,7 @@
 
         <div class="cta-banner">
           <div>
-            <h3>Have an IT landscape that needs steadying?</h3>
+            <h3>Have an IT infrastructure that needs steadying?</h3>
             <p>Reach out to discuss architecture, pipelines, or IT support.</p>
           </div>
           <div class="actions">
@@ -639,12 +641,11 @@
 
     <!-- Books Track -->
     <section class="track books-track" id="bookkeeping">
-      <!-- Floating Background Video -->
+      <!-- Foolproof Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
         <video autoplay loop muted playsinline>
           <source src="https://assets.mixkit.co/videos/preview/mixkit-person-typing-on-a-calculator-and-writing-on-a-notebook-2802-large.mp4" type="video/mp4">
         </video>
-        <div class="video-overlay"></div>
       </div>
 
       <div class="shell">
@@ -735,12 +736,12 @@
       <div class="contact-card">
         <div class="contact-card-head">
           <div>
-            <div class="eyebrow">Cloud &amp; IT Landscape Inquiry</div>
+            <div class="eyebrow">Cloud &amp; IT Infrastructure Inquiry</div>
             <h2 id="contact-cloud-title">Let’s talk systems.</h2>
           </div>
           <a class="contact-close" href="#cloud" aria-label="Close modal">&times;</a>
         </div>
-        <p>Tell us what you are building, migrating, securing or trying to steady across your IT landscape. We’ll respond by email or phone.</p>
+        <p>Tell us what you are building, migrating, securing or trying to steady across your IT infrastructure. We’ll respond by email or phone.</p>
         
         <form class="contact-form" data-contact-form data-service="Cloud &amp; IT" novalidate>
           <div class="form-row">
@@ -832,7 +833,7 @@
   <footer class="shell">
     <span>© 2026 Logiztek · Dallas, Texas</span>
     <nav class="footer-nav" aria-label="Footer navigation">
-      <a href="#cloud">Cloud &amp; IT Landscape</a>
+      <a href="#cloud">Cloud &amp; IT Infrastructure</a>
       <a href="#bookkeeping">Bookkeeping</a>
       <a href="mailto:info@logiztek.com">info@logiztek.com</a>
       <a href="#top">Back to top &uarr;</a>
