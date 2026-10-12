@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
   <title>Logiztek — Cloud systems + clear books</title>
   <style>
     :root {
@@ -323,6 +324,316 @@
       .marquee-item { white-space: normal; }
     }
   </style>
+<style>
+/* --- Logiztek services showcase (scoped under .lz-showcase) --- */
+
+    .lz-showcase {
+      color-scheme: light dark;
+      --ink: #101713;
+      --muted: #52605a;
+      --paper: #f5f7f5;
+      --surface: #ffffff;
+      --line: #cfd7d2;
+      --cloud: #007f73;
+      --cloud-strong: #005c54;
+      --cloud-soft: #d8f3ed;
+      --cloud-ink: #063b36;
+      --books: #bb4b18;
+      --books-strong: #87310d;
+      --books-soft: #ffe5d2;
+      --books-ink: #4d1c08;
+      --dark: #0a1713;
+      --cream: #fff8ef;
+      --shadow: 0 18px 52px rgba(14, 35, 27, .11);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .lz-showcase {
+        --ink: #f2f7f4;
+        --muted: #aebdb6;
+        --paper: #07110e;
+        --surface: #0d1b17;
+        --line: #2b3e37;
+        --cloud: #76e0cb;
+        --cloud-strong: #a8efdf;
+        --cloud-soft: #123f37;
+        --cloud-ink: #e6fff9;
+        --books: #ff9a63;
+        --books-strong: #ffc09b;
+        --books-soft: #4b2616;
+        --books-ink: #fff2e9;
+        --dark: #06100d;
+        --cream: #241710;
+        --shadow: 0 18px 52px rgba(0, 0, 0, .28);
+      }
+    }
+
+    .lz-showcase, .lz-showcase * { box-sizing: border-box; }
+    .lz-showcase {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Archivo", sans-serif;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+    .lz-showcase a { color: inherit; }
+    .lz-showcase button, .lz-showcase a { -webkit-tap-highlight-color: transparent; }
+
+    .lz-showcase .wrap { width: min(1180px, calc(100% - 40px)); margin-inline: auto; }
+
+    .lz-showcase .jumpbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 22px 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .lz-showcase .jump-links { display: flex; flex-wrap: wrap; gap: 8px; }
+    .lz-showcase .jump-links a {
+      text-decoration: none;
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--surface);
+    }
+    .lz-showcase .jump-links a:first-child { color: var(--cloud-strong); border-color: color-mix(in srgb, var(--cloud) 45%, var(--line)); }
+    .lz-showcase .jump-links a:nth-child(2) { color: var(--books-strong); border-color: color-mix(in srgb, var(--books) 45%, var(--line)); }
+    .lz-showcase .mini-cta {
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+      white-space: nowrap;
+    }
+
+    .lz-showcase .hero {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: clamp(32px, 6vw, 88px);
+      align-items: end;
+      padding: clamp(62px, 9vw, 126px) 0 70px;
+    }
+    .lz-showcase .hero .showcase-title {
+      max-width: 800px;
+      margin: 0;
+      font-size: clamp(48px, 8vw, 104px);
+      line-height: .89;
+      letter-spacing: -.065em;
+      font-weight: 800;
+    }
+    .lz-showcase .hero .showcase-title .steady {
+      display: block;
+      font-family: "Newsreader", serif;
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: -.045em;
+      color: var(--cloud-strong);
+    }
+    .lz-showcase .hero-aside { padding-bottom: 6px; }
+    .lz-showcase .hero-aside p {
+      font-size: clamp(17px, 2vw, 22px);
+      margin: 0 0 26px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .lz-showcase .duo-mark {
+      width: 100%;
+      max-width: 310px;
+      aspect-ratio: 2 / 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      box-shadow: var(--shadow);
+      margin-left: auto;
+    }
+    .lz-showcase .mark-half { display: grid; place-items: center; position: relative; overflow: hidden; }
+    .lz-showcase .mark-half svg { width: 62%; height: 62%; }
+    .lz-showcase .mark-half.cloud { background: var(--cloud); color: #eafffa; }
+    .lz-showcase .mark-half.books { background: var(--books); color: #fff4ec; }
+    .lz-showcase .mark-half::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid color-mix(in srgb, currentColor 42%, transparent);
+    }
+
+    .lz-showcase .manifesto {
+      background: var(--dark);
+      color: #ecf6f1;
+      padding: 28px 0;
+      border-block: 1px solid #1d3930;
+    }
+    .lz-showcase .manifesto .wrap {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 25px;
+    }
+    .lz-showcase .manifesto strong { font-size: 14px; letter-spacing: .04em; }
+    .lz-showcase .manifesto p { margin: 0; color: #b8c9c2; font-size: 14px; }
+    .lz-showcase .signal { display: flex; gap: 5px; }
+    .lz-showcase .signal i { width: 9px; height: 9px; display: block; background: #76e0cb; }
+    .lz-showcase .signal i:nth-child(2) { background: #ff9a63; }
+    .lz-showcase .signal i:nth-child(3) { background: #e5f1ec; }
+
+    .lz-showcase .track { padding: clamp(72px, 9vw, 120px) 0; }
+    .lz-showcase .track.cloud-track { background: var(--surface); }
+    .lz-showcase .track.books-track { background: var(--cream); }
+    .lz-showcase .track-heading {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+      gap: 60px;
+      align-items: start;
+      padding-bottom: 42px;
+    }
+    .lz-showcase .track-label {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+    .lz-showcase .track-label .dash { width: 50px; height: 4px; background: var(--cloud); }
+    .lz-showcase .books-track .track-label .dash { background: var(--books); }
+    .lz-showcase .track-heading h2 {
+      margin: 0;
+      font-size: clamp(42px, 6vw, 76px);
+      line-height: .95;
+      letter-spacing: -.05em;
+    }
+    .lz-showcase .track-heading p { margin: 22px 0 0; color: var(--muted); font-size: 18px; max-width: 640px; }
+
+    .lz-showcase .services {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .lz-showcase .service {
+      min-height: 245px;
+      padding: 31px;
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 22px;
+      color: #fff;
+      background-color: var(--service-bg);
+      background-image: linear-gradient(135deg, transparent 0 72%, rgba(255,255,255,.1) 72% 76%, transparent 76%);
+      box-shadow: 0 14px 30px rgba(7, 25, 19, .13);
+      position: relative;
+      overflow: hidden;
+    }
+    .lz-showcase .cloud-track .service:nth-child(1) { --service-bg: #006e64; }
+    .lz-showcase .cloud-track .service:nth-child(2) { --service-bg: #155b9a; }
+    .lz-showcase .cloud-track .service:nth-child(3) { --service-bg: #62468e; }
+    .lz-showcase .cloud-track .service:nth-child(4) { --service-bg: #a54135; }
+    .lz-showcase .cloud-track .service:nth-child(5) { --service-bg: #8a5912; }
+    .lz-showcase .cloud-track .service:nth-child(6) { --service-bg: #276448; }
+    .lz-showcase .cloud-track .service:nth-child(7) { --service-bg: #08766b; }
+    .lz-showcase .books-track .service:nth-child(1) { --service-bg: #a8471c; }
+    .lz-showcase .books-track .service:nth-child(2) { --service-bg: #7d4b16; }
+    .lz-showcase .books-track .service:nth-child(3) { --service-bg: #9b3650; }
+    .lz-showcase .books-track .service:nth-child(4) { --service-bg: #3d654f; }
+    .lz-showcase .books-track .service:nth-child(5) { --service-bg: #6d5530; }
+    .lz-showcase .books-track .service:nth-child(6) { --service-bg: #155f69; }
+    .lz-showcase .books-track .service:nth-child(7) { --service-bg: #b24518; }
+    .lz-showcase .service.feature {
+      grid-column: 1 / -1;
+      min-height: 220px;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+    .lz-showcase .num {
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(255,255,255,.82);
+      padding-top: 8px;
+    }
+    .lz-showcase .service h3 {
+      margin: 0 0 12px;
+      color: #fff;
+      font-size: clamp(23px, 2.4vw, 32px);
+      line-height: 1.08;
+      letter-spacing: -.035em;
+    }
+    .lz-showcase .service p { margin: 0; color: rgba(255,255,255,.84); max-width: 560px; font-size: 16px; }
+    .lz-showcase .feature .service-copy { padding: 12px 22px; }
+    .lz-showcase .feature h3 { font-size: clamp(34px, 5vw, 58px); }
+    .lz-showcase .feature .emblem {
+      justify-self: end;
+      width: min(250px, 90%);
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,.9);
+    }
+    .lz-showcase .feature .emblem svg { width: 100%; height: 100%; }
+
+    .lz-showcase .decision {
+      background: var(--dark);
+      color: #eef8f3;
+      padding: clamp(68px, 9vw, 110px) 0;
+    }
+    .lz-showcase .decision-head { max-width: 760px; margin-bottom: 42px; }
+    .lz-showcase .decision h2 { margin: 0 0 14px; font-size: clamp(40px, 6vw, 72px); line-height: .98; letter-spacing: -.05em; }
+    .lz-showcase .decision-head p { margin: 0; color: #b6c7c0; font-size: 18px; }
+    .lz-showcase .routes { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .lz-showcase .route {
+      color: #fff;
+      text-decoration: none;
+      padding: clamp(24px, 4vw, 44px);
+      min-height: 210px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: filter .2s ease;
+    }
+    .lz-showcase .route:hover { filter: brightness(1.08); }
+    .lz-showcase .route:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+    .lz-showcase .route.cloud { background: #007f73; }
+    .lz-showcase .route.books { background: #bb4b18; }
+    .lz-showcase .route small { font-weight: 700; }
+    .lz-showcase .route strong { font-size: clamp(26px, 4vw, 43px); line-height: 1; letter-spacing: -.04em; max-width: 420px; }
+    .lz-showcase .arrow { align-self: flex-end; font-size: 32px; line-height: 1; }
+
+
+    @media (max-width: 780px) {
+      .lz-showcase .wrap { width: min(100% - 28px, 680px); }
+      .lz-showcase .jumpbar { align-items: flex-start; }
+      .lz-showcase .mini-cta { display: none; }
+      .lz-showcase .hero { grid-template-columns: 1fr; padding-top: 54px; }
+      .lz-showcase .hero .showcase-title { font-size: clamp(50px, 15vw, 76px); }
+      .lz-showcase .hero-aside { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: end; }
+      .lz-showcase .hero-aside p { margin: 0; }
+      .lz-showcase .duo-mark { max-width: 180px; }
+      .lz-showcase .manifesto .wrap { grid-template-columns: auto 1fr; }
+      .lz-showcase .manifesto p { grid-column: 1 / -1; }
+      .lz-showcase .track-heading { grid-template-columns: 1fr; gap: 28px; }
+      .lz-showcase .services { grid-template-columns: 1fr; }
+      .lz-showcase .service { min-height: 0; }
+      .lz-showcase .service.feature { grid-column: auto; grid-template-columns: 1fr; }
+      .lz-showcase .feature .emblem { justify-self: start; width: 170px; }
+      .lz-showcase .routes { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .lz-showcase .jumpbar { padding-top: 14px; }
+      .lz-showcase .jump-links { width: 100%; }
+      .lz-showcase .jump-links a { flex: 1; text-align: center; }
+      .lz-showcase .hero { padding: 48px 0 52px; }
+      .lz-showcase .hero-aside { grid-template-columns: 1fr; }
+      .lz-showcase .duo-mark { margin-left: 0; max-width: 160px; }
+      .lz-showcase .service { grid-template-columns: 35px 1fr; padding: 25px 20px; gap: 10px; }
+      .lz-showcase .feature .service-copy { padding: 2px; }
+      .lz-showcase .track { padding: 64px 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lz-showcase, .lz-showcase * { transition: none !important; }
+    }
+  
+</style>
 </head>
 <body id="top">
   <header class="shell topbar">
@@ -565,6 +876,169 @@
       </section>
     </section>
   </main>
+
+<div class="lz-showcase">
+<div class="wrap">
+    <nav class="jumpbar" aria-label="Service categories">
+      <div class="jump-links">
+        <a href="#showcase-cloud">Cloud &amp; IT</a>
+        <a href="#showcase-books">Bookkeeping</a>
+      </div>
+      <a class="mini-cta" href="#showcase-choose">Start with the right team ↓</a>
+    </nav>
+
+    <header class="hero">
+      <div>
+        <h2 class="showcase-title">Two disciplines.<span class="steady">One steady business.</span></h2>
+      </div>
+      <div class="hero-aside">
+        <p>Cloud systems that run reliably. Books that stay clean. Each service has its own lane, specialist focus, and clear next step.</p>
+        <div class="duo-mark" aria-label="Cloud and bookkeeping service emblem">
+          <div class="mark-half cloud">
+            <svg viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square">
+              <path d="M26 70h48c11 0 18-7 18-17 0-9-7-16-17-17C72 22 61 14 47 14 30 14 18 26 17 43 8 45 3 51 3 59c0 7 5 11 12 11h11Z"/>
+              <path d="M33 53h34M41 42v22M58 42v22"/>
+            </svg>
+          </div>
+          <div class="mark-half books">
+            <svg viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="square">
+              <path d="M18 14h64v72H18zM18 34h64M50 34v52"/>
+              <path d="M28 48h12M28 61h12M28 74h12M60 48h12M60 61h12M60 74h12"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <section class="manifesto" aria-label="Approach">
+    <div class="wrap">
+      <div class="signal" aria-hidden="true"><i></i><i></i><i></i></div>
+      <p>Serious systems work and day-to-day financial clarity, without blending one discipline into the other.</p>
+      <strong>BUILD SMART. RUN STEADY.</strong>
+    </div>
+  </section>
+
+  <main>
+    <section class="track cloud-track" id="showcase-cloud">
+      <div class="wrap">
+        <div class="track-heading">
+          <div class="track-label"><span class="dash"></span> CLOUD &amp; IT</div>
+          <div>
+            <h2>Infrastructure, delivery &amp; support.</h2>
+            <p>From first architecture decisions to the platform your team depends on every day, this side of Logiztek is built around secure, repeatable operations.</p>
+          </div>
+        </div>
+
+        <div class="services">
+          <article class="service">
+            <span class="num">01</span>
+            <div class="service-copy"><h3>Cloud architecture &amp; migration</h3><p>AWS, Azure, GCP, and multi-cloud planning—designed around reliability, cost, and a practical path from where you are now.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">02</span>
+            <div class="service-copy"><h3>DevSecOps &amp; CI/CD</h3><p>Automated pipelines with testing, security scanning, release controls, and rollback built into the delivery flow.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">03</span>
+            <div class="service-copy"><h3>Platform engineering</h3><p>Kubernetes and infrastructure-as-code foundations that keep environments consistent and easier for teams to operate.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">04</span>
+            <div class="service-copy"><h3>Security &amp; compliance</h3><p>Vulnerability management, secrets hygiene, identity controls, and audit-ready practices for growing or regulated teams.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">05</span>
+            <div class="service-copy"><h3>AI &amp; workflow automation</h3><p>Focused automation for repetitive work, handoffs, and internal processes—without creating a system nobody can maintain.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">06</span>
+            <div class="service-copy"><h3>Managed IT &amp; support</h3><p>Helpdesk, Microsoft 365, Google Workspace, and enterprise platform support scaled to the way your team actually works.</p></div>
+          </article>
+          <article class="service feature">
+            <div class="service-copy"><span class="num">07</span><h3>Websites, apps &amp; internal tools</h3><p>A polished customer experience, a focused internal tool, or a workflow build that turns a slow process into a useful system.</p></div>
+            <div class="emblem" aria-hidden="true">
+              <svg viewBox="0 0 220 220" fill="none" stroke="currentColor" stroke-width="7">
+                <rect x="20" y="28" width="180" height="130"/>
+                <path d="M20 62h180M54 45h1M73 45h1M92 45h1M72 190h76M110 158v32"/>
+                <path d="M59 96l26 18-26 18M161 96l-26 18 26 18"/>
+              </svg>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="track books-track" id="showcase-books">
+      <div class="wrap">
+        <div class="track-heading">
+          <div class="track-label"><span class="dash"></span> BOOKKEEPING &amp; PAYROLL</div>
+          <div>
+            <h2>Clean records, clear decisions.</h2>
+            <p>Consistent bookkeeping gives owners a dependable picture of the business—not a last-minute scramble at filing time.</p>
+          </div>
+        </div>
+
+        <div class="services">
+          <article class="service">
+            <span class="num">01</span>
+            <div class="service-copy"><h3>Monthly bookkeeping</h3><p>Ongoing transaction categorization and general-ledger care, organized on a predictable monthly rhythm.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">02</span>
+            <div class="service-copy"><h3>Bank &amp; card reconciliation</h3><p>Accounts matched carefully so your books reflect what actually moved through the business.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">03</span>
+            <div class="service-copy"><h3>Financial reporting</h3><p>Profit &amp; Loss and Balance Sheet reporting that gives you a clean monthly view of performance and position.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">04</span>
+            <div class="service-copy"><h3>Payroll &amp; contractor records</h3><p>Organized payroll and contractor tracking for the records that support W-2 and 1099 reporting.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">05</span>
+            <div class="service-copy"><h3>Cleanup &amp; catch-up</h3><p>Behind on the books? Past transactions are reviewed and brought forward through a separately scoped cleanup plan.</p></div>
+          </article>
+          <article class="service">
+            <span class="num">06</span>
+            <div class="service-copy"><h3>QuickBooks setup</h3><p>QuickBooks Online setup and chart-of-accounts structure that fits the way your business earns, spends, and reports.</p></div>
+          </article>
+          <article class="service feature">
+            <div class="service-copy"><span class="num">07</span><h3>Medicaid &amp; government payer readiness</h3><p>Bookkeeping records formatted with government cost reporting in mind, helping healthcare operators stay organized for the reporting their work requires.</p></div>
+            <div class="emblem" aria-hidden="true">
+              <svg viewBox="0 0 220 220" fill="none" stroke="currentColor" stroke-width="7">
+                <path d="M42 24h136v172H42zM42 60h136M110 60v136"/>
+                <path d="M66 87h20M66 116h20M66 145h20M66 174h20M134 87h20M134 116h20M134 145h20M134 174h20"/>
+              </svg>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="decision" id="showcase-choose">
+      <div class="wrap">
+        <div class="decision-head">
+          <h2>Choose the work you need.</h2>
+          <p>Each path goes to a short intake built specifically for that service line.</p>
+        </div>
+        <div class="routes">
+          <a class="route cloud" href="https://logiztek.com/project">
+            <small>CLOUD &amp; IT</small>
+            <strong>Tell us about your project.</strong>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="route books" href="https://logiztek.com/start">
+            <small>BOOKKEEPING</small>
+            <strong>Start your onboarding.</strong>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
 
   <footer class="shell">
     <span>© 2026 Logiztek · Dallas, Texas</span>
