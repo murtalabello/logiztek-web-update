@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Logiztek homepage: Unified version with full hero background and updated IT image -->
+<!-- Logiztek homepage: Unified version with full hero background, updated IT image, and restored phone numbers -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -409,6 +409,10 @@
     }
     .cta-banner h3 { margin: 0 0 10px; font-size: clamp(24px, 3vw, 36px); letter-spacing: -.03em; }
     .cta-banner p { margin: 0; color: #aebcb6; font-size: 16px; font-family: "IBM Plex Mono", monospace; }
+    .cta-banner .contact-line { margin-top: 14px; }
+    .cta-banner .contact-line a { color: #fff; text-decoration: none; font-weight: 600; transition: color 0.2s ease; }
+    .cloud-track .cta-banner .contact-line a:hover { color: var(--cloud); }
+    .books-track .cta-banner .contact-line a:hover { color: var(--books); }
 
     /* Modals / Dialogs */
     .contact-dialog {
@@ -521,7 +525,7 @@
     <div class="shell topbar">
       <a class="tagline" href="#top">Logiztek. Two disciplines.</a>
       <nav aria-label="Primary navigation">
-        <a href="#cloud">Cloud &amp; IT Landscape</a>
+        <a href="#cloud">Cloud &amp; IT Infrastructure</a>
         <a href="#bookkeeping">Bookkeeping</a>
         <a href="#contact-cloud">Contact</a>
         <span class="header-socials" aria-label="Follow Logiztek">
@@ -654,6 +658,7 @@
           <div>
             <h3>Have an IT infrastructure that needs steadying?</h3>
             <p>Reach out to discuss architecture, pipelines, or IT support.</p>
+            <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> <span aria-hidden="true">&middot;</span> <a href="tel:+14697269610">(469) 726-9610</a></p>
           </div>
           <div class="actions">
             <a class="button cloud-btn" href="https://logiztek.com/project">Start a project <span aria-hidden="true">→</span></a>
@@ -743,6 +748,7 @@
           <div>
             <h3>Want your books off your plate?</h3>
             <p>Let's get your financials categorized, reconciled, and tax-ready.</p>
+            <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> <span aria-hidden="true">&middot;</span> <a href="tel:+14697269610">(469) 726-9610</a></p>
           </div>
           <div class="actions">
             <a class="button books-btn" href="https://logiztek.com/start">Start onboarding <span aria-hidden="true">→</span></a>
@@ -858,6 +864,7 @@
     <nav class="footer-nav" aria-label="Footer navigation">
       <a href="#cloud">Cloud &amp; IT Infrastructure</a>
       <a href="#bookkeeping">Bookkeeping</a>
+      <a href="tel:+14697269610">(469) 726-9610</a>
       <a href="mailto:info@logiztek.com">info@logiztek.com</a>
       <a href="#top">Back to top &uarr;</a>
     </nav>
