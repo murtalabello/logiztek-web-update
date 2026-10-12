@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="light dark" />
-  <meta name="description" content="Logiztek provides cloud engineering, DevSecOps, IT infrastructure support, monthly bookkeeping, payroll support and Medicaid cost reporting." />
+  <meta name="description" content="Logiztek provides cloud engineering, DevSecOps, IT landscape support, monthly bookkeeping, payroll support and Medicaid cost reporting." />
   <link rel="icon" href="data:," />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -252,19 +252,26 @@
     /* Tracks & Floating Video Backgrounds */
     .track { 
       position: relative; 
+      z-index: 0; /* Create stacking context */
       padding: clamp(80px, 10vw, 140px) 0; 
       overflow: hidden; 
     }
-    .track.cloud-track { background: var(--surface); }
-    .track.books-track { background: var(--cream); }
+    .track.cloud-track { background-color: var(--surface); }
+    .track.books-track { background-color: var(--cream); }
     
-    .track > .shell { position: relative; z-index: 2; }
+    .track > .shell { 
+      position: relative; 
+      z-index: 2; /* Content goes above video */
+    }
     
-    /* Foolproof video background implementation */
+    /* Fixed Video Implementation */
     .video-bg {
       position: absolute; 
-      inset: 0; 
-      z-index: 0;
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      z-index: 1; /* Sits between track background and shell content */
       pointer-events: none;
       overflow: hidden;
     }
@@ -272,14 +279,14 @@
       width: 100%; 
       height: 100%; 
       object-fit: cover;
-      opacity: 0.22; /* Controls video visibility directly */
+      opacity: 0.18; /* Simple opacity overlay, highly visible but doesn't distract */
       animation: floatSlowly 30s ease-in-out infinite alternate;
       transform: scale(1.1);
     }
     
     @media (prefers-color-scheme: dark) {
       .video-bg video { 
-        opacity: 0.15; /* Dimmer for dark mode readability */
+        opacity: 0.12; 
       }
     }
     
@@ -549,7 +556,7 @@
 
     <!-- Cloud Track -->
     <section class="track cloud-track" id="cloud">
-      <!-- Foolproof Floating Background Video -->
+      <!-- Fixed Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
         <video autoplay loop muted playsinline>
           <source src="https://assets.mixkit.co/videos/preview/mixkit-server-rack-with-flashing-lights-in-a-data-center-43849-large.mp4" type="video/mp4">
@@ -641,7 +648,7 @@
 
     <!-- Books Track -->
     <section class="track books-track" id="bookkeeping">
-      <!-- Foolproof Floating Background Video -->
+      <!-- Fixed Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
         <video autoplay loop muted playsinline>
           <source src="https://assets.mixkit.co/videos/preview/mixkit-person-typing-on-a-calculator-and-writing-on-a-notebook-2802-large.mp4" type="video/mp4">
