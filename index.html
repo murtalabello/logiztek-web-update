@@ -1,10 +1,11 @@
 <!doctype html>
+<!-- Logiztek homepage 2026-10-11: Gbolahan's unified version (showcase at top, color-coded cards) -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="light dark" />
-  <meta name="description" content="Logiztek provides cloud engineering, DevSecOps, IT landscape support, monthly bookkeeping, payroll support and Medicaid cost reporting." />
+  <meta name="description" content="Logiztek provides cloud engineering, DevSecOps, IT infrastructure support, monthly bookkeeping, payroll support and Medicaid cost reporting." />
   <link rel="icon" href="data:," />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -252,26 +253,19 @@
     /* Tracks & Floating Video Backgrounds */
     .track { 
       position: relative; 
-      z-index: 0; /* Create stacking context */
       padding: clamp(80px, 10vw, 140px) 0; 
       overflow: hidden; 
     }
-    .track.cloud-track { background-color: var(--surface); }
-    .track.books-track { background-color: var(--cream); }
+    .track.cloud-track { background: var(--surface); }
+    .track.books-track { background: var(--cream); }
     
-    .track > .shell { 
-      position: relative; 
-      z-index: 2; /* Content goes above video */
-    }
+    .track > .shell { position: relative; z-index: 2; }
     
-    /* Fixed Video Implementation */
+    /* Foolproof video background implementation */
     .video-bg {
       position: absolute; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
-      z-index: 1; /* Sits between track background and shell content */
+      inset: 0; 
+      z-index: 0;
       pointer-events: none;
       overflow: hidden;
     }
@@ -279,14 +273,14 @@
       width: 100%; 
       height: 100%; 
       object-fit: cover;
-      opacity: 0.18; /* Simple opacity overlay, highly visible but doesn't distract */
+      opacity: 0.22; /* Controls video visibility directly */
       animation: floatSlowly 30s ease-in-out infinite alternate;
       transform: scale(1.1);
     }
     
     @media (prefers-color-scheme: dark) {
       .video-bg video { 
-        opacity: 0.12; 
+        opacity: 0.15; /* Dimmer for dark mode readability */
       }
     }
     
@@ -354,6 +348,7 @@
     .cloud-track .service-card:nth-child(4) { --service-bg: #a54135; }
     .cloud-track .service-card:nth-child(5) { --service-bg: #8a5912; }
     .cloud-track .service-card:nth-child(6) { --service-bg: #276448; }
+    .cloud-track .service-card:nth-child(7) { --service-bg: #08766b; }
     
     /* Books Card Colors */
     .books-track .service-card:nth-child(1) { --service-bg: #a8471c; }
@@ -362,6 +357,7 @@
     .books-track .service-card:nth-child(4) { --service-bg: #3d654f; }
     .books-track .service-card:nth-child(5) { --service-bg: #6d5530; }
     .books-track .service-card:nth-child(6) { --service-bg: #155f69; }
+    .books-track .service-card:nth-child(7) { --service-bg: #b24518; }
 
     .service-card .num { font: 600 13px "IBM Plex Mono", monospace; opacity: 0.8; margin-bottom: 20px; display: block;}
     .service-card h3 { margin: 0 0 12px; font-size: clamp(22px, 2.5vw, 28px); line-height: 1.1; letter-spacing: -.03em; }
@@ -556,7 +552,7 @@
 
     <!-- Cloud Track -->
     <section class="track cloud-track" id="cloud">
-      <!-- Fixed Floating Background Video -->
+      <!-- Foolproof Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
         <video autoplay loop muted playsinline>
           <source src="https://assets.mixkit.co/videos/preview/mixkit-server-rack-with-flashing-lights-in-a-data-center-43849-large.mp4" type="video/mp4">
@@ -648,7 +644,7 @@
 
     <!-- Books Track -->
     <section class="track books-track" id="bookkeeping">
-      <!-- Fixed Floating Background Video -->
+      <!-- Foolproof Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
         <video autoplay loop muted playsinline>
           <source src="https://assets.mixkit.co/videos/preview/mixkit-person-typing-on-a-calculator-and-writing-on-a-notebook-2802-large.mp4" type="video/mp4">
@@ -672,7 +668,7 @@
               <span class="marquee-item">Reconciliation</span><span class="marquee-item">Reporting</span><span class="marquee-item">Payroll Support</span><span class="marquee-item">Medicaid Cost Reports</span><span class="marquee-item">QuickBooks</span><span class="marquee-item">Xero</span><span class="marquee-item">Tax-Ready Records</span>
             </div>
             <div class="marquee-group" aria-hidden="true">
-              <span class="marquee-item">Reconciliation</span><span class="marquee-item">Reporting</span><span class="marquee-item">Payroll Support</span><span class="marquee-item">Medicaid Cost Reports</span><span class="marquee-item">QuickBooks</span><span class="marquee-item">Xero</span><span class="marquee-item">Tax-Ready Records</span>
+              <span class="marquee-item">Reconciliation</span><span class="marquee-item">Reporting</span><span class="marquee-item">Payroll Support</span><span class="marquee-item">QuickBooks</span><span class="marquee-item">Xero</span><span class="marquee-item">Tax-Ready Records</span>
             </div>
           </div>
         </div>
@@ -842,6 +838,8 @@
     <nav class="footer-nav" aria-label="Footer navigation">
       <a href="#cloud">Cloud &amp; IT Infrastructure</a>
       <a href="#bookkeeping">Bookkeeping</a>
+      <a href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer">Facebook</a>
       <a href="mailto:info@logiztek.com">info@logiztek.com</a>
       <a href="#top">Back to top &uarr;</a>
     </nav>
