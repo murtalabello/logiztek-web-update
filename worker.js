@@ -2,19 +2,28 @@
 //  1. Serves the static site
 //  2. POST /api/contact — the "Get in touch" box on the home page
 //  3. POST /api/submit  — the onboarding and project forms
+//  4. Customer records — opted-in submitters are saved to the
+//     "Logiztek customers" audience in Resend (never fails the form)
 //
-// Secret needed: RESEND_API_KEY (already set)
+// Secrets needed: RESEND_API_KEY, RESEND_AUDIENCE_ID (both already set)
+//
+// FRONTEND NOTE: a submitter is recorded ONLY when the form sends
+// `updates: true` (an "Email me helpful updates" checkbox). Optional fields
+// the forms can also send: `whatsapp_updates: true`, `sms_updates: true`,
+// `formKind: "project" | "start"`, and `name` / `company` / `phone` on
+// /api/submit so records are complete. Without `updates`, nothing is recorded.
 
 const FROM = 'Logiztek <notifications@mail.logiztek.com>';
 const OWNER = 'info@logiztek.com';
+const RESEND_API = 'https://api.resend.com';
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
     if (request.method === 'POST') {
-      if (url.pathname === '/api/contact') return handleContact(request, env);
-      if (url.pathname === '/api/submit') return handleSubmit(request, env);
+      if (url.pathname === '/api/contact') return handleContact(request, env, ctx);
+      if (url.pathname === '/api/submit') return handleSubmit(request, env, ctx);
     }
 
     // Everything else: serve the static site as-is
@@ -24,7 +33,7 @@ export default {
 
 /* ---------- Contact box ---------- */
 
-async function handleContact(request, env) {
+async function handleContact(request, env, ctx) {
   // Only accept requests that come from our own pages
   if (!sameOrigin(request)) return json({ error: 'Forbidden' }, 403);
 
@@ -88,6 +97,23 @@ async function handleContact(request, env) {
       })
     });
     if (!res.ok) return json({ error: 'Send failed' }, 502);
+
+    // Save opted-in submitters to the customer list (runs in background,
+    // never delays or fails the form response)
+    if (isOptedIn(d.updates)) {
+      ctx.waitUntil(recordCustomer(env, {
+        email: email,
+        firstName: firstNameOf(cleanName),
+        lastName: lastNameOf(cleanName),
+        company: '',
+        phone: phone,
+        serviceLine: '',
+        source: 'contact_form',
+        smsOptIn: isOptedIn(d.sms_updates),
+        whatsappOptIn: isOptedIn(d.whatsapp_updates)
+      }));
+    }
+
     return json({ ok: true }, 200);
   } catch (e) {
     return json({ error: 'Unexpected error' }, 500);
@@ -96,7 +122,7 @@ async function handleContact(request, env) {
 
 /* ---------- Onboarding and project forms ---------- */
 
-async function handleSubmit(request, env) {
+async function handleSubmit(request, env, ctx) {
   if (!sameOrigin(request)) return json({ error: 'Forbidden' }, 403);
 
   if (await isRateLimited(env, request, 'submit')) {
@@ -142,10 +168,106 @@ async function handleSubmit(request, env) {
       return json({ error: 'Send failed', detail: errText }, 502);
     }
 
+    // Save opted-in submitters to the customer list (runs in background,
+    // never delays or fails the form response)
+    if (isOptedIn(data.updates)) {
+      ctx.waitUntil(recordCustomer(env, {
+        email: contactEmail,
+        firstName: firstNameOf(data.name),
+        lastName: lastNameOf(data.name),
+        company: String(data.company || ''),
+        phone: String(data.phone || ''),
+        serviceLine: serviceLineFrom(data),
+        source: data.formKind === 'project' ? 'project_form'
+              : data.formKind === 'start'   ? 'start_form'
+              : 'submit_form',
+        smsOptIn: isOptedIn(data.sms_updates),
+        whatsappOptIn: isOptedIn(data.whatsapp_updates)
+      }));
+    }
+
     return json({ ok: true }, 200);
   } catch (e) {
     return json({ error: 'Unexpected error', detail: e.message }, 500);
   }
+}
+
+/* ---------- Customer records (Resend audience) ---------- */
+
+async function resendApi(env, path, options = {}) {
+  return fetch(`${RESEND_API}${path}`, {
+    ...options,
+    headers: {
+      'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+      ...(options.headers || {})
+    }
+  });
+}
+
+// Upsert a contact by email: update if they already exist, create if new.
+// Never throws — a CRM write must not fail the customer's form submission.
+// NOTE: Resend contact properties are strings, so opt-ins are "true"/"false".
+async function recordCustomer(env, { email, firstName, lastName, company, phone, serviceLine, source, smsOptIn, whatsappOptIn }) {
+  try {
+    const audienceId = env.RESEND_AUDIENCE_ID;
+    if (!audienceId || !email) return;
+
+    const base = `/audiences/${audienceId}/contacts`;
+    const id = encodeURIComponent(String(email).trim().toLowerCase());
+    const properties = {
+      company: company || '',
+      phone: phone || '',
+      service_line: serviceLine || '',
+      source: source || '',
+      opted_in_at: new Date().toISOString(),
+      sms_opt_in: smsOptIn ? 'true' : 'false',
+      whatsapp_opt_in: whatsappOptIn ? 'true' : 'false'
+    };
+
+    const existing = await resendApi(env, `${base}/${id}`);
+    const fields = {
+      first_name: firstName || '',
+      last_name: lastName || '',
+      unsubscribed: false,
+      properties
+    };
+
+    if (existing.ok) {
+      await resendApi(env, `${base}/${id}`, { method: 'PATCH', body: JSON.stringify(fields) });
+    } else {
+      await resendApi(env, base, {
+        method: 'POST',
+        body: JSON.stringify({ email: String(email).trim().toLowerCase(), ...fields })
+      });
+    }
+  } catch (err) {
+    console.error('recordCustomer failed:', err);
+  }
+}
+
+// Best-effort service line for /api/submit. Send `formKind: "project"`
+// or `"start"` from the frontend for an exact value.
+function serviceLineFrom(data) {
+  if (data.formKind === 'project') return 'it';
+  if (data.formKind === 'start') return 'bookkeeping';
+  const s = String(data.subject || '');
+  if (/project|cloud|devops/i.test(s)) return 'it';
+  if (/onboard|bookkeep|payroll/i.test(s)) return 'bookkeeping';
+  return '';
+}
+
+// Accepts true, "true", "on", 1 — however the frontend checkbox sends it
+function isOptedIn(v) {
+  return v === true || v === 'true' || v === 'on' || v === 1;
+}
+
+function firstNameOf(name) {
+  return String(name || '').trim().split(/\s+/)[0] || '';
+}
+
+function lastNameOf(name) {
+  return String(name || '').trim().split(/\s+/).slice(1).join(' ') || '';
 }
 
 /* ---------- Helpers ---------- */
