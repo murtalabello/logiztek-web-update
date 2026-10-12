@@ -8,6 +8,87 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/shared.css">
+<style>
+  /* Logiztek sharp theme — Bookkeeping (start) */
+  :root{
+    --accent:#fbbf24; --accent2:#fb923c;
+    --ink:#f4f1ea; --muted:#a89e93; --line:rgba(255,255,255,.10);
+    --card:#15120d; --field:#100d0a;
+  }
+  body{
+    margin:0; color:var(--ink);
+    background:
+      radial-gradient(1100px 550px at 85% -5%, rgba(251,191,36,.13), rgba(251,191,36,0) 60%),
+      radial-gradient(800px 500px at 5% 105%, rgba(251,146,60,.09), rgba(251,146,60,0) 60%),
+      linear-gradient(180deg,#0a0806 0%,#12100b 100%);
+    font-family:'Inter',system-ui,sans-serif;
+  }
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+    background:rgba(10,8,6,.72);
+    border-bottom:1px solid var(--line);
+  }
+  .wordmark{ font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:.02em; }
+  .wordmark .subtitle{ color:var(--accent); }
+  .form-view{
+    background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.7);
+  }
+  .page-title{
+    font-family:'Space Grotesk',sans-serif; font-weight:700; letter-spacing:-.02em;
+    background:linear-gradient(92deg,#ffffff 30%, var(--accent));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .page-lede{ color:var(--muted); }
+  .field .q{ font-weight:600; color:var(--ink); }
+  .field input[type=text], .field input[type=email], .field input[type=tel], .field textarea{
+    background:var(--field); border:1px solid var(--line); color:var(--ink);
+    border-radius:12px; transition:border-color .2s, box-shadow .2s;
+  }
+  .field input:focus, .field textarea:focus{
+    outline:none; border-color:var(--accent);
+    box-shadow:0 0 0 3px rgba(251,191,36,.22);
+  }
+  .field input.invalid, .field textarea.invalid{ border-color:rgba(248,113,113,.7); }
+  .pill{
+    background:rgba(255,255,255,.04); border:1px solid var(--line); color:var(--ink);
+    border-radius:999px; transition:all .18s ease;
+  }
+  .pill:hover{ border-color:var(--accent); transform:translateY(-1px); }
+  .pill.selected{
+    background:linear-gradient(135deg, var(--accent), var(--accent2));
+    border-color:transparent; color:#1a1206; font-weight:600;
+    box-shadow:0 8px 24px -8px var(--accent);
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--accent), var(--accent2));
+    color:#1a1206; font-weight:700; border:none; border-radius:12px;
+    box-shadow:0 12px 32px -10px var(--accent);
+    transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .btn-primary:hover:not(:disabled){ transform:translateY(-2px); }
+  .btn-primary:disabled{ opacity:.6; }
+  .btn-ghost{
+    border:1px solid var(--line); color:var(--ink); border-radius:12px;
+    background:rgba(255,255,255,.03);
+  }
+  .field-error{ color:#f87171; }
+  .error-msg{
+    color:#fca5a5; background:rgba(248,113,113,.08);
+    border:1px solid rgba(248,113,113,.25); border-radius:10px;
+  }
+  .confirm-icon{
+    background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#1a1206;
+  }
+  .summary-box{ background:var(--field); border:1px solid var(--line); border-radius:12px; }
+  .site-footer{ color:var(--muted); border-top:1px solid var(--line); }
+  .hint{ color:var(--muted); }
+  input[type=checkbox]{ accent-color:var(--accent); }
+  ::selection{ background:var(--accent); color:#1a1206; }
+</style>
 </head>
 <body data-accent="ledger">
 
