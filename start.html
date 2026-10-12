@@ -142,6 +142,20 @@
       <textarea id="notes" placeholder="Anything specific about your business we should factor in..."></textarea>
     </div>
 
+    <div class="field">
+      <label class="q">Stay in touch <span style="color:var(--muted); font-weight:400;">(optional)</span></label>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+        <label style="display:flex; gap:10px; align-items:flex-start; font-size:14px; cursor:pointer;">
+          <input type="checkbox" id="optEmail" style="width:18px; height:18px; margin-top:2px; accent-color:var(--accent); flex-shrink:0;">
+          <span>Email me helpful updates from Logiztek</span>
+        </label>
+        <label style="display:flex; gap:10px; align-items:flex-start; font-size:14px; cursor:pointer;">
+          <input type="checkbox" id="optWhatsapp" style="width:18px; height:18px; margin-top:2px; accent-color:var(--accent); flex-shrink:0;">
+          <span>Send me updates on WhatsApp</span>
+        </label>
+      </div>
+    </div>
+
     <p class="error-msg" id="step1Error">Please fill in the required fields and make a selection for every question above.</p>
 
     <div class="actions">
@@ -388,7 +402,17 @@
       const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject, contactEmail: state.contactEmail, text: summary })
+        body: JSON.stringify({
+          subject,
+          contactEmail: state.contactEmail,
+          text: summary,
+          formKind: 'start',
+          name: state.contactName,
+          company: state.bizName,
+          phone: state.contactPhone,
+          updates: document.getElementById('optEmail').checked,
+          whatsapp_updates: document.getElementById('optWhatsapp').checked
+        })
       });
       if(!res.ok){ throw new Error('send failed'); }
       showView('step3');
