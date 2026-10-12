@@ -94,6 +94,20 @@
       <textarea id="notes" placeholder="Whatever's useful — current pain points, a system we should know about, a deadline..."></textarea>
     </div>
 
+    <div class="field">
+      <label class="q">Stay in touch <span style="color:var(--muted); font-weight:400;">(optional)</span></label>
+      <div style="display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+        <label style="display:flex; gap:10px; align-items:flex-start; font-size:14px; cursor:pointer;">
+          <input type="checkbox" id="optEmail" style="width:18px; height:18px; margin-top:2px; accent-color:var(--accent); flex-shrink:0;">
+          <span>Email me helpful updates from Logiztek</span>
+        </label>
+        <label style="display:flex; gap:10px; align-items:flex-start; font-size:14px; cursor:pointer;">
+          <input type="checkbox" id="optWhatsapp" style="width:18px; height:18px; margin-top:2px; accent-color:var(--accent); flex-shrink:0;">
+          <span>Send me updates on WhatsApp</span>
+        </label>
+      </div>
+    </div>
+
     <p class="error-msg" id="formError">Just need the required fields filled in and at least one pick per question above.</p>
     <p class="error-msg" id="sendError">Something didn't go through. Try again, or use the backup option below.</p>
 
@@ -202,6 +216,8 @@
     state.contactEmail = document.getElementById('contactEmail').value.trim();
     state.contactPhone = document.getElementById('contactPhone').value.trim();
     state.notes = document.getElementById('notes').value.trim();
+    state.updates = document.getElementById('optEmail').checked;
+    state.whatsapp_updates = document.getElementById('optWhatsapp').checked;
 
     const lines = [
       'PROJECT INQUIRY — ' + state.orgName,
@@ -241,7 +257,17 @@
       const res = await fetch('/api/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject, contactEmail: state.contactEmail, text: summary })
+        body: JSON.stringify({
+          subject,
+          contactEmail: state.contactEmail,
+          text: summary,
+          formKind: 'project',
+          name: state.contactName,
+          company: state.orgName,
+          phone: state.contactPhone,
+          updates: state.updates,
+          whatsapp_updates: state.whatsapp_updates
+        })
       });
       if(!res.ok){ throw new Error('send failed'); }
       showView('confirm');
