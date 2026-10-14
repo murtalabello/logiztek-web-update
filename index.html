@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Logiztek homepage: Unified version with full hero background, updated IT image, and restored phone numbers -->
+<!-- Logiztek homepage 2026-10-11: Gbolahan's unified version (showcase at top, color-coded cards) -->
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -112,17 +112,6 @@
       background: var(--line-strong);
     }
 
-    /* Hero Section Header Wrap */
-    .hero-section {
-      position: relative;
-      overflow: hidden;
-      background: var(--paper);
-    }
-    .hero-section > .shell {
-      position: relative;
-      z-index: 2;
-    }
-
     /* Topbar */
     .topbar {
       display: flex;
@@ -178,7 +167,7 @@
     .button.secondary-btn { background: transparent; border-color: var(--line-strong); color: var(--ink); }
     .button.secondary-btn:hover { border-color: var(--ink); background: var(--surface); }
 
-    /* Hero Layout */
+    /* Hero */
     .hero {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -261,52 +250,50 @@
     .signal i:nth-child(2) { background: var(--books); }
     .signal i:nth-child(3) { background: var(--muted); }
 
-    /* Tracks & Floating Background Images */
+    /* Tracks & Floating Video Backgrounds */
     .track { 
       position: relative; 
-      z-index: 0; 
       padding: clamp(80px, 10vw, 140px) 0; 
       overflow: hidden; 
     }
-    .track.cloud-track { background-color: var(--surface); }
-    .track.books-track { background-color: var(--cream); }
+    .track.cloud-track { background: var(--surface); }
+    .track.books-track { background: var(--cream); }
     
-    .track > .shell { 
-      position: relative; 
-      z-index: 2; 
-    }
+    .track > .shell { position: relative; z-index: 2; }
     
-    /* Shared Background Image Implementation */
+    /* Foolproof video background implementation */
     .video-bg {
       position: absolute; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
-      z-index: 1; 
+      inset: 0; 
+      z-index: 0;
       pointer-events: none;
       overflow: hidden;
     }
-    .video-bg img {
+    .video-bg video {
       width: 100%; 
       height: 100%; 
       object-fit: cover;
-      opacity: 0.12; 
+      opacity: 0.22; /* Controls video visibility directly */
       animation: floatSlowly 30s ease-in-out infinite alternate;
       transform: scale(1.1);
     }
     
-    /* Specific opacities to ensure reading contrast */
-    .hero-bg img { opacity: 0.14; animation-direction: alternate-reverse; }
-    
     @media (prefers-color-scheme: dark) {
-      .video-bg img { opacity: 0.08; }
-      .hero-bg img { opacity: 0.09; }
+      .video-bg video { 
+        opacity: 0.15; /* Dimmer for dark mode readability */
+      }
     }
     
     @keyframes floatSlowly {
       0% { transform: scale(1.1) translate(0, 0); }
       100% { transform: scale(1.15) translate(-1.5%, 1.5%); }
+    }
+    /* Hero floating video background */
+    .hero { position: relative; overflow: hidden; }
+    .hero-content, .hero-aside { position: relative; z-index: 1; }
+    .hero .video-bg video { opacity: 0.14; }
+    @media (prefers-color-scheme: dark) {
+      .hero .video-bg video { opacity: 0.09; }
     }
 
     .track-heading {
@@ -368,6 +355,7 @@
     .cloud-track .service-card:nth-child(4) { --service-bg: #a54135; }
     .cloud-track .service-card:nth-child(5) { --service-bg: #8a5912; }
     .cloud-track .service-card:nth-child(6) { --service-bg: #276448; }
+    .cloud-track .service-card:nth-child(7) { --service-bg: #08766b; }
     
     /* Books Card Colors */
     .books-track .service-card:nth-child(1) { --service-bg: #a8471c; }
@@ -376,6 +364,7 @@
     .books-track .service-card:nth-child(4) { --service-bg: #3d654f; }
     .books-track .service-card:nth-child(5) { --service-bg: #6d5530; }
     .books-track .service-card:nth-child(6) { --service-bg: #155f69; }
+    .books-track .service-card:nth-child(7) { --service-bg: #b24518; }
 
     .service-card .num { font: 600 13px "IBM Plex Mono", monospace; opacity: 0.8; margin-bottom: 20px; display: block;}
     .service-card h3 { margin: 0 0 12px; font-size: clamp(22px, 2.5vw, 28px); line-height: 1.1; letter-spacing: -.03em; }
@@ -390,7 +379,8 @@
       padding: 50px;
     }
     .service-card.feature .content { flex: 1; }
-    .service-card.feature h3 { font-size: clamp(28px, 4vw, 42px); }
+    .service-card.feature h3 { font-size: clamp(28px, 4vw, 42px); font-weight: 800; }
+    .service-card.feature p { color: #fff; font-weight: 600; }
     .service-card.feature .emblem { flex: 0 0 200px; opacity: 0.9; }
     .service-card.feature .emblem svg { width: 100%; height: auto; }
 
@@ -409,10 +399,6 @@
     }
     .cta-banner h3 { margin: 0 0 10px; font-size: clamp(24px, 3vw, 36px); letter-spacing: -.03em; }
     .cta-banner p { margin: 0; color: #aebcb6; font-size: 16px; font-family: "IBM Plex Mono", monospace; }
-    .cta-banner .contact-line { margin-top: 14px; }
-    .cta-banner .contact-line a { color: #fff; text-decoration: none; font-weight: 600; transition: color 0.2s ease; }
-    .cloud-track .cta-banner .contact-line a:hover { color: var(--cloud); }
-    .books-track .cta-banner .contact-line a:hover { color: var(--books); }
 
     /* Modals / Dialogs */
     .contact-dialog {
@@ -516,30 +502,32 @@
 </head>
 <body id="top">
   
-  <header class="hero-section">
-    <!-- Hero Background Image (Abstract Digital Network) -->
-    <div class="video-bg hero-bg" aria-hidden="true">
-      <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2672&auto=format&fit=crop" alt="" />
-    </div>
+  <header class="shell topbar">
+    <a class="tagline" href="#top">Logiztek. Two disciplines.</a>
+    <nav aria-label="Primary navigation">
+      <a href="#cloud">Cloud &amp; IT Infrastructure</a>
+      <a href="#bookkeeping">Bookkeeping</a>
+      <a href="#contact-cloud">Contact</a>
+      <span class="header-socials" aria-label="Follow Logiztek">
+        <a class="social-link whatsapp" href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M12.04 2a9.84 9.84 0 0 0-8.46 14.86L2.05 22l5.28-1.49A9.98 9.98 0 0 0 12.04 22 9.96 9.96 0 0 0 22 12.04 10 10 0 0 0 12.04 2Zm0 18.3a8.26 8.26 0 0 1-4.21-1.15l-.3-.18-3.13.88.89-3.05-.2-.32A8.18 8.18 0 0 1 3.78 12a8.27 8.27 0 1 1 8.26 8.3Zm4.53-6.19c-.25-.12-1.47-.72-1.7-.8-.23-.09-.4-.13-.57.12-.16.25-.64.8-.78.97-.14.16-.29.18-.54.06-1.47-.73-2.43-1.3-3.4-2.96-.26-.44.26-.41.73-1.36.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.57-.43h-.48c-.16 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.24 3.75 1.58.68 2.2.74 2.99.62.48-.07 1.47-.6 1.68-1.18.2-.58.2-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
+        </a>
+        <a class="social-link facebook" href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <svg viewBox="0 0 24 24"><path d="M13.72 22v-9.12h3.06l.46-3.56h-3.52V7.05c0-1.03.29-1.73 1.76-1.73h1.88V2.14A25.1 25.1 0 0 0 14.62 2c-2.71 0-4.57 1.66-4.57 4.7v2.62H7v3.56h3.05V22h3.67Z"/></svg>
+        </a>
+      </span>
+      <a href="tel:+14697269610">(469) 726-9610</a>
+    </nav>
+  </header>
 
-    <div class="shell topbar">
-      <a class="tagline" href="#top">Logiztek. Two disciplines.</a>
-      <nav aria-label="Primary navigation">
-        <a href="#cloud">Cloud &amp; IT Infrastructure</a>
-        <a href="#bookkeeping">Bookkeeping</a>
-        <a href="#contact-cloud">Contact</a>
-        <span class="header-socials" aria-label="Follow Logiztek">
-          <a class="social-link whatsapp" href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-            <svg viewBox="0 0 24 24"><path d="M12.04 2a9.84 9.84 0 0 0-8.46 14.86L2.05 22l5.28-1.49A9.98 9.98 0 0 0 12.04 22 9.96 9.96 0 0 0 22 12.04 10 10 0 0 0 12.04 2Zm0 18.3a8.26 8.26 0 0 1-4.21-1.15l-.3-.18-3.13.88.89-3.05-.2-.32A8.18 8.18 0 0 1 3.78 12a8.27 8.27 0 1 1 8.26 8.3Zm4.53-6.19c-.25-.12-1.47-.72-1.7-.8-.23-.09-.4-.13-.57.12-.16.25-.64.8-.78.97-.14.16-.29.18-.54.06-1.47-.73-2.43-1.3-3.4-2.96-.26-.44.26-.41.73-1.36.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.57-.43h-.48c-.16 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.24 3.75 1.58.68 2.2.74 2.99.62.48-.07 1.47-.6 1.68-1.18.2-.58.2-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
-          </a>
-          <a class="social-link facebook" href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <svg viewBox="0 0 24 24"><path d="M13.72 22v-9.12h3.06l.46-3.56h-3.52V7.05c0-1.03.29-1.73 1.76-1.73h1.88V2.14A25.1 25.1 0 0 0 14.62 2c-2.71 0-4.57 1.66-4.57 4.7v2.62H7v3.56h3.05V22h3.67Z"/></svg>
-          </a>
-        </span>
-      </nav>
-    </div>
-
+  <main>
+    <!-- Unified Hero Section -->
     <section class="shell hero" aria-labelledby="hero-title">
+      <div class="video-bg" aria-hidden="true">
+        <video autoplay loop muted playsinline>
+          <source src="https://assets.mixkit.co/videos/7876/7876-720.mp4" type="video/mp4">
+        </video>
+      </div>
       <div class="hero-content">
         <h1 id="hero-title">Two disciplines. <span class="steady">One steady business.</span></h1>
         <p>IT infrastructure that runs reliably. Books that stay clean. Each service has its own dedicated focus, specialist team, and clear next step.</p>
@@ -566,9 +554,7 @@
         </div>
       </div>
     </section>
-  </header>
 
-  <main>
     <!-- Manifesto Strip -->
     <section class="manifesto" aria-label="Approach">
       <div class="shell">
@@ -580,9 +566,11 @@
 
     <!-- Cloud Track -->
     <section class="track cloud-track" id="cloud">
-      <!-- Fixed Floating Background Image (Tech circuit/servers) -->
+      <!-- Foolproof Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
-        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2672&auto=format&fit=crop" alt="" />
+        <video autoplay loop muted playsinline>
+          <source src="https://assets.mixkit.co/videos/7876/7876-720.mp4" type="video/mp4">
+        </video>
       </div>
 
       <div class="shell">
@@ -599,10 +587,10 @@
         <div class="marquee">
           <div class="marquee-track">
             <div class="marquee-group">
-              <span class="marquee-item">AWS</span><span class="marquee-item">Azure</span><span class="marquee-item">GCP</span><span class="marquee-item">Alibaba Cloud</span><span class="marquee-item">Oracle Cloud</span><span class="marquee-item">Kubernetes</span><span class="marquee-item">Terraform</span><span class="marquee-item">GitHub Actions</span><span class="marquee-item">AI / ML</span>
+              <span class="marquee-item">Cloud-Agnostic</span><span class="marquee-item">Kubernetes</span><span class="marquee-item">Terraform</span><span class="marquee-item">GitHub Actions</span><span class="marquee-item">SAP</span><span class="marquee-item">ServiceNow</span><span class="marquee-item">AI / ML</span>
             </div>
             <div class="marquee-group" aria-hidden="true">
-              <span class="marquee-item">AWS</span><span class="marquee-item">Azure</span><span class="marquee-item">GCP</span><span class="marquee-item">Alibaba Cloud</span><span class="marquee-item">Oracle Cloud</span><span class="marquee-item">Kubernetes</span><span class="marquee-item">Terraform</span><span class="marquee-item">GitHub Actions</span><span class="marquee-item">AI / ML</span>
+              <span class="marquee-item">Cloud-Agnostic</span><span class="marquee-item">Kubernetes</span><span class="marquee-item">Terraform</span><span class="marquee-item">GitHub Actions</span><span class="marquee-item">SAP</span><span class="marquee-item">ServiceNow</span><span class="marquee-item">AI / ML</span>
             </div>
           </div>
         </div>
@@ -611,7 +599,7 @@
           <article class="service-card">
             <span class="num">01</span>
             <h3>Cloud Architecture</h3>
-            <p>Landing zones and migrations across AWS, Azure, and GCP, built for real compliance and scale across your entire IT infrastructure.</p>
+            <p>Cloud-agnostic landing zones and migrations across any cloud, built for real compliance and scale across your entire IT infrastructure.</p>
           </article>
           <article class="service-card">
             <span class="num">02</span>
@@ -631,12 +619,12 @@
           <article class="service-card">
             <span class="num">05</span>
             <h3>AI &amp; Automation</h3>
-            <p>SageMaker, Azure OpenAI, Comprehend — wired into real pipelines to solve repetitive work effectively.</p>
+            <p>AI and machine-learning services from any cloud — wired into real pipelines to solve repetitive work effectively.</p>
           </article>
           <article class="service-card">
             <span class="num">06</span>
             <h3>Managed IT &amp; Support</h3>
-            <p>Microsoft 365, Google Workspace, and enterprise platform support scaled to the way your team actually works.</p>
+            <p>Helpdesk, Microsoft 365, Google Workspace, SAP security, and ServiceNow support — scaled to the way your team actually works.</p>
           </article>
           <article class="service-card feature">
             <div class="content">
@@ -658,7 +646,6 @@
           <div>
             <h3>Have an IT infrastructure that needs steadying?</h3>
             <p>Reach out to discuss architecture, pipelines, or IT support.</p>
-            <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> <span aria-hidden="true">&middot;</span> <a href="tel:+14697269610">(469) 726-9610</a></p>
           </div>
           <div class="actions">
             <a class="button cloud-btn" href="https://logiztek.com/project">Start a project <span aria-hidden="true">→</span></a>
@@ -671,9 +658,11 @@
 
     <!-- Books Track -->
     <section class="track books-track" id="bookkeeping">
-      <!-- Fixed Floating Background Image (Financial focus) -->
+      <!-- Foolproof Floating Background Video -->
       <div class="video-bg" aria-hidden="true">
-        <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=2626&auto=format&fit=crop" alt="" />
+        <video autoplay loop muted playsinline>
+          <source src="https://assets.mixkit.co/videos/34126/34126-720.mp4" type="video/mp4">
+        </video>
       </div>
 
       <div class="shell">
@@ -693,7 +682,7 @@
               <span class="marquee-item">Reconciliation</span><span class="marquee-item">Reporting</span><span class="marquee-item">Payroll Support</span><span class="marquee-item">Medicaid Cost Reports</span><span class="marquee-item">QuickBooks</span><span class="marquee-item">Xero</span><span class="marquee-item">Tax-Ready Records</span>
             </div>
             <div class="marquee-group" aria-hidden="true">
-              <span class="marquee-item">Reconciliation</span><span class="marquee-item">Reporting</span><span class="marquee-item">Payroll Support</span><span class="marquee-item">Medicaid Cost Reports</span><span class="marquee-item">QuickBooks</span><span class="marquee-item">Xero</span><span class="marquee-item">Tax-Ready Records</span>
+              <span class="marquee-item">Reconciliation</span><span class="marquee-item">Reporting</span><span class="marquee-item">Payroll Support</span><span class="marquee-item">QuickBooks</span><span class="marquee-item">Xero</span><span class="marquee-item">Tax-Ready Records</span>
             </div>
           </div>
         </div>
@@ -748,7 +737,6 @@
           <div>
             <h3>Want your books off your plate?</h3>
             <p>Let's get your financials categorized, reconciled, and tax-ready.</p>
-            <p class="contact-line"><a href="mailto:info@logiztek.com">info@logiztek.com</a> <span aria-hidden="true">&middot;</span> <a href="tel:+14697269610">(469) 726-9610</a></p>
           </div>
           <div class="actions">
             <a class="button books-btn" href="https://logiztek.com/start">Start onboarding <span aria-hidden="true">→</span></a>
@@ -770,7 +758,7 @@
           </div>
           <a class="contact-close" href="#cloud" aria-label="Close modal">&times;</a>
         </div>
-        <p>Tell us what you are building, migrating, securing or trying to steady across your IT infrastructure. We’ll respond by email or phone.</p>
+        <p>Tell us what you are building, migrating, securing or trying to steady across your IT infrastructure. We’ll respond by email or phone. Prefer to talk? Call us at <a href="tel:+14697269610">(469) 726-9610</a>.</p>
         
         <form class="contact-form" data-contact-form data-service="Cloud &amp; IT" novalidate>
           <div class="form-row">
@@ -819,7 +807,7 @@
           </div>
           <a class="contact-close" href="#bookkeeping" aria-label="Close modal">&times;</a>
         </div>
-        <p>Tell us where your books stand and what you need help with. We’ll respond promptly.</p>
+        <p>Tell us where your books stand and what you need help with. We’ll respond promptly. Prefer to talk? Call us at <a href="tel:+14697269610">(469) 726-9610</a>.</p>
         
         <form class="contact-form" data-contact-form data-service="Bookkeeping" novalidate>
           <div class="form-row">
@@ -864,8 +852,10 @@
     <nav class="footer-nav" aria-label="Footer navigation">
       <a href="#cloud">Cloud &amp; IT Infrastructure</a>
       <a href="#bookkeeping">Bookkeeping</a>
-      <a href="tel:+14697269610">(469) 726-9610</a>
+      <a href="https://whatsapp.com/channel/0029Vb7V7QNIHphKqlEUrF14" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a href="https://www.facebook.com/61595042666235" target="_blank" rel="noopener noreferrer">Facebook</a>
       <a href="mailto:info@logiztek.com">info@logiztek.com</a>
+      <a href="tel:+14697269610">(469) 726-9610</a>
       <a href="#top">Back to top &uarr;</a>
     </nav>
   </footer>
